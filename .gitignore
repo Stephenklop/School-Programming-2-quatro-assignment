@@ -1,0 +1,9 @@
+# Java class files
+*.class
+
+# VSCode
+.vscode/
+
+# IntelliJ
+*.iml
+.idea/

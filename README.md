@@ -2,4 +2,5 @@
 
 ## Contributors
 
-Frank Gabršek 
+- Frank Gabršek
+- Wesley Snijdelaar
