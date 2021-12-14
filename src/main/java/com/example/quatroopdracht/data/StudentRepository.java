@@ -35,7 +35,7 @@ public class StudentRepository extends DatabaseConnection {
     public Student getStudent(String email) {
         final AtomicReference<Student> student = new AtomicReference<>(null);
         String sql = String.format(
-                "SELECT * FROM Student WHERE Email = %s",
+                "SELECT * FROM Student WHERE Email = '%s'",
                 email
         );
         this.select(sql, resultSet -> {
@@ -60,7 +60,7 @@ public class StudentRepository extends DatabaseConnection {
 
     public void addStudent(Student student) {
         String sql = String.format(
-                "INSERT INTO Student VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                "INSERT INTO Student VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')",
                 student.getEmail(),
                 student.getName(),
                 student.getDateOfBirth(),
@@ -74,7 +74,7 @@ public class StudentRepository extends DatabaseConnection {
 
     public void updateStudent(Student student) {
         String sql = String.format(
-                "UPDATE Student SET Name = %s, BirthDate = %s, Gender = %s, Adress = %s, Residence = %s, Country = %s",
+                "UPDATE Student SET Name = '%s', BirthDate = '%s', Gender = '%s', Adress = '%s', Residence = '%s', Country = '%s'",
                 student.getName(),
                 student.getDateOfBirth(),
                 student.getGender(),
@@ -99,7 +99,7 @@ public class StudentRepository extends DatabaseConnection {
 
     public void deleteStudent(String email) {
         String sql = String.format(
-                "DELETE FROM Student WHERE Email = %s",
+                "DELETE FROM Student WHERE Email = '%s'",
                 email
         );
         int deleted = this.update(sql);

@@ -15,7 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class CreateStudent {
     private StudentRepository studentRepository;
@@ -53,6 +53,25 @@ public class CreateStudent {
         // Create buttons
         Button cancelButton = new Button("Cancel");
         Button submitButton = new Button("Submit");
+
+        submitButton.setOnAction(event -> {
+            Student student = new Student(
+                    email.getText(),
+                    name.getText(),
+                    gender.getValue(),
+                    new Date(dateOfBirth.getValue().getYear(), dateOfBirth.getValue().getMonth().getValue(), dateOfBirth.getValue().getDayOfMonth()),
+                    address.getText(),
+                    residence.getText(),
+                    country.getText()
+            );
+
+            studentRepository.addStudent(student);
+            stage.setScene(new GetStudent().getGetStudentScene(stage));
+        });
+        cancelButton.setOnAction(event -> {
+            stage.setScene(new Dashboard().getDashboardScene(stage));
+        });
+
         buttonbox.getChildren().addAll(cancelButton, submitButton);
 
         // Set styling
