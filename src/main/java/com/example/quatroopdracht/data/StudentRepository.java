@@ -74,13 +74,14 @@ public class StudentRepository extends DatabaseConnection {
 
     public void updateStudent(Student student) {
         String sql = String.format(
-                "UPDATE Student SET Name = '%s', BirthDate = '%s', Gender = '%s', Adress = '%s', Residence = '%s', Country = '%s'",
+                "UPDATE Student SET Name = '%s', BirthDate = '%s', Gender = '%s', Adress = '%s', Residence = '%s', Country = '%s' WHERE Email = '%s'" ,
                 student.getName(),
                 student.getDateOfBirth(),
                 student.getGender(),
                 student.getAddress(),
                 student.getResidence(),
-                student.getCountry()
+                student.getCountry(),
+                student.getEmail()
         );
         int updated = this.update(sql);
 
