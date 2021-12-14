@@ -1,6 +1,16 @@
 package com.example.quatroopdracht.domain;
 
 public class Student {
+    private String email;
+    private String name;
+    private String gender;
+    private String dateOfBirth;
+    private String address;
+    private String residence;
+    private String country;
+
+
+
     public String getEmail() {
         return email;
     }
@@ -56,12 +66,4 @@ public class Student {
     public void setCountry(String country) {
         this.country = country;
     }
-
-    private String email;
-    private String name;
-    private String gender;
-    private String dateOfBirth;
-    private String address;
-    private String residence;
-    private String country;
 }
