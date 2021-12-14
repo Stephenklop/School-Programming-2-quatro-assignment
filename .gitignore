@@ -12,6 +12,3 @@ out/
 # Gradle
 .gradle
 /build
-
-build/libs/QuatroOpdracht-1.0-SNAPSHOT.jar
-build/tmp/compileJava/previous-compilation-data.bin

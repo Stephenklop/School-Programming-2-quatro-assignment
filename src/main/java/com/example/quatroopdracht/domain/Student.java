@@ -1,15 +1,25 @@
 package com.example.quatroopdracht.domain;
 
+import java.sql.Date;
+
 public class Student {
     private String email;
     private String name;
     private String gender;
-    private String dateOfBirth;
+    private Date dateOfBirth;
     private String address;
     private String residence;
     private String country;
 
-
+    public Student(String email, String name, String gender, Date dateOfBirth, String address, String residence, String country) {
+        this.email = email;
+        this.name = name;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+        this.residence = residence;
+        this.country = country;
+    }
 
     public String getEmail() {
         return email;
