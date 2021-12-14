@@ -1,5 +1,6 @@
 # Java class files
 *.class
+out/
 
 # VSCode
 .vscode/
@@ -7,4 +8,6 @@
 # IntelliJ
 *.iml
 .idea/
-out/
+
+# Gradle
+.gradle
