@@ -2,22 +2,14 @@ package com.example.quatroopdracht.ui.student;
 
 import com.example.quatroopdracht.data.StudentRepository;
 import com.example.quatroopdracht.domain.Student;
-import com.example.quatroopdracht.ui.Dashboard;
-import javafx.beans.property.ReadOnlyObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GetStudent {
@@ -49,6 +41,13 @@ public class GetStudent {
 
         tableStudents.getColumns().addAll(colEmail, colName, colUpdate, colDelete);
 
+        students.forEach(student -> {
+            student.getUpdateButton().setOnAction(event -> stage.setScene(new UpdateStudent(student).getUpdateStudentScene(stage)));
+            student.getDeleteButton().setOnAction(event -> {
+                studentRepository.deleteStudent(student.getEmail());
+                stage.setScene(new GetStudent().getGetStudentScene(stage));
+            });
+        });
         tableStudents.getItems().addAll(students);
 
         VBox vBox = new VBox(tableStudents);
