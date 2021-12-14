@@ -1,5 +1,7 @@
 package com.example.quatroopdracht.ui.student;
 
+import com.example.quatroopdracht.domain.Student;
+import com.example.quatroopdracht.ui.Dashboard;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;

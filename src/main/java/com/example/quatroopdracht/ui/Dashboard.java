@@ -1,7 +1,10 @@
 package com.example.quatroopdracht.ui;
 
 import com.example.quatroopdracht.ui.student.CreateStudent;
+import com.example.quatroopdracht.ui.student.GetStudent;
 import com.example.quatroopdracht.ui.student.UpdateStudent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -14,7 +17,7 @@ public class Dashboard {
 
         // Initialize classes
         Scene createStudentScene = new CreateStudent().getCreateStudentScene(stage);
-        Scene updateStudentScene = new UpdateStudent().getUpdateStudentScene(stage);
+        Scene getStudentScene = new GetStudent().getGetStudentScene(stage);
 
         // Set layout
         HBox hbox = new HBox();
@@ -27,18 +30,13 @@ public class Dashboard {
         // Create buttons
         Button createStudentButton = new Button("Create student");
         Button getStudentButton = new Button("Get student");
-        Button updateStudentButton = new Button("Update student");
-        Button deleteStudentButton = new Button("Delete student");
 
         // Add actions to buttons
         createStudentButton.setOnAction(e -> stage.setScene(createStudentScene));
-//        getStudentButton.setOnAction(e -> stage.setScene());
-        updateStudentButton.setOnAction(e -> stage.setScene(updateStudentScene));
-//        deleteStudentButton.setOnAction(e -> stage.setScene());
+        getStudentButton.setOnAction(e -> stage.setScene(getStudentScene));
 
         // Add buttons to top and bottom row
         topRow.getChildren().addAll(createStudentButton, getStudentButton);
-        bottomRow.getChildren().addAll(updateStudentButton, deleteStudentButton);
 
         // Create scene
         Scene dashboard = new Scene(hbox);

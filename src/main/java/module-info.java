@@ -6,4 +6,5 @@ module com.example.quatroopdracht {
 
     opens com.example.quatroopdracht to javafx.fxml;
     exports com.example.quatroopdracht;
+    exports com.example.quatroopdracht.domain;
 }
