@@ -1,9 +1,13 @@
 package com.example.quatroopdracht.domain;
 
+import java.util.List;
+
 public class Course {
+    private List<Course> interestingTo;
     private String name;
     private String subject;
     private String introText;
+    private String level;
 
     public String getName() {
         return name;
@@ -37,5 +41,11 @@ public class Course {
         this.level = level;
     }
 
-    private String level;
+    public List<Course> getInterestingTo() {
+        return interestingTo;
+    }
+
+    public void setInterestingTo(List<Course> interestingTo) {
+        this.interestingTo = interestingTo;
+    }
 }

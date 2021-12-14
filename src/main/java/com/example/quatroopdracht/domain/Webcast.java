@@ -1,6 +1,6 @@
 package com.example.quatroopdracht.domain;
 
-public class Webcast {
+public class Webcast extends Content {
     public String getSpeakerName() {
         return speakerName;
     }
