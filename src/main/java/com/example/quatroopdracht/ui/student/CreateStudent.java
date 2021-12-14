@@ -1,5 +1,6 @@
 package com.example.quatroopdracht.ui.student;
 
+import com.example.quatroopdracht.data.StudentRepository;
 import com.example.quatroopdracht.domain.Student;
 import com.example.quatroopdracht.ui.Dashboard;
 import javafx.collections.FXCollections;
@@ -17,6 +18,12 @@ import javafx.stage.Stage;
 import java.util.Date;
 
 public class CreateStudent {
+    private StudentRepository studentRepository;
+
+    public CreateStudent() {
+        this.studentRepository = new StudentRepository();
+    }
+
     public Scene getCreateStudentScene(Stage stage) {
 
         // Create layout

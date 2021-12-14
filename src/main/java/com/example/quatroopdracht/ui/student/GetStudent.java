@@ -1,5 +1,6 @@
 package com.example.quatroopdracht.ui.student;
 
+import com.example.quatroopdracht.data.StudentRepository;
 import com.example.quatroopdracht.domain.Student;
 import com.example.quatroopdracht.ui.Dashboard;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -16,14 +17,18 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GetStudent {
-    Student[] students = {
-//            new Student("test@test.nl", "Stef", "Male", "18-07-2001", "teststraat", "thuis", "Nederland"),
-//            new Student("test@test1.nl", "Stef1", "Male", "18-07-2002", "teststraat1", "thuis1", "Nederland"),
-//            new Student("test@test2.nl", "Stef2", "Male", "18-07-2003", "teststraat2", "thuis2", "Nederland"),
-//            new Student("test@test3.nl", "Stef3", "Male", "18-07-2004", "teststraat3", "thuis3", "Nederland"),
-//            new Student("test@test4.nl", "Stef4", "Male", "18-07-2005", "teststraat4", "thuis4", "Nederland")
-    };
+    private StudentRepository studentRepository;
+    private List<Student> students;
+
+    public GetStudent() {
+        studentRepository = new StudentRepository();
+        this.students = studentRepository.getAllStudents();
+    }
+
     public Scene getGetStudentScene(Stage stage) {
 
         // Create layout

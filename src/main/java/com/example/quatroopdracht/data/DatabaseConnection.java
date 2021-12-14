@@ -4,7 +4,8 @@ import java.sql.*;
 import java.util.function.Consumer;
 
 public class DatabaseConnection {
-    private static final String URL = "jdbc:sqlserver://" + "SERVER_NAME" + ";databaseName=" + "DB_NAME" + ";user=" + "USER" + ";password=" + "PASSWORD" + ";portNumber=" + "PORT_NR" + ";";
+    private static final String URL = "jdbc:sqlserver://localhost;databaseName=Quatro-opdracht;user=quatro-user;password=quatro;";
+
 
     private Statement statement = null;
     private Connection connection = null;
