@@ -18,11 +18,11 @@ import javafx.stage.Stage;
 
 public class GetStudent {
     Student[] students = {
-            new Student("test@test.nl", "Stef", "Male", "18-07-2001", "teststraat", "thuis", "Nederland"),
-            new Student("test@test1.nl", "Stef1", "Male", "18-07-2002", "teststraat1", "thuis1", "Nederland"),
-            new Student("test@test2.nl", "Stef2", "Male", "18-07-2003", "teststraat2", "thuis2", "Nederland"),
-            new Student("test@test3.nl", "Stef3", "Male", "18-07-2004", "teststraat3", "thuis3", "Nederland"),
-            new Student("test@test4.nl", "Stef4", "Male", "18-07-2005", "teststraat4", "thuis4", "Nederland")
+//            new Student("test@test.nl", "Stef", "Male", "18-07-2001", "teststraat", "thuis", "Nederland"),
+//            new Student("test@test1.nl", "Stef1", "Male", "18-07-2002", "teststraat1", "thuis1", "Nederland"),
+//            new Student("test@test2.nl", "Stef2", "Male", "18-07-2003", "teststraat2", "thuis2", "Nederland"),
+//            new Student("test@test3.nl", "Stef3", "Male", "18-07-2004", "teststraat3", "thuis3", "Nederland"),
+//            new Student("test@test4.nl", "Stef4", "Male", "18-07-2005", "teststraat4", "thuis4", "Nederland")
     };
     public Scene getGetStudentScene(Stage stage) {
 

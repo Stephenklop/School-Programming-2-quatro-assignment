@@ -2,18 +2,20 @@ package com.example.quatroopdracht.domain;
 
 import javafx.scene.control.Button;
 
+import java.sql.Date;
+
 public class Student {
     private String email;
     private String name;
     private String gender;
-    private String dateOfBirth;
+    private Date dateOfBirth;
     private String address;
     private String residence;
     private String country;
     private Button updateButton;
     private Button deleteButton;
 
-    public Student(String email, String name, String gender, String dateOfBirth, String address, String residence, String country) {
+    public Student(String email, String name, String gender, Date dateOfBirth, String address, String residence, String country) {
         this.email = email;
         this.name = name;
         this.gender = gender;
@@ -78,11 +80,11 @@ public class Student {
         this.gender = gender;
     }
 
-    public String getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
