@@ -3,6 +3,7 @@ package com.example.quatroopdracht.data;
 import com.example.quatroopdracht.domain.Student;
 import com.example.quatroopdracht.util.Util;
 import com.example.quatroopdracht.util.Validator;
+import javafx.application.Platform;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -67,8 +68,7 @@ public class StudentRepository extends DatabaseConnection {
         try {
             Validator.validateStudent(student);
         } catch (Exception ex) {
-            Util.displayError(ex.getMessage());
-            return;
+
         }
 
         String sql = String.format(
@@ -82,7 +82,13 @@ public class StudentRepository extends DatabaseConnection {
                 student.getCountry()
         );
 
-        this.insert(sql);
+        this.insert(sql).thenAccept(inserted -> {
+            if (Boolean.TRUE.equals(inserted)) {
+                Util.displaySuccess("Successfully created student!");
+            } else {
+                Util.displayError("An exception occurred!");
+            }
+        });
     }
 
     public void updateStudent(Student student) {
@@ -107,13 +113,13 @@ public class StudentRepository extends DatabaseConnection {
         this.update(sql).thenAccept(updated -> {
             switch (updated) {
                 case 0:
-                    // Not found
+                    Util.displayError("Unable to find student!");
                     break;
                 case -1:
-                    // Exception occurred
+                    Util.displayError("An exception occurred!");
                     break;
                 default:
-                    // Successfully updated
+                    Util.displaySuccess("Successfully updated student!");
                     break;
             }
         });
@@ -128,13 +134,13 @@ public class StudentRepository extends DatabaseConnection {
         this.update(sql).thenAccept(deleted -> {
             switch (deleted) {
                 case 0:
-                    // Not found
+                    Util.displayError("Unable to find student!");
                     break;
                 case -1:
-                    // Exception occurred
+                    Util.displayError("An exception occurred!");
                     break;
                 default:
-                    // Successfully deleted
+                    Util.displaySuccess("Successfully deleted student!");
                     break;
             }
         });

@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class Main extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
         Dashboard dashboard = new Dashboard();
 
         stage.setScene(dashboard.getDashboardScene(stage));
