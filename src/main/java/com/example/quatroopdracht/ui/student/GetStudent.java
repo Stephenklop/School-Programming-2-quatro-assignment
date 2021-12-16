@@ -13,8 +13,8 @@ import javafx.stage.Stage;
 import java.util.List;
 
 public class GetStudent {
-    private StudentRepository studentRepository;
-    private List<Student> students;
+    private final StudentRepository studentRepository;
+    private final List<Student> students;
 
     public GetStudent() {
         studentRepository = new StudentRepository();

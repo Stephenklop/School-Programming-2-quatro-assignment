@@ -5,25 +5,23 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public class DatabaseConnection {
-    private static final String URL = "jdbc:sqlserver://aei-sql2.avans.nl/studenten;databaseName=CodeCademy30;user=group30;password=groepje30;portNumber=1443;";
+    private static final String URL = "jdbc:sqlserver://aei-sql2.avans.nl\\studenten;databaseName=CodeCademy30;user=group30;password=groepje30;portNumber=1443;";
 
     private Statement statement = null;
     private Connection connection = null;
     private ResultSet resultSet = null;
 
     // Executes SELECT statements, returns results.
-    public CompletableFuture<Void> select(String sql, Consumer<ResultSet> consumer) {
-        return CompletableFuture.runAsync(() -> {
-            try {
-                this.connectDatabase();
-                this.resultSet = statement.executeQuery(sql);
-                consumer.accept(this.resultSet);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                this.closeConnection();
-            }
-        });
+    public void select(String sql, Consumer<ResultSet> consumer) {
+        try {
+            this.connectDatabase();
+            this.resultSet = statement.executeQuery(sql);
+            consumer.accept(this.resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeConnection();
+        }
     }
 
     // Executes INSERT statements
