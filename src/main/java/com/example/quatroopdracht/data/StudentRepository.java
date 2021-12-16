@@ -68,7 +68,8 @@ public class StudentRepository extends DatabaseConnection {
         try {
             Validator.validateStudent(student);
         } catch (Exception ex) {
-
+            Util.displayError(ex.getMessage());
+            return;
         }
 
         String sql = String.format(
