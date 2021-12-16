@@ -1,53 +1,62 @@
 package com.example.quatroopdracht.data;
 
 import java.sql.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public class DatabaseConnection {
-    private static final String URL = "jdbc:sqlserver://localhost;databaseName=Quatro-opdracht;user=quatro-user;password=quatro;";
-
+    private static final String URL = "jdbc:sqlserver://aei-sql2.avans.nl/studenten;databaseName=CodeCademy30;user=group30;password=groepje30;portNumber=1443;";
 
     private Statement statement = null;
     private Connection connection = null;
     private ResultSet resultSet = null;
 
     // Executes SELECT statements, returns results.
-    public void select(String sql, Consumer<ResultSet> consumer) {
-        try {
-            this.connectDatabase();
-            this.resultSet = statement.executeQuery(sql);
-            consumer.accept(this.resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            this.closeConnection();
-        }
+    public CompletableFuture<Void> select(String sql, Consumer<ResultSet> consumer) {
+        return CompletableFuture.runAsync(() -> {
+            try {
+                this.connectDatabase();
+                this.resultSet = statement.executeQuery(sql);
+                consumer.accept(this.resultSet);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                this.closeConnection();
+            }
+        });
     }
 
     // Executes INSERT statements
-    public boolean insert(String sql) {
-        try {
-            this.connectDatabase();
-            return this.statement.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            this.closeConnection();
-        }
-        return false;
+    public CompletableFuture<Boolean> insert(String sql) {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+        CompletableFuture.runAsync(() -> {
+            try {
+                this.connectDatabase();
+                future.complete(this.statement.execute(sql));
+            } catch (SQLException e) {
+                e.printStackTrace();
+                future.complete(false);
+            } finally {
+                this.closeConnection();
+            }
+        });
+
+        return future;
     }
 
     // Executes UPDATE statements
-    public int update(String sql) {
+    public CompletableFuture<Integer> update(String sql) {
+        CompletableFuture<Integer> future = new CompletableFuture<>();
         try {
             this.connectDatabase();
-            return this.statement.executeUpdate(sql);
+            future.complete(this.statement.executeUpdate(sql));
         } catch (SQLException e) {
             e.printStackTrace();
+            future.complete(-1);
         } finally {
             this.closeConnection();
         }
-        return -1;
+        return future;
     }
 
     // Opens database connection

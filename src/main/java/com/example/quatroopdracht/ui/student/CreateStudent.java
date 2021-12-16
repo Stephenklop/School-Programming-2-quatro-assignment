@@ -12,10 +12,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class CreateStudent {
     private StudentRepository studentRepository;
@@ -55,18 +55,18 @@ public class CreateStudent {
         Button submitButton = new Button("Submit");
 
         submitButton.setOnAction(event -> {
+            LocalDate date = dateOfBirth.getValue();
             Student student = new Student(
                     email.getText(),
                     name.getText(),
                     gender.getValue(),
-                    new Date(dateOfBirth.getValue().getYear(), dateOfBirth.getValue().getMonth().getValue(), dateOfBirth.getValue().getDayOfMonth()),
+                    date != null ? Date.valueOf(date) : null,
                     address.getText(),
                     residence.getText(),
                     country.getText()
             );
 
-            studentRepository.addStudent(student);
-            stage.setScene(new GetStudent().getGetStudentScene(stage));
+            this.studentRepository.addStudent(student);
         });
         cancelButton.setOnAction(event -> {
             stage.setScene(new Dashboard().getDashboardScene(stage));
@@ -80,19 +80,26 @@ public class CreateStudent {
         gp.setVgap(8);
         VBox.setVgrow(gp, Priority.ALWAYS);
 
-        gp.add(emailLabel, 0, 0); gp.add(email, 1, 0);
-        gp.add(nameLabel, 0, 1); gp.add(name, 1, 1);
-        gp.add(genderLabel, 0, 2); gp.add(gender, 1, 2);
-        gp.add(dateOfBirthLabel, 0, 3); gp.add(dateOfBirth, 1,3);
-        gp.add(addressLabel, 0, 4); gp.add(address, 1, 4);
-        gp.add(residenceLabel, 0, 5); gp.add(residence, 1, 5);
-        gp.add(countryLabel, 0 ,6); gp.add(country, 1, 6);
-        gp.add(buttonbox, 1,7);
+        gp.add(emailLabel, 0, 0);
+        gp.add(email, 1, 0);
+        gp.add(nameLabel, 0, 1);
+        gp.add(name, 1, 1);
+        gp.add(genderLabel, 0, 2);
+        gp.add(gender, 1, 2);
+        gp.add(dateOfBirthLabel, 0, 3);
+        gp.add(dateOfBirth, 1, 3);
+        gp.add(addressLabel, 0, 4);
+        gp.add(address, 1, 4);
+        gp.add(residenceLabel, 0, 5);
+        gp.add(residence, 1, 5);
+        gp.add(countryLabel, 0, 6);
+        gp.add(country, 1, 6);
+        gp.add(buttonbox, 1, 7);
 
-       vbox.getChildren().addAll(gp);
+        vbox.getChildren().addAll(gp);
 
-       Scene createStudent = new Scene(vbox);
+        Scene createStudent = new Scene(vbox);
 
-       return createStudent;
+        return createStudent;
     }
 }

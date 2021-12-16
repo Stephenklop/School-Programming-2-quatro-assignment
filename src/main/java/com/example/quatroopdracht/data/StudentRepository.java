@@ -1,6 +1,8 @@
 package com.example.quatroopdracht.data;
 
 import com.example.quatroopdracht.domain.Student;
+import com.example.quatroopdracht.util.Util;
+import com.example.quatroopdracht.util.Validator;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ public class StudentRepository extends DatabaseConnection {
     }
 
     public Student getStudent(String email) {
-        final AtomicReference<Student> student = new AtomicReference<>(null);
+        AtomicReference<Student> student = new AtomicReference<>(null);
         String sql = String.format(
                 "SELECT * FROM Student WHERE Email = '%s'",
                 email
@@ -59,6 +61,13 @@ public class StudentRepository extends DatabaseConnection {
     }
 
     public void addStudent(Student student) {
+        try {
+            Validator.validateStudent(student);
+        } catch (Exception ex) {
+            Util.displayError(ex.getMessage());
+            return;
+        }
+
         String sql = String.format(
                 "INSERT INTO Student VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')",
                 student.getEmail(),
@@ -69,12 +78,20 @@ public class StudentRepository extends DatabaseConnection {
                 student.getResidence(),
                 student.getCountry()
         );
+
         this.insert(sql);
     }
 
     public void updateStudent(Student student) {
+        try {
+            Validator.validateStudent(student);
+        } catch (Exception ex) {
+            Util.displayError(ex.getMessage());
+            return;
+        }
+
         String sql = String.format(
-                "UPDATE Student SET Name = '%s', BirthDate = '%s', Gender = '%s', Adress = '%s', Residence = '%s', Country = '%s' WHERE Email = '%s'" ,
+                "UPDATE Student SET Name = '%s', BirthDate = '%s', Gender = '%s', Adress = '%s', Residence = '%s', Country = '%s' WHERE Email = '%s'",
                 student.getName(),
                 student.getDateOfBirth(),
                 student.getGender(),
@@ -83,19 +100,20 @@ public class StudentRepository extends DatabaseConnection {
                 student.getCountry(),
                 student.getEmail()
         );
-        int updated = this.update(sql);
 
-        switch (updated) {
-            case 0:
-                // Not found
-                break;
-            case -1:
-                // Exception occurred
-                break;
-            default:
-                // Successfully deleted
-                break;
-        }
+        this.update(sql).thenAccept(updated -> {
+            switch (updated) {
+                case 0:
+                    // Not found
+                    break;
+                case -1:
+                    // Exception occurred
+                    break;
+                default:
+                    // Successfully updated
+                    break;
+            }
+        });
     }
 
     public void deleteStudent(String email) {
@@ -103,18 +121,19 @@ public class StudentRepository extends DatabaseConnection {
                 "DELETE FROM Student WHERE Email = '%s'",
                 email
         );
-        int deleted = this.update(sql);
 
-        switch (deleted) {
-            case 0:
-                // Not found
-                break;
-            case -1:
-                // Exception occurred
-                break;
-            default:
-                // Successfully deleted
-                break;
-        }
+        this.update(sql).thenAccept(deleted -> {
+            switch (deleted) {
+                case 0:
+                    // Not found
+                    break;
+                case -1:
+                    // Exception occurred
+                    break;
+                default:
+                    // Successfully deleted
+                    break;
+            }
+        });
     }
 }
