@@ -12,49 +12,48 @@ public class DatabaseConnection {
     private ResultSet resultSet = null;
 
     // Executes SELECT statements, returns results.
-    public void select(String sql, Consumer<ResultSet> consumer) {
-        try {
-            this.connectDatabase();
-            this.resultSet = statement.executeQuery(sql);
-            consumer.accept(this.resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            this.closeConnection();
-        }
-    }
-
-    // Executes INSERT statements
-    public CompletableFuture<Boolean> insert(String sql) {
-        CompletableFuture<Boolean> future = new CompletableFuture<>();
-        CompletableFuture.runAsync(() -> {
+    public CompletableFuture<Void> select(String sql, Consumer<ResultSet> consumer) {
+        return CompletableFuture.runAsync(() -> {
             try {
                 this.connectDatabase();
-                future.complete(this.statement.execute(sql));
+                this.resultSet = statement.executeQuery(sql);
+                consumer.accept(this.resultSet);
             } catch (SQLException e) {
                 e.printStackTrace();
-                future.complete(false);
             } finally {
                 this.closeConnection();
             }
         });
+    }
 
-        return future;
+    // Executes INSERT statements
+    public CompletableFuture<Boolean> insert(String sql) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                this.connectDatabase();
+                return this.statement.execute(sql);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            } finally {
+                this.closeConnection();
+            }
+        });
     }
 
     // Executes UPDATE statements
     public CompletableFuture<Integer> update(String sql) {
-        CompletableFuture<Integer> future = new CompletableFuture<>();
-        try {
-            this.connectDatabase();
-            future.complete(this.statement.executeUpdate(sql));
-        } catch (SQLException e) {
-            e.printStackTrace();
-            future.complete(-1);
-        } finally {
-            this.closeConnection();
-        }
-        return future;
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                this.connectDatabase();
+                return this.statement.executeUpdate(sql);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return -1;
+            } finally {
+                this.closeConnection();
+            }
+        });
     }
 
     // Opens database connection

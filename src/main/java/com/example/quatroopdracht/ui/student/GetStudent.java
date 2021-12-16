@@ -54,8 +54,6 @@ public class GetStudent {
         vBox.setPadding(new Insets(10));
         vBox.setSpacing(10);
 
-        Scene scene = new Scene(vBox);
-
-        return scene;
+        return new Scene(vBox);
     }
 }

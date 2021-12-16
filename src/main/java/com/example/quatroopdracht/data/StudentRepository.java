@@ -14,6 +14,7 @@ public class StudentRepository extends DatabaseConnection {
     public List<Student> getAllStudents() {
         List<Student> students = new ArrayList<>();
         String sql = "SELECT * FROM Student";
+
         this.select(sql, resultSet -> {
             try {
                 while (resultSet.next()) {
@@ -30,7 +31,8 @@ public class StudentRepository extends DatabaseConnection {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        });
+        }).join();
+
         return students;
     }
 
@@ -56,7 +58,8 @@ public class StudentRepository extends DatabaseConnection {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        });
+        }).join();
+        
         return student.get();
     }
 
