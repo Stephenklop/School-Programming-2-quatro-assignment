@@ -3,7 +3,6 @@ package com.example.quatroopdracht.data;
 import com.example.quatroopdracht.domain.Student;
 import com.example.quatroopdracht.util.Util;
 import com.example.quatroopdracht.util.Validator;
-import javafx.application.Platform;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -60,7 +59,7 @@ public class StudentRepository extends DatabaseConnection {
                 e.printStackTrace();
             }
         }).join();
-        
+
         return student.get();
     }
 

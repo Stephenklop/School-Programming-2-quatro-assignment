@@ -31,7 +31,8 @@ public class DatabaseConnection {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 this.connectDatabase();
-                return this.statement.execute(sql);
+                this.statement.execute(sql);
+                return true;
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
