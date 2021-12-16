@@ -2,31 +2,30 @@ package com.example.quatroopdracht.ui.student;
 
 import com.example.quatroopdracht.data.StudentRepository;
 import com.example.quatroopdracht.domain.Student;
+import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.List;
-
 public class GetStudent {
     private final StudentRepository studentRepository;
-    private final List<Student> students;
+    private final TableView<Student> tableStudents = new TableView<>();
 
     public GetStudent() {
-        studentRepository = new StudentRepository();
-        this.students = studentRepository.getAllStudents();
+        this.studentRepository = new StudentRepository();
+        this.studentRepository.getAllStudents(this.tableStudents.getItems());
     }
 
     public Scene getGetStudentScene(Stage stage) {
 
         // Create layout
-        TableView<Student> tableStudents = new TableView<>();
-        tableStudents.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        VBox.setVgrow(tableStudents, Priority.ALWAYS);
+        this.tableStudents.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        VBox.setVgrow(this.tableStudents, Priority.ALWAYS);
 
         TableColumn<Student, String> colEmail = new TableColumn<>("Email");
         TableColumn<Student, String> colName = new TableColumn<>("Name");
@@ -38,19 +37,19 @@ public class GetStudent {
         colUpdate.setCellValueFactory(new PropertyValueFactory<>("updateButton"));
         colDelete.setCellValueFactory(new PropertyValueFactory<>("deleteButton"));
 
+        this.tableStudents.getColumns().addAll(colEmail, colName, colUpdate, colDelete);
 
-        tableStudents.getColumns().addAll(colEmail, colName, colUpdate, colDelete);
-
-        students.forEach(student -> {
-            student.getUpdateButton().setOnAction(event -> stage.setScene(new UpdateStudent(student).getUpdateStudentScene(stage)));
-            student.getDeleteButton().setOnAction(event -> {
-                studentRepository.deleteStudent(student.getEmail());
-                stage.setScene(new GetStudent().getGetStudentScene(stage));
-            });
+        this.tableStudents.getItems().addListener((ListChangeListener<Student>) listener -> {
+            for (Student student : tableStudents.getItems()) {
+                student.getUpdateButton().setOnAction(event -> stage.setScene(new UpdateStudent(student).getUpdateStudentScene(stage)));
+                student.getDeleteButton().setOnAction(event -> {
+                    studentRepository.deleteStudent(student.getEmail());
+                    stage.setScene(new GetStudent().getGetStudentScene(stage));
+                });
+            }
         });
-        tableStudents.getItems().addAll(students);
 
-        VBox vBox = new VBox(tableStudents);
+        VBox vBox = new VBox(this.tableStudents);
         vBox.setPadding(new Insets(10));
         vBox.setSpacing(10);
 

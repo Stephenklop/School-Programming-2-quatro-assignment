@@ -3,6 +3,7 @@ package com.example.quatroopdracht.domain;
 public class Certificate {
     private int certificateId;
     private float grade;
+    private String employeeName;
 
     public int getCertificateId() {
         return certificateId;
@@ -27,6 +28,4 @@ public class Certificate {
     public void setEmployeeName(String employeeName) {
         this.employeeName = employeeName;
     }
-
-    private String employeeName;
 }

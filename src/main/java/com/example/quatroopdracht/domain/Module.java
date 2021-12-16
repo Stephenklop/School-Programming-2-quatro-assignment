@@ -1,6 +1,6 @@
 package com.example.quatroopdracht.domain;
 
-public class Module extends Content{
+public class Module extends Content {
     private Course course;
     private ContactPerson contactPerson;
     private String serialNumber;

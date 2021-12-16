@@ -2,6 +2,7 @@ package com.example.quatroopdracht.domain;
 
 public class ContactPerson {
     private String email;
+    private String name;
 
     public String getEmail() {
         return email;
@@ -18,6 +19,4 @@ public class ContactPerson {
     public void setName(String name) {
         this.name = name;
     }
-
-    private String name;
 }

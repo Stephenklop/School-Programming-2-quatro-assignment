@@ -5,17 +5,16 @@ import com.example.quatroopdracht.util.Util;
 import com.example.quatroopdracht.util.Validator;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class StudentRepository extends DatabaseConnection {
 
-    public List<Student> getAllStudents() {
-        List<Student> students = new ArrayList<>();
+    public CompletableFuture<Void> getAllStudents(List<Student> students) {
         String sql = "SELECT * FROM Student";
 
-        this.select(sql, resultSet -> {
+        return this.select(sql, resultSet -> {
             try {
                 while (resultSet.next()) {
                     students.add(new Student(
@@ -31,9 +30,7 @@ public class StudentRepository extends DatabaseConnection {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }).join();
-
-        return students;
+        });
     }
 
     public Student getStudent(String email) {

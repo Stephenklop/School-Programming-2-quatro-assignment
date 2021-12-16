@@ -18,7 +18,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 public class CreateStudent {
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
     public CreateStudent() {
         this.studentRepository = new StudentRepository();

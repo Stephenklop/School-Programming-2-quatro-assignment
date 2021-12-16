@@ -5,9 +5,13 @@ public class View {
     private Student student;
     private int watchPercentage;
 
-    public Content getContent() { return content; }
+    public Content getContent() {
+        return content;
+    }
 
-    public void setContent(Content content) { this.content = content; }
+    public void setContent(Content content) {
+        this.content = content;
+    }
 
     public int getWatchPercentage() {
         return watchPercentage;

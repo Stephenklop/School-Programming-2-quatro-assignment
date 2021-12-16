@@ -15,10 +15,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class UpdateStudent {
-    private Student student;
-    private StudentRepository studentRepository;
+    private final Student student;
+    private final StudentRepository studentRepository;
 
     public UpdateStudent(Student student) {
         this.student = student;
@@ -40,22 +41,23 @@ public class UpdateStudent {
         Label countryLabel = new Label("Country:");
 
         // Create input fields
-        TextField name = new TextField();
+        TextField name = new TextField(student.getName().trim());
         ObservableList<String> genderList = FXCollections.observableArrayList("Male", "Female", "Other");
         ComboBox<String> gender = new ComboBox<>(genderList);
-        DatePicker dateOfBirth = new DatePicker();
-        TextField address = new TextField();
-        TextField residence = new TextField();
-        TextField country = new TextField();
+        DatePicker dateOfBirth = new DatePicker(new Date(student.getDateOfBirth().getTime()).toLocalDate());
+        TextField address = new TextField(student.getAddress().trim());
+        TextField residence = new TextField(student.getResidence().trim());
+        TextField country = new TextField(student.getCountry().trim());
 
         // Create buttons
         Button cancelButton = new Button("Cancel");
         Button submitButton = new Button("Submit");
 
         submitButton.setOnAction(event -> {
+            LocalDate date = dateOfBirth.getValue();
             student.setName(name.getText());
             student.setGender(gender.getValue());
-            student.setDateOfBirth(new Date(dateOfBirth.getValue().getYear(), dateOfBirth.getValue().getMonth().getValue(), dateOfBirth.getValue().getDayOfMonth()));
+            student.setDateOfBirth(date != null ? Date.valueOf(date) : null);
             student.setAddress(address.getText());
             student.setResidence(residence.getText());
             student.setCountry(country.getText());
@@ -64,9 +66,8 @@ public class UpdateStudent {
 
             stage.setScene(new GetStudent().getGetStudentScene(stage));
         });
-        cancelButton.setOnAction(event -> {
-            stage.setScene(new Dashboard().getDashboardScene(stage));
-        });
+
+        cancelButton.setOnAction(event -> stage.setScene(new Dashboard().getDashboardScene(stage)));
 
         buttonbox.getChildren().addAll(cancelButton, submitButton);
 
@@ -76,13 +77,19 @@ public class UpdateStudent {
         gp.setVgap(8);
         VBox.setVgrow(gp, Priority.ALWAYS);
 
-        gp.add(nameLabel, 0, 0); gp.add(name, 1, 0);
-        gp.add(genderLabel, 0, 1); gp.add(gender, 1, 1);
-        gp.add(dateOfBirthLabel, 0, 2); gp.add(dateOfBirth, 1,2);
-        gp.add(addressLabel, 0, 3); gp.add(address, 1, 3);
-        gp.add(residenceLabel, 0, 4); gp.add(residence, 1, 4);
-        gp.add(countryLabel, 0 ,5); gp.add(country, 1, 5);
-        gp.add(buttonbox, 1,6);
+        gp.add(nameLabel, 0, 0);
+        gp.add(name, 1, 0);
+        gp.add(genderLabel, 0, 1);
+        gp.add(gender, 1, 1);
+        gp.add(dateOfBirthLabel, 0, 2);
+        gp.add(dateOfBirth, 1, 2);
+        gp.add(addressLabel, 0, 3);
+        gp.add(address, 1, 3);
+        gp.add(residenceLabel, 0, 4);
+        gp.add(residence, 1, 4);
+        gp.add(countryLabel, 0, 5);
+        gp.add(country, 1, 5);
+        gp.add(buttonbox, 1, 6);
 
         vbox.getChildren().addAll(gp);
 
