@@ -5,16 +5,17 @@ import com.example.quatroopdracht.util.Util;
 import com.example.quatroopdracht.util.Validator;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class StudentRepository extends DatabaseConnection {
 
-    public CompletableFuture<Void> getAllStudents(List<Student> students) {
+    public List<Student> getAllStudents() {
         String sql = "SELECT * FROM Student";
+        List<Student> students = new ArrayList<>();
 
-        return this.select(sql, resultSet -> {
+        this.select(sql, resultSet -> {
             try {
                 while (resultSet.next()) {
                     students.add(new Student(
@@ -31,6 +32,7 @@ public class StudentRepository extends DatabaseConnection {
                 e.printStackTrace();
             }
         });
+        return students;
     }
 
     public Student getStudent(String email) {
@@ -39,6 +41,7 @@ public class StudentRepository extends DatabaseConnection {
                 "SELECT * FROM Student WHERE Email = '%s'",
                 email
         );
+
         this.select(sql, resultSet -> {
             try {
                 if (resultSet.isBeforeFirst() && resultSet.next()) {
@@ -55,17 +58,17 @@ public class StudentRepository extends DatabaseConnection {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }).join();
+        });
 
         return student.get();
     }
 
-    public void addStudent(Student student) {
+    public boolean addStudent(Student student) {
         try {
             Validator.validateStudent(student);
         } catch (Exception ex) {
             Util.displayError(ex.getMessage());
-            return;
+            return false;
         }
 
         String sql = String.format(
@@ -79,21 +82,23 @@ public class StudentRepository extends DatabaseConnection {
                 student.getCountry()
         );
 
-        this.insert(sql).thenAccept(inserted -> {
-            if (Boolean.TRUE.equals(inserted)) {
-                Util.displaySuccess("Successfully created student!");
-            } else {
-                Util.displayError("An exception occurred!");
-            }
-        });
+        boolean inserted = this.insert(sql);
+
+        if (inserted) {
+            Util.displaySuccess("Successfully created student!");
+            return true;
+        } else {
+            Util.displayError("An exception occurred!");
+            return false;
+        }
     }
 
-    public void updateStudent(Student student) {
+    public boolean updateStudent(Student student) {
         try {
             Validator.validateStudent(student);
         } catch (Exception ex) {
             Util.displayError(ex.getMessage());
-            return;
+            return false;
         }
 
         String sql = String.format(
@@ -107,39 +112,39 @@ public class StudentRepository extends DatabaseConnection {
                 student.getEmail()
         );
 
-        this.update(sql).thenAccept(updated -> {
-            switch (updated) {
-                case 0:
-                    Util.displayError("Unable to find student!");
-                    break;
-                case -1:
-                    Util.displayError("An exception occurred!");
-                    break;
-                default:
-                    Util.displaySuccess("Successfully updated student!");
-                    break;
-            }
-        });
+        int updated = this.update(sql);
+
+        switch (updated) {
+            case 0:
+                Util.displayError("Unable to find student!");
+                return false;
+            case -1:
+                Util.displayError("An exception occurred!");
+                return false;
+            default:
+                Util.displaySuccess("Successfully updated student!");
+                return true;
+        }
     }
 
-    public void deleteStudent(String email) {
+    public boolean deleteStudent(String email) {
         String sql = String.format(
                 "DELETE FROM Student WHERE Email = '%s'",
                 email
         );
 
-        this.update(sql).thenAccept(deleted -> {
-            switch (deleted) {
-                case 0:
-                    Util.displayError("Unable to find student!");
-                    break;
-                case -1:
-                    Util.displayError("An exception occurred!");
-                    break;
-                default:
-                    Util.displaySuccess("Successfully deleted student!");
-                    break;
-            }
-        });
+        int deleted = this.update(sql);
+
+        switch (deleted) {
+            case 0:
+                Util.displayError("Unable to find student!");
+                return false;
+            case -1:
+                Util.displayError("An exception occurred!");
+                return false;
+            default:
+                Util.displaySuccess("Successfully deleted student!");
+                return true;
+        }
     }
 }

@@ -44,6 +44,7 @@ public class UpdateStudent {
         TextField name = new TextField(student.getName().trim());
         ObservableList<String> genderList = FXCollections.observableArrayList("Male", "Female", "Other");
         ComboBox<String> gender = new ComboBox<>(genderList);
+        gender.setValue(student.getGender());
         DatePicker dateOfBirth = new DatePicker(new Date(student.getDateOfBirth().getTime()).toLocalDate());
         TextField address = new TextField(student.getAddress().trim());
         TextField residence = new TextField(student.getResidence().trim());
@@ -62,9 +63,9 @@ public class UpdateStudent {
             student.setResidence(residence.getText());
             student.setCountry(country.getText());
 
-            studentRepository.updateStudent(student);
-
-            stage.setScene(new GetStudent().getGetStudentScene(stage));
+            if (studentRepository.updateStudent(student)) {
+                stage.setScene(new GetStudent().getGetStudentScene(stage));
+            }
         });
 
         cancelButton.setOnAction(event -> stage.setScene(new Dashboard().getDashboardScene(stage)));

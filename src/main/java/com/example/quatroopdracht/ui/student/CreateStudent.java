@@ -66,7 +66,9 @@ public class CreateStudent {
                     country.getText()
             );
 
-            this.studentRepository.addStudent(student);
+            if (this.studentRepository.addStudent(student)) {
+                stage.setScene(new GetStudent().getGetStudentScene(stage));
+            }
         });
         cancelButton.setOnAction(event -> {
             stage.setScene(new Dashboard().getDashboardScene(stage));
