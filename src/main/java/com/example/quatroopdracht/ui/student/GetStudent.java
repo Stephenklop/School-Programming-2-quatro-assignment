@@ -1,29 +1,23 @@
 package com.example.quatroopdracht.ui.student;
 
+import com.example.quatroopdracht.data.StudentRepository;
 import com.example.quatroopdracht.domain.Student;
-import com.example.quatroopdracht.ui.Dashboard;
-import javafx.beans.property.ReadOnlyObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class GetStudent {
-    Student[] students = {
-//            new Student("test@test.nl", "Stef", "Male", "18-07-2001", "teststraat", "thuis", "Nederland"),
-//            new Student("test@test1.nl", "Stef1", "Male", "18-07-2002", "teststraat1", "thuis1", "Nederland"),
-//            new Student("test@test2.nl", "Stef2", "Male", "18-07-2003", "teststraat2", "thuis2", "Nederland"),
-//            new Student("test@test3.nl", "Stef3", "Male", "18-07-2004", "teststraat3", "thuis3", "Nederland"),
-//            new Student("test@test4.nl", "Stef4", "Male", "18-07-2005", "teststraat4", "thuis4", "Nederland")
-    };
+    private final StudentRepository studentRepository;
+
+    public GetStudent() {
+        this.studentRepository = new StudentRepository();
+    }
+
     public Scene getGetStudentScene(Stage stage) {
 
         // Create layout
@@ -41,17 +35,22 @@ public class GetStudent {
         colUpdate.setCellValueFactory(new PropertyValueFactory<>("updateButton"));
         colDelete.setCellValueFactory(new PropertyValueFactory<>("deleteButton"));
 
-
         tableStudents.getColumns().addAll(colEmail, colName, colUpdate, colDelete);
 
-        tableStudents.getItems().addAll(students);
+        for (Student student : this.studentRepository.getAllStudents()) {
+            tableStudents.getItems().add(student);
+            student.getUpdateButton().setOnAction(event -> stage.setScene(new UpdateStudent(student).getUpdateStudentScene(stage)));
+            student.getDeleteButton().setOnAction(event -> {
+                if (studentRepository.deleteStudent(student.getEmail())) {
+                    stage.setScene(new GetStudent().getGetStudentScene(stage));
+                }
+            });
+        }
 
         VBox vBox = new VBox(tableStudents);
         vBox.setPadding(new Insets(10));
         vBox.setSpacing(10);
 
-        Scene scene = new Scene(vBox);
-
-        return scene;
+        return new Scene(vBox);
     }
 }

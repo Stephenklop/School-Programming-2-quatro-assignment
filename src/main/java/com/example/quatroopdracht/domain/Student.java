@@ -2,7 +2,7 @@ package com.example.quatroopdracht.domain;
 
 import javafx.scene.control.Button;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Student {
     private String email;

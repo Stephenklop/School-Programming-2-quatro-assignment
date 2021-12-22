@@ -2,30 +2,28 @@ package com.example.quatroopdracht.ui;
 
 import com.example.quatroopdracht.ui.student.CreateStudent;
 import com.example.quatroopdracht.ui.student.GetStudent;
-import com.example.quatroopdracht.ui.student.UpdateStudent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class Dashboard {
     public Scene getDashboardScene(Stage stage) {
         stage.setTitle("Codecademy statistics");
 
+        stage.setMinHeight(100);
+        stage.setMinWidth(300);
+
         // Initialize classes
         Scene createStudentScene = new CreateStudent().getCreateStudentScene(stage);
         Scene getStudentScene = new GetStudent().getGetStudentScene(stage);
 
         // Set layout
-        HBox hbox = new HBox();
-        VBox topRow = new VBox();
-        VBox bottomRow = new VBox();
-
-        // Add vertical rows to the horizontal row
-        hbox.getChildren().addAll(topRow, bottomRow);
+        GridPane pane = new GridPane();
+        pane.setAlignment(Pos.CENTER);
+        pane.setHgap(10);
+        pane.setVgap(10);
 
         // Create buttons
         Button createStudentButton = new Button("Create student");
@@ -35,12 +33,10 @@ public class Dashboard {
         createStudentButton.setOnAction(e -> stage.setScene(createStudentScene));
         getStudentButton.setOnAction(e -> stage.setScene(getStudentScene));
 
-        // Add buttons to top and bottom row
-        topRow.getChildren().addAll(createStudentButton, getStudentButton);
+        pane.add(createStudentButton, 0, 0);
+        pane.add(getStudentButton, 1, 0);
 
         // Create scene
-        Scene dashboard = new Scene(hbox);
-
-        return dashboard;
+        return new Scene(pane);
     }
 }

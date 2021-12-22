@@ -36,6 +36,8 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+    implementation 'com.microsoft.sqlserver:mssql-jdbc:9.4.1.jre11'
 }
 
 test {

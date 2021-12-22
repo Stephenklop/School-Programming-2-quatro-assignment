@@ -1,6 +1,9 @@
 package com.example.quatroopdracht.domain;
 
 public class Webcast extends Content {
+    private String speakerName;
+    private String speakerOrg;
+
     public String getSpeakerName() {
         return speakerName;
     }
@@ -16,7 +19,4 @@ public class Webcast extends Content {
     public void setSpeakerOrg(String speakerOrg) {
         this.speakerOrg = speakerOrg;
     }
-
-    private String speakerName;
-    private String speakerOrg;
 }

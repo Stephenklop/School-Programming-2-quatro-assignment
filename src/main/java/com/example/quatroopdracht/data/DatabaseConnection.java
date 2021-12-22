@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.function.Consumer;
 
 public class DatabaseConnection {
-    private static final String URL = "jdbc:sqlserver://" + "SERVER_NAME" + ";databaseName=" + "DB_NAME" + ";user=" + "USER" + ";password=" + "PASSWORD" + ";portNumber=" + "PORT_NR" + ";";
+    private static final String URL = "jdbc:sqlserver://aei-sql2.avans.nl\\studenten;databaseName=CodeCademy30;user=group30;password=groepje30;portNumber=1443;";
 
     private Statement statement = null;
     private Connection connection = null;
@@ -27,13 +27,14 @@ public class DatabaseConnection {
     public boolean insert(String sql) {
         try {
             this.connectDatabase();
-            return this.statement.execute(sql);
+            this.statement.execute(sql);
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         } finally {
             this.closeConnection();
         }
-        return false;
     }
 
     // Executes UPDATE statements
@@ -43,10 +44,10 @@ public class DatabaseConnection {
             return this.statement.executeUpdate(sql);
         } catch (SQLException e) {
             e.printStackTrace();
+            return -1;
         } finally {
             this.closeConnection();
         }
-        return -1;
     }
 
     // Opens database connection

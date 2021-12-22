@@ -8,6 +8,7 @@ public abstract class Content {
     private String status;
     private String title;
     private int version;
+    private String description;
 
     public int getContentItemId() {
         return contentItemId;
@@ -56,6 +57,4 @@ public abstract class Content {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    private String description;
 }
