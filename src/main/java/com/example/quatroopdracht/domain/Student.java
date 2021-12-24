@@ -23,8 +23,6 @@ public class Student {
         this.address = address;
         this.residence = residence;
         this.country = country;
-        this.updateButton = new Button("Update");
-        this.deleteButton = new Button("Delete");
     }
 
     @Override
@@ -40,20 +38,18 @@ public class Student {
                 '}';
     }
 
-    public Button getUpdateButton() {
-        return updateButton;
-    }
-
-    public void setUpdateButton(Button updateButton) {
-        this.updateButton = updateButton;
+    // Only used for GetStudentScene
+    public void initializeButtons() {
+        this.deleteButton = new Button("Delete");
+        this.updateButton = new Button("Update");
     }
 
     public Button getDeleteButton() {
         return deleteButton;
     }
 
-    public void setDeleteButton(Button deleteButton) {
-        this.deleteButton = deleteButton;
+    public Button getUpdateButton() {
+        return updateButton;
     }
 
     public String getEmail() {

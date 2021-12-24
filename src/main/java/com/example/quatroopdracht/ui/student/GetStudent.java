@@ -39,6 +39,8 @@ public class GetStudent {
 
         for (Student student : this.studentRepository.getAllStudents()) {
             tableStudents.getItems().add(student);
+
+            student.initializeButtons();
             student.getUpdateButton().setOnAction(event -> stage.setScene(new UpdateStudent(student).getUpdateStudentScene(stage)));
             student.getDeleteButton().setOnAction(event -> {
                 if (studentRepository.deleteStudent(student.getEmail())) {
