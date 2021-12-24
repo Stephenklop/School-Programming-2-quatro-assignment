@@ -1,14 +1,23 @@
 package com.example.quatroopdracht.domain;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public abstract class Content {
     private int contentItemId;
-    private LocalDate publicationDate;
+    private Date publicationDate;
     private String status;
     private String title;
     private int version;
     private String description;
+
+    protected Content(int contentItemId, Date publicationDate, String status, String title, int version, String description) {
+        this.contentItemId = contentItemId;
+        this.publicationDate = publicationDate;
+        this.status = status.trim();
+        this.title = title.trim();
+        this.version = version;
+        this.description = description.trim();
+    }
 
     public int getContentItemId() {
         return contentItemId;
@@ -18,11 +27,11 @@ public abstract class Content {
         this.contentItemId = contentItemId;
     }
 
-    public LocalDate getPublicationDate() {
+    public Date getPublicationDate() {
         return publicationDate;
     }
 
-    public void setPublicationDate(LocalDate publicationDate) {
+    public void setPublicationDate(Date publicationDate) {
         this.publicationDate = publicationDate;
     }
 

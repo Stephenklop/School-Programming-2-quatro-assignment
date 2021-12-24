@@ -1,18 +1,25 @@
 package com.example.quatroopdracht.domain;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public class StudentEnrollment {
     private Student student;
     private Course course;
     private Certificate certificate;
-    private LocalDate signUpDate;
+    private Date signUpDate;
 
-    public LocalDate getSignUpDate() {
+    public StudentEnrollment(Student student, Course course, Certificate certificate, Date signUpDate) {
+        this.student = student;
+        this.course = course;
+        this.certificate = certificate;
+        this.signUpDate = signUpDate;
+    }
+
+    public Date getSignUpDate() {
         return signUpDate;
     }
 
-    public void setSignUpDate(LocalDate signUpDate) {
+    public void setSignUpDate(Date signUpDate) {
         this.signUpDate = signUpDate;
     }
 

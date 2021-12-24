@@ -5,6 +5,12 @@ public class Certificate {
     private float grade;
     private String employeeName;
 
+    public Certificate(int certificateId, float grade, String employeeName) {
+        this.certificateId = certificateId;
+        this.grade = grade;
+        this.employeeName = employeeName.trim();
+    }
+
     public int getCertificateId() {
         return certificateId;
     }

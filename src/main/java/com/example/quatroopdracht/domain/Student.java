@@ -16,26 +16,13 @@ public class Student {
     private Button deleteButton;
 
     public Student(String email, String name, String gender, Date dateOfBirth, String address, String residence, String country) {
-        this.email = email;
-        this.name = name;
-        this.gender = gender;
+        this.email = email.trim();
+        this.name = name.trim();
+        this.gender = gender.trim();
         this.dateOfBirth = dateOfBirth;
-        this.address = address;
-        this.residence = residence;
-        this.country = country;
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "email='" + email + '\'' +
-                ", name='" + name + '\'' +
-                ", gender='" + gender + '\'' +
-                ", dateOfBirth='" + dateOfBirth + '\'' +
-                ", address='" + address + '\'' +
-                ", residence='" + residence + '\'' +
-                ", country='" + country + '\'' +
-                '}';
+        this.address = address.trim();
+        this.residence = residence.trim();
+        this.country = country.trim();
     }
 
     // Only used for GetStudentScene
@@ -106,5 +93,18 @@ public class Student {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", gender='" + gender + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", address='" + address + '\'' +
+                ", residence='" + residence + '\'' +
+                ", country='" + country + '\'' +
+                '}';
     }
 }

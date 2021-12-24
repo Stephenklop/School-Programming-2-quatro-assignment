@@ -41,14 +41,14 @@ public class UpdateStudent {
         Label countryLabel = new Label("Country:");
 
         // Create input fields
-        TextField name = new TextField(student.getName().trim());
+        TextField name = new TextField(student.getName());
         ObservableList<String> genderList = FXCollections.observableArrayList("Male", "Female", "Other");
         ComboBox<String> gender = new ComboBox<>(genderList);
         gender.setValue(student.getGender());
         DatePicker dateOfBirth = new DatePicker(new Date(student.getDateOfBirth().getTime()).toLocalDate());
-        TextField address = new TextField(student.getAddress().trim());
-        TextField residence = new TextField(student.getResidence().trim());
-        TextField country = new TextField(student.getCountry().trim());
+        TextField address = new TextField(student.getAddress());
+        TextField residence = new TextField(student.getResidence());
+        TextField country = new TextField(student.getCountry());
 
         // Create buttons
         Button cancelButton = new Button("Cancel");

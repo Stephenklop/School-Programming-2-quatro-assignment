@@ -5,6 +5,12 @@ public class View {
     private Student student;
     private int watchPercentage;
 
+    public View(Content content, Student student, int watchPercentage) {
+        this.content = content;
+        this.student = student;
+        this.watchPercentage = watchPercentage;
+    }
+
     public Content getContent() {
         return content;
     }

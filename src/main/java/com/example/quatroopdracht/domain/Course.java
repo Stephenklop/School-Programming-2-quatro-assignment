@@ -9,6 +9,14 @@ public class Course {
     private String introText;
     private String level;
 
+    public Course(List<Course> interestingTo, String name, String subject, String introText, String level) {
+        this.interestingTo = interestingTo;
+        this.name = name.trim();
+        this.subject = subject.trim();
+        this.introText = introText.trim();
+        this.level = level.trim();
+    }
+
     public String getName() {
         return name;
     }

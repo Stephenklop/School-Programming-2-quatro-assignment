@@ -4,6 +4,11 @@ public class ContactPerson {
     private String email;
     private String name;
 
+    public ContactPerson(String email, String name) {
+        this.email = email.trim();
+        this.name = name.trim();
+    }
+
     public String getEmail() {
         return email;
     }
