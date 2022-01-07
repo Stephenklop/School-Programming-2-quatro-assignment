@@ -1,6 +1,6 @@
 package milestone;
 
-public final class DateTools {
+public class DateTools {
     /**
      * @desc Validates is a given date in the form of day, month and year is valid.
      * @subcontract 31 days in month {
