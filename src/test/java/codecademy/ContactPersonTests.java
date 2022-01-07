@@ -1,3 +1,5 @@
+package codecademy;
+
 import com.example.quatroopdracht.domain.ContactPerson;
 import com.example.quatroopdracht.util.Validator;
 import org.junit.jupiter.api.Assertions;

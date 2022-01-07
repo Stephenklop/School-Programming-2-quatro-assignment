@@ -1,3 +1,5 @@
+package codecademy;
+
 import com.example.quatroopdracht.domain.Module;
 import com.example.quatroopdracht.domain.*;
 

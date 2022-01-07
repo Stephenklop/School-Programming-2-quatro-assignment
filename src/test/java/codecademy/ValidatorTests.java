@@ -1,3 +1,5 @@
+package codecademy;
+
 import com.example.quatroopdracht.util.Validator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -8,11 +10,11 @@ class ValidatorTests {
     @Test
     @DisplayName("Invalid Emails")
     void testInvalidEmails() {
-        Assertions.assertThrows(Exception.class, () -> Validator.validateEmail("test@com"), "Email is invalid.");
+        Assertions.assertThrows(Exception.class, () -> Validator.validateEmail("test@com"));
 
-        Assertions.assertThrows(Exception.class, () -> Validator.validateEmail("test.com"), "Email is invalid.");
+        Assertions.assertThrows(Exception.class, () -> Validator.validateEmail("test.com"));
 
-        Assertions.assertThrows(Exception.class, () -> Validator.validateEmail("test@test@com"), "Email is invalid.");
+        Assertions.assertThrows(Exception.class, () -> Validator.validateEmail("test@test@com"));
     }
 
     @Test
