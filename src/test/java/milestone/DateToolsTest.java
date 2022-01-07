@@ -73,19 +73,19 @@ class DateToolsTest {
     }
 
     @Test
-    @DisplayName("Month (30) - Day 31 returns true")
+    @DisplayName("Month (30) - Day 30 returns true")
     void testValidateDateDay30ReturnsTrue() {
         Assertions.assertTrue(DateTools.validateDate(30, 11, 2020));
     }
 
     @Test
-    @DisplayName("Month (29) - Day 30 returns true")
+    @DisplayName("Month (29) - Day 29 returns true")
     void testValidateDateDay29ReturnsTrue() {
         Assertions.assertTrue(DateTools.validateDate(29, 2, 2020));
     }
 
     @Test
-    @DisplayName("Month (28) - Day 29 returns true")
+    @DisplayName("Month (28) - Day 28 returns true")
     void testValidateDateDay28ReturnsTrue() {
         Assertions.assertTrue(DateTools.validateDate(28, 2, 2021));
     }
