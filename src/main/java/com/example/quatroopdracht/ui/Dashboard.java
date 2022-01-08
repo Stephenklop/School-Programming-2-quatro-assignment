@@ -1,42 +1,32 @@
 package com.example.quatroopdracht.ui;
 
-import com.example.quatroopdracht.ui.student.CreateStudent;
-import com.example.quatroopdracht.ui.student.GetStudent;
-import javafx.geometry.Pos;
+import com.example.quatroopdracht.ui.courses.GetCourse;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class Dashboard {
     public Scene getDashboardScene(Stage stage) {
         stage.setTitle("Codecademy statistics");
 
-        stage.setMinHeight(100);
-        stage.setMinWidth(300);
+        stage.setMinHeight(500);
+        stage.setMinWidth(800);
 
         // Initialize classes
-        Scene createStudentScene = new CreateStudent().getCreateStudentScene(stage);
-        Scene getStudentScene = new GetStudent().getGetStudentScene(stage);
+        Scene getCoursesScene = new GetCourse().getGetCoursesScene(stage);
 
         // Set layout
-        GridPane pane = new GridPane();
-        pane.setAlignment(Pos.CENTER);
-        pane.setHgap(10);
-        pane.setVgap(10);
+        HBox menubar = new HBox();
 
         // Create buttons
-        Button createStudentButton = new Button("Create student");
-        Button getStudentButton = new Button("Get student");
+        Button coursesButton = new Button("Cursussen");
 
         // Add actions to buttons
-        createStudentButton.setOnAction(e -> stage.setScene(createStudentScene));
-        getStudentButton.setOnAction(e -> stage.setScene(getStudentScene));
+        coursesButton.setOnAction(e -> stage.setScene(getCoursesScene));
 
-        pane.add(createStudentButton, 0, 0);
-        pane.add(getStudentButton, 1, 0);
+        menubar.getChildren().add(coursesButton);
 
-        // Create scene
-        return new Scene(pane);
+        return new Scene(menubar);
     }
 }
