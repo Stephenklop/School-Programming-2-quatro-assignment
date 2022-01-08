@@ -1,6 +1,7 @@
 package com.example.quatroopdracht.ui.courses;
 
 import com.example.quatroopdracht.ui.Dashboard;
+import com.example.quatroopdracht.ui.modules.CreateModule;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -42,7 +43,7 @@ public class CreateCourse {
         });
 
         submitButton.setOnAction(event -> {
-            // Add submit action here
+            stage.setScene(new CreateModule().getCreateModuleScene(stage, true));
         });
 
         buttonBox.getChildren().addAll(cancelButton, submitButton);
