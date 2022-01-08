@@ -1,5 +1,6 @@
 package com.example.quatroopdracht.ui.modules;
 
+import com.example.quatroopdracht.ui.contactperson.CreateContactPerson;
 import com.example.quatroopdracht.ui.contactperson.GetContactPerson;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -44,6 +45,7 @@ public class CreateModule {
 
         createContactPersonButton.setOnAction(e -> {
             // Set create contact person action
+            stage.setScene(new CreateContactPerson().getCreateContactPersonScene(stage, true));
         });
 
         contactPersonButtonBox.getChildren().addAll(selectContactPersonButton, createContactPersonButton);
