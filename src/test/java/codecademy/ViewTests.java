@@ -9,13 +9,14 @@ import org.junit.jupiter.api.Test;
 class ViewTests {
 
     @Test
-    @DisplayName("Invalid Views")
-    void testInvalidViews() {
-
-        // Invalid content reference
+    @DisplayName("Invalid View - Invalid content throws exception")
+    void testValidateViewInvalidContentThrowsException() {
         Assertions.assertThrows(Exception.class, () -> Validator.validateView(TestHelper.INVALID_VIEW));
+    }
 
-        // Null references
+    @Test
+    @DisplayName("Invalid View - Null reference throws exception")
+    void testValidateViewNullThrowsException() {
         Assertions.assertThrows(Exception.class, () -> Validator.validateView(new View(
                 null,
                 null,
@@ -24,8 +25,8 @@ class ViewTests {
     }
 
     @Test
-    @DisplayName("Valid View")
-    void testValidView() {
+    @DisplayName("Valid View - Does not throw exception")
+    void testValidateViewValidDoesNotThrowException() {
         Assertions.assertDoesNotThrow(() -> Validator.validateView(TestHelper.VALID_VIEW));
     }
 }

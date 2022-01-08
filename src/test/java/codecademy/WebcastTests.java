@@ -9,13 +9,14 @@ import org.junit.jupiter.api.Test;
 class WebcastTests {
 
     @Test
-    @DisplayName("Invalid Webcasts")
-    void testInvalidWebcasts() {
-
-        // Empty strings
+    @DisplayName("Invalid Content - Empty string throws exception")
+    void testValidateContentEmptyStringThrowsException() {
         Assertions.assertThrows(Exception.class, () -> Validator.validateContent(TestHelper.INVALID_WEBCAST));
+    }
 
-        // Null reference
+    @Test
+    @DisplayName("Invalid Content - Null reference throws exception")
+    void testValidateContentNullThrowsException() {
         Assertions.assertThrows(Exception.class, () -> Validator.validateContent(new Webcast(
                 0,
                 TestHelper.CURRENT_DATE,
@@ -29,8 +30,8 @@ class WebcastTests {
     }
 
     @Test
-    @DisplayName("Valid Webcast")
-    void testValidWebcast() {
+    @DisplayName("Valid Webcast - Does not throw exception")
+    void testValidateContentValidDoesNotThrowException() {
         Assertions.assertDoesNotThrow(() -> Validator.validateContent(TestHelper.VALID_WEBCAST));
     }
 }

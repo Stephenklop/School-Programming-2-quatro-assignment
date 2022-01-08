@@ -9,13 +9,14 @@ import org.junit.jupiter.api.Test;
 class StudentTests {
 
     @Test
-    @DisplayName("Invalid Students")
-    void testInvalidStudents() {
-
-        // Null reference as birthdate
+    @DisplayName("Invalid Student - Null reference throws exception")
+    void testValidateStudentNullThrowsException() {
         Assertions.assertThrows(Exception.class, () -> Validator.validateStudent(TestHelper.INVALID_STUDENT));
+    }
 
-        // Empty address string
+    @Test
+    @DisplayName("Invalid Student - Empty string throws exception")
+    void testValidateStudentEmptyStringThrowsException() {
         Assertions.assertThrows(Exception.class, () -> Validator.validateStudent(new Student(
                 "person@test.com",
                 "Person",
@@ -25,8 +26,11 @@ class StudentTests {
                 "Breda",
                 "Netherlands"
         )));
+    }
 
-        // Invalid email
+    @Test
+    @DisplayName("Invalid Student - Invalid email throws exception")
+    void testValidateStudentInvalidEmailThrowsException() {
         Assertions.assertThrows(Exception.class, () -> Validator.validateStudent(new Student(
                 "person@test-com",
                 "Person",
@@ -39,8 +43,8 @@ class StudentTests {
     }
 
     @Test
-    @DisplayName("Valid Students")
-    void testValidStudents() {
+    @DisplayName("Valid Students - Does not throw exception")
+    void testValidateStudentValidDoesNotThrowException() {
         Assertions.assertDoesNotThrow(() -> Validator.validateStudent(TestHelper.VALID_STUDENT));
 
         Assertions.assertDoesNotThrow(() -> Validator.validateStudent(new Student(

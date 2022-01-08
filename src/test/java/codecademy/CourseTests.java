@@ -9,14 +9,16 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 class CourseTests {
+
     @Test
-    @DisplayName("Invalid Courses")
-    void testInvalidCourses() {
-
-        // Null reference
+    @DisplayName("Invalid Course - Null reference throws exception")
+    void testValidateCourseNullThrowsException() {
         Assertions.assertThrows(Exception.class, () -> Validator.validateCourse(TestHelper.INVALID_COURSE));
+    }
 
-        // Empty strings
+    @Test
+    @DisplayName("Invalid Course - Empty string throws exception")
+    void testValidateCourseEmptyStringThrowsException() {
         Assertions.assertThrows(Exception.class, () -> Validator.validateCourse(new Course(
                 new ArrayList<>(),
                 "",
@@ -27,8 +29,8 @@ class CourseTests {
     }
 
     @Test
-    @DisplayName("Valid Course")
-    void testValidCourse() {
+    @DisplayName("Valid Course - Does not throw exception")
+    void testValidateCourseValidDoesNotThrowException() {
         Assertions.assertDoesNotThrow(() -> Validator.validateCourse(TestHelper.VALID_COURSE));
     }
 }

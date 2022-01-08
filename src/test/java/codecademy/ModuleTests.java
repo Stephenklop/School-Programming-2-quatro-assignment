@@ -7,14 +7,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ModuleTests {
+
     @Test
-    @DisplayName("Invalid Modules")
-    void testInvalidModules() {
-
-        // Invalid course reference
+    @DisplayName("Invalid Module - Invalid course throws exception")
+    void testValidateContentInvalidCourseThrowsException() {
         Assertions.assertThrows(Exception.class, () -> Validator.validateContent(TestHelper.INVALID_MODULE));
+    }
 
-        // Invalid contact person reference
+    @Test
+    @DisplayName("Invalid Module - Invalid contact person throws exception")
+    void testValidateContentInvalidContactPersonThrowsException() {
         Assertions.assertThrows(Exception.class, () -> Validator.validateContent(new Module(
                 0,
                 TestHelper.CURRENT_DATE,
@@ -27,8 +29,11 @@ class ModuleTests {
                 "SerialNumber",
                 0
         )));
+    }
 
-        // Null reference
+    @Test
+    @DisplayName("Invalid Module - Null reference throws exception")
+    void testValidateContentNullThrowsException() {
         Assertions.assertThrows(Exception.class, () -> Validator.validateContent(new Module(
                 0,
                 null,
@@ -44,8 +49,8 @@ class ModuleTests {
     }
 
     @Test
-    @DisplayName("Valid Module")
-    void testValidModule() {
+    @DisplayName("Valid Module - Does not throw exception")
+    void testValidateContentValidDoesNotThrowException() {
         Assertions.assertDoesNotThrow(() -> Validator.validateContent(TestHelper.VALID_MODULE));
     }
 }

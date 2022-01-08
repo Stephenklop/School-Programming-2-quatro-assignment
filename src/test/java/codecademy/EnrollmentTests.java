@@ -7,22 +7,27 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class EnrollmentTests {
+
     @Test
-    @DisplayName("Invalid Enrollments")
-    void testInvalidEnrollments() {
-
-        // Invalid certificate reference
+    @DisplayName("Invalid Enrollment - Invalid certificate throws exception")
+    void testValidateEnrollmentInvalidCertificateThrowsException() {
         Assertions.assertThrows(Exception.class, () -> Validator.validateEnrollment(TestHelper.INVALID_ENROLLMENT));
+    }
 
-        // Invalid course reference
+    @Test
+    @DisplayName("Invalid Enrollment - Invalid course throws exception")
+    void testValidateEnrollmentInvalidCourseThrowsException() {
         Assertions.assertThrows(Exception.class, () -> Validator.validateEnrollment(new StudentEnrollment(
                 TestHelper.VALID_STUDENT,
                 TestHelper.INVALID_COURSE,
                 TestHelper.VALID_CERTIFICATE,
                 TestHelper.CURRENT_DATE
         )));
+    }
 
-        // Invalid student reference
+    @Test
+    @DisplayName("Invalid Enrollment - Invalid student throws exception")
+    void testValidateEnrollmentInvalidStudentThrowsException() {
         Assertions.assertThrows(Exception.class, () -> Validator.validateEnrollment(new StudentEnrollment(
                 TestHelper.INVALID_STUDENT,
                 TestHelper.VALID_COURSE,
@@ -32,8 +37,8 @@ class EnrollmentTests {
     }
 
     @Test
-    @DisplayName("Valid Enrollment")
-    void testValidEnrollment() {
+    @DisplayName("Valid Enrollment - Does not throw exception")
+    void testValidateEnrollmentValidDoesNotThrowException() {
         Assertions.assertDoesNotThrow(() -> Validator.validateEnrollment(TestHelper.VALID_ENROLLMENT));
     }
 }

@@ -35,7 +35,6 @@ class DateToolsTest {
         Assertions.assertFalse(DateTools.validateDate(1, 13, 0));
     }
 
-
     /**
      * @subcontract 31 days in month {
      *   @requires (month == 1 || month == 3 || month == 5 || month == 7 ||

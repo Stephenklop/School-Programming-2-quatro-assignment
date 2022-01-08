@@ -7,14 +7,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ContactPersonTests {
+
     @Test
-    @DisplayName("Invalid Contact Persons")
-    void testInvalidContactPersons() {
-
-        // Invalid email
+    @DisplayName("Invalid Contact Person - Invalid email throws exception")
+    void testValidateContactPersonInvalidEmailThrowsException() {
         Assertions.assertThrows(Exception.class, () -> Validator.validateContactPerson(TestHelper.INVALID_CONTACT_PERSON));
+    }
 
-        // Empty string
+    @Test
+    @DisplayName("Invalid Contact Person - Empty string throws exception")
+    void testValidateContactPersonEmptyStringThrowsException() {
         Assertions.assertThrows(Exception.class, () -> Validator.validateContactPerson(new ContactPerson(
                 "valid@email.test",
                 ""
@@ -22,8 +24,8 @@ class ContactPersonTests {
     }
 
     @Test
-    @DisplayName("Valid Contact Person")
-    void testValidContactPerson() {
+    @DisplayName("Valid Contact Person - Does not throw exception")
+    void testValidateContactPersonValidDoesNotThrowException() {
         Assertions.assertDoesNotThrow(() -> Validator.validateContactPerson(TestHelper.VALID_CONTACT_PERSON));
     }
 }
