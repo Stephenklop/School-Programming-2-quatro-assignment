@@ -29,7 +29,7 @@ public class GetCourse {
         TableColumn<Course, String> colSubject = new TableColumn<>("Onderwerp:");
         TableColumn<Course, String> colLevel = new TableColumn<>("Niveau:");
         TableColumn colUpdate = new TableColumn<>("Update:");
-        TableColumn colDelete = new TableColumn("Delete:");
+        TableColumn colDelete = new TableColumn("Verwijder:");
 
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colName.setCellValueFactory(new PropertyValueFactory<>("subject"));
