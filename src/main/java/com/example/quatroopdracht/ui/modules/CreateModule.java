@@ -2,12 +2,11 @@ package com.example.quatroopdracht.ui.modules;
 
 import com.example.quatroopdracht.ui.contactperson.CreateContactPerson;
 import com.example.quatroopdracht.ui.contactperson.GetContactPerson;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -27,12 +26,17 @@ public class CreateModule {
         Label titleLabel = new Label("Titel:");
         Label versionLabel = new Label("Version:");
         Label descLabel = new Label("Description:");
+        Label publicationDateLabel = new Label("Publicatiedatum:");
+        Label statusLabel = new Label("Status:");
         Label contactPersonLabel = new Label("Contact person:");
 
         // Create input fields
         TextField title = new TextField();
         TextField version = new TextField();
         TextArea desc = new TextArea();
+        DatePicker publicationDate = new DatePicker();
+        ObservableList<String> statusList = FXCollections.observableArrayList("Concept", "Actief", "Gearchiveerd");
+        ComboBox<String> status = new ComboBox<>(statusList);
 
         // Create contact person buttons
         Button selectContactPersonButton = new Button("Contactpersoon selecteren");
@@ -62,7 +66,11 @@ public class CreateModule {
             // Set button action
         });
 
-        actionButtonsBox.getChildren().addAll(cancelButton, submitButton);
+        if(fromCreateCourseRedirect) {
+            actionButtonsBox.getChildren().addAll(submitButton);
+        } else {
+            actionButtonsBox.getChildren().addAll(cancelButton, submitButton);
+        }
 
         // Set styling
         gp.setPadding(new Insets(10));
@@ -77,13 +85,17 @@ public class CreateModule {
         gp.add(version,1 ,1 );
         gp.add(descLabel, 0, 2);
         gp.add(desc, 1, 2);
-        gp.add(contactPersonLabel, 0, 3);
-        gp.add(contactPersonButtonBox, 0, 4);
+        gp.add(publicationDateLabel, 0, 3);
+        gp.add(publicationDate, 1, 3);
+        gp.add(statusLabel, 0, 4);
+        gp.add(status, 1, 4);
+        gp.add(contactPersonLabel, 0, 5);
+        gp.add(contactPersonButtonBox, 0, 6);
 
         if(fromCreateCourseRedirect) {
-            gp.add(submitButton, 0, 5);
+            gp.add(submitButton, 0, 7);
         } else {
-            gp.add(actionButtonsBox, 0, 5);
+            gp.add(actionButtonsBox, 0, 7);
         }
 
         vBox.getChildren().addAll(gp);
