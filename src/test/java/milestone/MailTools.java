@@ -40,12 +40,11 @@ public class MailTools {
         /**
          * @regex
          * <.+> one or more of any character except newline
-         * <@{1}> exactly 1 '@' character
-         * <[^\.@\n]+> one or more of any character except '.', '@' or newline
-         * <.{1}> exactly one '.' character
-         * <[^\.@\n]+> one or more of any character except '.', '@' or newline
+         * <@> exactly 1 '@' character
+         * <[^.@\n]+> one or more of any character except '.', '@' or newline
+         * <\.> exactly one '.' character
+         * <[^.@\n]+> one or more of any character except '.', '@' or newline
          */
-        String simpleEmailRegex = ".+@{1}[^\\.@\\n]+\\.{1}[^\\.@\\n]+";
-        return mailAddress.matches(simpleEmailRegex);
+        return mailAddress.matches(".+@[^.@\\n]+\\.[^.@\\n]+");
     }
 }
