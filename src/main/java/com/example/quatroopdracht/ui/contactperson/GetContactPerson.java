@@ -41,7 +41,7 @@ public class GetContactPerson {
 
         backButton.setOnAction(e -> {
             if(fromCreateModuleRedirect) {
-                stage.setScene(new CreateModule().getCreateModuleScene(stage, false));
+                stage.setScene(new CreateModule().getCreateModuleScene(stage, true));
             } else {
                 stage.setScene(new Dashboard().getDashboardScene(stage));
             }

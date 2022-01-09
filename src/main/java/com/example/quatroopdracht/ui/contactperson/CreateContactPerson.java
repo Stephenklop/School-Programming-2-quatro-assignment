@@ -34,7 +34,7 @@ public class CreateContactPerson {
 
         cancelButton.setOnAction(e -> {
             if(fromCreateModuleRedirect) {
-                stage.setScene(new CreateModule().getCreateModuleScene(stage, false));
+                stage.setScene(new CreateModule().getCreateModuleScene(stage, true));
             } else {
                 stage.setScene(new GetContactPerson().getGetContactPersonScene(stage, false));
             }
