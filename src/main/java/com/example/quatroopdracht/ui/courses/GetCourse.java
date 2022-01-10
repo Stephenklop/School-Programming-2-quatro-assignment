@@ -135,7 +135,7 @@ public class GetCourse {
             row.setOnMouseClicked(e -> {
                 if(e.getClickCount() == 2 && (! row.isEmpty())) {
                     Course rowData = row.getItem();
-                    System.out.println(rowData);
+                    stage.setScene(new GetSpecificCourse().getGetSpecificCourseScene(stage, rowData));
                 }
             });
             return row;
