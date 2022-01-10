@@ -17,6 +17,13 @@ public class Course {
         this.level = level.trim();
     }
 
+    public Course( String name, String subject, String introText, String level) {
+        this.name = name.trim();
+        this.subject = subject.trim();
+        this.introText = introText.trim();
+        this.level = level.trim();
+    }
+
     public String getName() {
         return name;
     }
