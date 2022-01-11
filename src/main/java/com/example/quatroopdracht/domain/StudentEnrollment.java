@@ -15,6 +15,12 @@ public class StudentEnrollment {
         this.signUpDate = signUpDate;
     }
 
+    public StudentEnrollment(Student student, Course course, Date signUpDate) {
+        this.student = student;
+        this.course = course;
+        this.signUpDate = signUpDate;
+    }
+
     public Date getSignUpDate() {
         return signUpDate;
     }

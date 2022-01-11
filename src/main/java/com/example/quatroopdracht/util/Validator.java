@@ -68,6 +68,12 @@ public final class Validator {
         Validator.validateCourse(enrollment.getCourse());
     }
 
+    public static void validateEnrollmentSimple(StudentEnrollment enrollment) throws Exception {
+        Validator.validateNotEmpty(enrollment.getCourse(), enrollment.getSignUpDate(), enrollment.getStudent());
+        Validator.validateStudent(enrollment.getStudent());
+        Validator.validateCourse(enrollment.getCourse());
+    }
+
     public static void validateCertificate(Certificate certificate) throws Exception {
         Validator.validateNotEmpty(certificate.getEmployeeName());
     }
