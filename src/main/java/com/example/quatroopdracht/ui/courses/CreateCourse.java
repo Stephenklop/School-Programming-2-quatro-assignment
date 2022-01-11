@@ -1,7 +1,6 @@
 package com.example.quatroopdracht.ui.courses;
 
-import com.example.quatroopdracht.ui.Dashboard;
-import com.example.quatroopdracht.ui.modules.CreateModule;
+import com.example.quatroopdracht.ui.content.CreateModule;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;

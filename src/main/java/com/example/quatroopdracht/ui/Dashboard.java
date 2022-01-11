@@ -21,11 +21,12 @@ public class Dashboard {
 
         // Create buttons
         Button coursesButton = new Button("Cursussen");
+        Button applyButton = new Button("Inschrijven");
 
         // Add actions to buttons
         coursesButton.setOnAction(e -> stage.setScene(getCoursesScene));
 
-        menubar.getChildren().add(coursesButton);
+        menubar.getChildren().addAll(coursesButton, applyButton);
 
         return new Scene(menubar);
     }
