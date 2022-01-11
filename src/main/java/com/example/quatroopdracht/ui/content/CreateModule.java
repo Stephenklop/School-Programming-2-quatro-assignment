@@ -1,4 +1,4 @@
-package com.example.quatroopdracht.ui.modules;
+package com.example.quatroopdracht.ui.content;
 
 import com.example.quatroopdracht.ui.contactperson.CreateContactPerson;
 import com.example.quatroopdracht.ui.contactperson.GetContactPerson;

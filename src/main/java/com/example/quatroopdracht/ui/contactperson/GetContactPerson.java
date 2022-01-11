@@ -2,7 +2,7 @@ package com.example.quatroopdracht.ui.contactperson;
 
 import com.example.quatroopdracht.domain.ContactPerson;
 import com.example.quatroopdracht.ui.Dashboard;
-import com.example.quatroopdracht.ui.modules.CreateModule;
+import com.example.quatroopdracht.ui.content.CreateModule;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
