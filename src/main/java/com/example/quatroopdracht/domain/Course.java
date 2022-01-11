@@ -63,4 +63,16 @@ public class Course {
     public void setInterestingTo(List<Course> interestingTo) {
         this.interestingTo = interestingTo;
     }
+
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "interestingTo=" + interestingTo +
+                ", name='" + name + '\'' +
+                ", subject='" + subject + '\'' +
+                ", introText='" + introText + '\'' +
+                ", level='" + level + '\'' +
+                '}';
+    }
 }

@@ -1,5 +1,7 @@
 package com.example.quatroopdracht.ui.courses;
 
+import com.example.quatroopdracht.data.CourseRepository;
+import com.example.quatroopdracht.domain.Course;
 import com.example.quatroopdracht.ui.modules.CreateModule;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +15,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class UpdateCourse {
+    private final CourseRepository courseRepository;
+    private Course course;
+
+    public UpdateCourse(Course course) {
+        this.course = course;
+        courseRepository = new CourseRepository();
+    }
     public Scene getUpdateCourseScene(Stage stage) {
 
         // Create layout
@@ -21,13 +30,11 @@ public class UpdateCourse {
         GridPane gp = new GridPane();
 
         // Create labels
-        Label nameLabel = new Label("Naam:");
         Label subjectLabel = new Label("Onderwerp:");
         Label introductionLabel = new Label("Introductie:");
         Label levelLabel = new Label("Niveau:");
 
         // Create input fields
-        TextField name = new TextField();
         TextField subject = new TextField();
         TextArea introduction = new TextArea();
         ObservableList<String> levelList = FXCollections.observableArrayList("beginner", "gevorderd", "expert");
@@ -42,7 +49,13 @@ public class UpdateCourse {
         });
 
         submitButton.setOnAction(event -> {
-            stage.setScene(new CreateModule().getCreateModuleScene(stage, true));
+            course.setSubject(subject.getText());
+            course.setIntroText(introduction.getText());
+            course.setLevel(level.getValue());
+
+            if (courseRepository.updateCourse(course)) {
+                stage.setScene(new GetCourse().getGetCoursesScene(stage));
+            }
         });
 
         buttonBox.getChildren().addAll(cancelButton, submitButton);
@@ -53,8 +66,6 @@ public class UpdateCourse {
         gp.setVgap(8);
         VBox.setVgrow(gp, Priority.ALWAYS);
 
-        gp.add(nameLabel, 0, 0);
-        gp.add(name, 1, 0);
         gp.add(subjectLabel, 0, 1);
         gp.add(subject, 1, 1);
         gp.add(introductionLabel, 0, 2);

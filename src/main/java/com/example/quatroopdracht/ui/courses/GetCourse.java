@@ -1,11 +1,8 @@
 package com.example.quatroopdracht.ui.courses;
 
+import com.example.quatroopdracht.data.CourseRepository;
 import com.example.quatroopdracht.domain.Course;
-import com.example.quatroopdracht.ui.Dashboard;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
+import com.example.quatroopdracht.util.Util;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -19,6 +16,12 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class GetCourse {
+    private final CourseRepository courseRepository;
+
+    public GetCourse() {
+        courseRepository = new CourseRepository();
+    }
+
     public Scene getGetCoursesScene(Stage stage) {
 
         // Create layout
@@ -54,7 +57,7 @@ public class GetCourse {
                     {
                         updateBtn.setOnAction((ActionEvent event) -> {
                             Course data = getTableView().getItems().get(getIndex());
-                            stage.setScene(new CreateCourse().getCreateCourseScene(stage));
+                            stage.setScene(new UpdateCourse(data).getUpdateCourseScene(stage));
                             System.out.println("selectedData: " + data);
                         });
                     }
@@ -89,7 +92,7 @@ public class GetCourse {
                             dialog.initOwner(stage);
                             VBox dialogVbox = new VBox(20);
 
-                            Text areYouSureText = new Text("Weet je het zeker dat je de cursus <coursename> wilt verwijderen?");
+                            Text areYouSureText = new Text(String.format("Weet je het zeker dat je de cursus %s wilt verwijderen?", data.getName()));
                             HBox buttonBox = new HBox();
                             Button noBtn = new Button("Nee");
                             Button yesBtn = new Button("Ja");
@@ -100,8 +103,17 @@ public class GetCourse {
                                 dialog.close();
                             });
 
+                            yesBtn.setOnAction(e -> {
+                                courseRepository.deleteCourse(data);
+                                dialog.close();
+                                stage.setScene(new GetCourse().getGetCoursesScene(stage));
+                            });
+
+                            buttonBox.setSpacing(20);
                             dialogVbox.getChildren().addAll(areYouSureText, buttonBox);
-                            Scene dialogScene = new Scene(dialogVbox, 300, 200);
+                            dialogVbox.setSpacing(20);
+                            dialogVbox.setPadding(new Insets(20, 20, 20, 20));
+                            Scene dialogScene = new Scene(dialogVbox);
                             dialog.setScene(dialogScene);
                             dialog.show();
                         });
@@ -142,9 +154,7 @@ public class GetCourse {
         });
 
         // Add single test entry
-        Course course = new Course("Test", "TestSubject", "This is a description", "expert");
-        Course course1 = new Course("Test1", "TestSubject1", "This is a description1", "beginner");
-        tableCourses.getItems().addAll(course, course1);
+        tableCourses.getItems().addAll(courseRepository.getAllCourses());
 
         return new Scene(vbox);
     }

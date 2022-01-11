@@ -1,6 +1,7 @@
 package com.example.quatroopdracht.ui.courses;
 
-import com.example.quatroopdracht.ui.Dashboard;
+import com.example.quatroopdracht.data.CourseRepository;
+import com.example.quatroopdracht.domain.Course;
 import com.example.quatroopdracht.ui.modules.CreateModule;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +15,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class CreateCourse {
+    private final CourseRepository courseRepository;
+
+    public CreateCourse() {
+        courseRepository = new CourseRepository();
+    }
+
     public Scene getCreateCourseScene(Stage stage) {
 
         // Create layout
@@ -43,7 +50,16 @@ public class CreateCourse {
         });
 
         submitButton.setOnAction(event -> {
-            stage.setScene(new CreateModule().getCreateModuleScene(stage, true));
+            Course addCourse = new Course(
+                    name.getText(),
+                    subject.getText(),
+                    introduction.getText(),
+                    level.getValue()
+            );
+
+            if (courseRepository.addCourse(addCourse)) {
+                stage.setScene(new CreateModule().getCreateModuleScene(stage, true));
+            }
         });
 
         buttonBox.getChildren().addAll(cancelButton, submitButton);

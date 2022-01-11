@@ -51,6 +51,10 @@ public final class Validator {
         Validator.validateNotEmpty(course.getInterestingTo(), course.getIntroText(), course.getLevel(), course.getName(), course.getSubject());
     }
 
+    public static void validateCourseSimple(Course course) throws Exception {
+        Validator.validateNotEmpty(course.getIntroText(), course.getLevel(), course.getName(), course.getSubject());
+    }
+
     public static void validateView(View view) throws Exception {
         Validator.validateNotEmpty(view.getContent(), view.getStudent());
         Validator.validateStudent(view.getStudent());
