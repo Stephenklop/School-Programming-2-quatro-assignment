@@ -2,6 +2,7 @@ package com.example.quatroopdracht.ui.courses;
 
 import com.example.quatroopdracht.domain.Course;
 import com.example.quatroopdracht.domain.Module;
+import com.example.quatroopdracht.ui.content.CreateContentItem;
 import com.example.quatroopdracht.ui.modules.CreateModule;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -22,7 +23,6 @@ public class GetSpecificCourse {
 
         // Create layout
         VBox vBox = new VBox();
-        HBox buttonBox = new HBox();
         GridPane gp = new GridPane();
 
         // Create labels:
@@ -30,13 +30,20 @@ public class GetSpecificCourse {
         Label subjectLabel = new Label("Onderwerp:");
         Label introductionLabel = new Label("Introductie:");
         Label levelLabel = new Label("Niveau:");
-        Label moduleLabel = new Label("Modules:");
+        Label moduleLabel = new Label("Content Items:");
 
         // Create text
         Text nameText = new Text(itemData.getName());
         Text subjectText = new Text(itemData.getSubject());
         Text introText = new Text(itemData.getIntroText());
         Text levelText = new Text(itemData.getLevel());
+
+        // Content item buttons
+        Button createModuleButton = new Button("Content Item Aanmaken");
+
+        createModuleButton.setOnAction(e -> {
+            stage.setScene(new CreateContentItem().getCreateContentItemScene(stage));
+        });
 
         // Action buttons
         Button backButton = new Button("Terug");
@@ -45,19 +52,19 @@ public class GetSpecificCourse {
             stage.setScene(new GetCourse().getGetCoursesScene(stage));
         });
 
-        buttonBox.getChildren().add(backButton);
-
         // Create module table
-        TableView<Module> tableModules = new TableView<>();
-        tableModules.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        TableView<Module> tableContentItem = new TableView<>();
+        tableContentItem.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
+        TableColumn<Module, String> colVolgNumber = new TableColumn<>("Volgnummer:");
         TableColumn<Module, String> colTitle = new TableColumn<>("Titel:");
         TableColumn<Module, String> colDesc = new TableColumn<>("Desc:");
 
+        colVolgNumber.setCellValueFactory(new PropertyValueFactory<>("volgnumber"));
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
 
-        tableModules.getColumns().addAll(colTitle, colDesc);
+        tableContentItem.getColumns().addAll(colVolgNumber, colTitle, colDesc);
 
 
         // Set styling
@@ -75,8 +82,9 @@ public class GetSpecificCourse {
         gp.add(levelLabel, 0, 3);
         gp.add(levelText, 1, 3);
         gp.add(moduleLabel, 0, 4);
-        gp.add(tableModules, 0, 5);
-        gp.add(buttonBox,0 , 6);
+        gp.add(tableContentItem, 0, 5);
+        gp.add(createModuleButton, 1, 5);
+        gp.add(backButton,0 , 6);
 
         vBox.getChildren().addAll(gp);
 
