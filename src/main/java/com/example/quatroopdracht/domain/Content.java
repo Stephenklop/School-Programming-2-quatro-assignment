@@ -10,12 +10,12 @@ public abstract class Content {
     private int version;
     private String description;
 
-    protected Content(int contentItemId, Date publicationDate, String status, String title, int version, String description) {
+    protected Content(int contentItemId, Date publicationDate, String status, String title, String description) {
         this.contentItemId = contentItemId;
         this.publicationDate = publicationDate;
         this.status = status.trim();
         this.title = title.trim();
-        this.version = version;
+
         this.description = description.trim();
     }
 

@@ -21,9 +21,10 @@ public class WebcastRepository extends DatabaseConnection{
                             resultSet.getInt("ContentID"),
                             resultSet.getDate("PublicationDate"),
                             resultSet.getString("Status"),
-                            resultSet.getString("Title"),
-                            -1, //TODO there should be no version in webcast, instead there should be a URL
                             resultSet.getString("Description"),
+                            resultSet.getString("Title"),
+                            resultSet.getString("Duration"),
+                            resultSet.getString("URL"),
                             resultSet.getString("nameSpeaker"),
                             resultSet.getString("organisationSpeaker")
                     ));
@@ -48,8 +49,10 @@ public class WebcastRepository extends DatabaseConnection{
                             resultSet.getInt("ContentID"),
                             resultSet.getDate("PublicationDate"),
                             resultSet.getString("Status"),
-                            title, -1,
                             resultSet.getString("Description"),
+                            resultSet.getString("Title"),
+                            resultSet.getString("Duration"),
+                            resultSet.getString("URL"),
                             resultSet.getString("nameSpeaker"),
                             resultSet.getString("organisationSpeaker")
                     ));

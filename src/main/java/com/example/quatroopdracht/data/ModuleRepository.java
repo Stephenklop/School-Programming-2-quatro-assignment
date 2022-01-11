@@ -10,6 +10,14 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ModuleRepository extends DatabaseConnection{
+    private final CourseRepository courseRepository;
+    private final ContactPersonRepository contactPersonRepository;
+
+    public ModuleRepository() {
+        courseRepository = new CourseRepository();
+        contactPersonRepository = new ContactPersonRepository();
+    }
+
     public List<Module> getAllModules() {
         String sql = "SELECT * FROM Module INNER JOIN Content ON Module.ContentID = Content.ContentID";
         List<Module> modules = new ArrayList<>();
@@ -24,8 +32,8 @@ public class ModuleRepository extends DatabaseConnection{
                             resultSet.getString("Title"),
                             resultSet.getInt("Version"),
                             resultSet.getString("Description"),
-                            resultSet.getString("CourseName"), //TODO in class module, there is a course, not a courseName
-                            resultSet.getString("EmailContactperson"), //TODO in class module, there is a contactperson, not an emailContactperson
+                            courseRepository.getCourse(resultSet.getString("CourseName")),
+                            contactPersonRepository.getContactPerson(resultSet.getString("EmailContactperson")),
                             resultSet.getString("SerialNumberCourse"),
                             resultSet.getInt("SerialNumberCourse")
                     ));
@@ -54,8 +62,8 @@ public class ModuleRepository extends DatabaseConnection{
                             resultSet.getString("Title"),
                             resultSet.getInt("Version"),
                             resultSet.getString("Description"),
-                            resultSet.getString("CourseName"), //TODO in class module, there is a course, not a courseName
-                            resultSet.getString("EmailContactperson"), //TODO in class module, there is a contactperson, not an emailContactperson
+                            courseRepository.getCourse(resultSet.getString("CourseName")),
+                            contactPersonRepository.getContactPerson(resultSet.getString("EmailContactperson")),
                             resultSet.getString("SerialNumberCourse"),
                             resultSet.getInt("SerialNumberCourse")
                     ));
@@ -84,9 +92,9 @@ public class ModuleRepository extends DatabaseConnection{
                 module.getDescription(),
                 module.getTitle(),
                 module.getVersion(),
-                module.getEmailContactperson(), //TODO zie todo hierboven
+                module.getContactPerson().getEmail(),
                 module.getSerialNumber(),
-                module.getCourseName()
+                module.getCourse().getName()
         );
 
         boolean inserted = this.insert(sql);
@@ -116,9 +124,9 @@ public class ModuleRepository extends DatabaseConnection{
                 module.getPublicationDate(),
                 module.getStatus(),
                 module.getDescription(),
-                module.getEmailContactperson(), //TODO zie todo hierboven
+                module.getContactPerson().getEmail(),
                 module.getSerialNumber(),
-                module.getCourseName(),
+                module.getCourse().getName(),
                 module.getTitle(),
                 module.getVersion(),
                 module.getContentItemId()

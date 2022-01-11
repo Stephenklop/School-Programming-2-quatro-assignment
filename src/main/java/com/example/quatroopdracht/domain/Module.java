@@ -3,17 +3,19 @@ package com.example.quatroopdracht.domain;
 import java.util.Date;
 
 public class Module extends Content {
+    private int version;
     private Course course;
     private ContactPerson contactPerson;
     private String serialNumber;
     private int courseIndex;
 
     public Module(int contentItemId, Date publicationDate, String status, String title, int version, String description, Course course, ContactPerson contactPerson, String serialNumber, int courseIndex) {
-        super(contentItemId, publicationDate, status, title, version, description);
+        super(contentItemId, publicationDate, status, title, description);
         this.course = course;
         this.contactPerson = contactPerson;
         this.serialNumber = serialNumber.trim();
         this.courseIndex = courseIndex;
+        this.version = version;
     }
 
     public String getSerialNumber() {

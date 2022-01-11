@@ -49,9 +49,10 @@ public class TestHelper {
             0,
             CURRENT_DATE,
             "Status",
-            "Title",
-            0,
             "Description",
+            "Title",
+            "0",
+            "URL",
             "SpeakerName",
             "SpeakerOrg"
     );
@@ -115,8 +116,9 @@ public class TestHelper {
             0,
             CURRENT_DATE,
             "Status",
+            "Description",
             "Title",
-            0,
+            "0",
             "",
             "",
             "SpeakerOrg"
