@@ -1,7 +1,6 @@
 package com.example.quatroopdracht.data;
 
 import com.example.quatroopdracht.domain.Certificate;
-import com.example.quatroopdracht.domain.Student;
 import com.example.quatroopdracht.util.Util;
 import com.example.quatroopdracht.util.Validator;
 
@@ -11,60 +10,41 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class CertificateRepository extends DatabaseConnection{
-//    public List<Certificate> getAllCertificates(){
-//        String sql = "SELECT * FROM Certificate";
-//        List<Certificate> certificates = new ArrayList<>();
-//
-//        this.select(sql, resultSet -> ){
-//            try {
-//                while (resultSet.next())
-//            }
-//        }
-//
-//    }
-
-    public List<Student> getAllStudents() {
-        String sql = "SELECT * FROM Student";
-        List<Student> students = new ArrayList<>();
+    public List<Certificate> getAllCertificates(){
+        String sql = "SELECT * FROM Certificate";
+        List<Certificate> certificates = new ArrayList<>();
 
         this.select(sql, resultSet -> {
             try {
                 while (resultSet.next()) {
-                    students.add(new Student(
-                            resultSet.getString("Email"),
-                            resultSet.getString("Name"),
-                            resultSet.getString("Gender"),
-                            resultSet.getDate("BirthDate"),
-                            resultSet.getString("Adress"),
-                            resultSet.getString("Residence"),
-                            resultSet.getString("Country")
+                    certificates.add(new Certificate(
+                            resultSet.getInt("CertificateID"),
+                            resultSet.getFloat("Grade"),
+                            resultSet.getString("EmployeeName")
                     ));
                 }
-            } catch (SQLException e) {
+            }catch (SQLException e) {
                 e.printStackTrace();
             }
         });
-        return students;
+        return certificates;
+
     }
 
-    public Student getStudent(String email) {
-        AtomicReference<Student> student = new AtomicReference<>(null);
+    public Certificate getCertificate(int CertificateID) {
+        AtomicReference<Certificate> certificate = new AtomicReference<>(null);
         String sql = String.format(
-                "SELECT * FROM Student WHERE Email = '%s'",
-                email
+                "SELECT * FROM Registration WHERE CourseID = ‘%s’",
+                certificate
         );
 
         this.select(sql, resultSet -> {
             try {
                 if (resultSet.isBeforeFirst() && resultSet.next()) {
-                    student.set(new Student(
-                            email,
-                            resultSet.getString("Name"),
-                            resultSet.getString("Gender"),
-                            resultSet.getDate("BirthDate"),
-                            resultSet.getString("Address"),
-                            resultSet.getString("Residence"),
-                            resultSet.getString("Country")
+                    certificate.set(new Certificate(
+                            CertificateID,
+                            resultSet.getFloat("Grade"),
+                            resultSet.getString("EmployeeName")
                     ));
                 }
             } catch (SQLException e) {
@@ -72,32 +52,28 @@ public class CertificateRepository extends DatabaseConnection{
             }
         });
 
-        return student.get();
+        return certificate.get();
     }
 
-    public boolean addStudent(Student student) {
+    public boolean addCertificate(Certificate certificate) {
         try {
-            Validator.validateStudent(student);
+            Validator.validateCertificate(certificate);
         } catch (Exception ex) {
             Util.displayError(ex.getMessage());
             return false;
         }
 
         String sql = String.format(
-                "INSERT INTO Student VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')",
-                student.getEmail(),
-                student.getName(),
-                student.getDateOfBirth(),
-                student.getGender(),
-                student.getAddress(),
-                student.getResidence(),
-                student.getCountry()
+                "INSERT INTO Certificate VALUES ('%s', '%s', '%s')",
+                certificate.getCertificateId(),
+                certificate.getGrade(),
+                certificate.getEmployeeName()
         );
 
         boolean inserted = this.insert(sql);
 
         if (inserted) {
-            Util.displaySuccess("Successfully created student!");
+            Util.displaySuccess("Successfully created certificate!");
             return true;
         } else {
             Util.displayError("An exception occurred!");
@@ -105,57 +81,53 @@ public class CertificateRepository extends DatabaseConnection{
         }
     }
 
-    public boolean updateStudent(Student student) {
+    public boolean updateCertificate(Certificate certificate) {
         try {
-            Validator.validateStudent(student);
+            Validator.validateCertificate(certificate);
         } catch (Exception ex) {
             Util.displayError(ex.getMessage());
             return false;
         }
 
         String sql = String.format(
-                "UPDATE Student SET Name = '%s', BirthDate = '%s', Gender = '%s', Adress = '%s', Residence = '%s', Country = '%s' WHERE Email = '%s'",
-                student.getName(),
-                student.getDateOfBirth(),
-                student.getGender(),
-                student.getAddress(),
-                student.getResidence(),
-                student.getCountry(),
-                student.getEmail()
+                "UPDATE Certificate SET Grade = ‘%s’, EmployeeName = ‘%s’ WHERE CertificateID = ‘%s’",
+                certificate.getGrade(),
+                certificate.getEmployeeName(),
+                certificate.getCertificateId()
         );
 
         int updated = this.update(sql);
 
         switch (updated) {
             case 0:
-                Util.displayError("Unable to find student!");
+                Util.displayError("Unable to find certificate!");
                 return false;
             case -1:
                 Util.displayError("An exception occurred!");
                 return false;
             default:
-                Util.displaySuccess("Successfully updated student!");
+                Util.displaySuccess("Successfully updated certificate!");
                 return true;
         }
     }
 
-    public boolean deleteStudent(String email) {
+    public boolean deleteCertificate(int certificateID) {
         String sql = String.format(
-                "DELETE FROM Student WHERE Email = '%s'",
-                email
+                "DELETE FROM Certificate WHERE CertificateID = ‘%s’",
+                certificateID
         );
 
         int deleted = this.update(sql);
 
         switch (deleted) {
             case 0:
-                Util.displayError("Unable to find student!");
+                Util.displayError("Unable to find certificate!");
                 return false;
             case -1:
                 Util.displayError("An exception occurred!");
                 return false;
             default:
-                Util.displaySuccess("Successfully deleted student!");
+                Util.displaySuccess("Successfully deleted certificate!");
                 return true;
         }
     }
