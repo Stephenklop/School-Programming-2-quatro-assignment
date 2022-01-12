@@ -2,7 +2,6 @@ package com.example.quatroopdracht.ui.courses;
 
 import com.example.quatroopdracht.domain.Course;
 import com.example.quatroopdracht.domain.Module;
-import com.example.quatroopdracht.ui.content.CreateContentItem;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;

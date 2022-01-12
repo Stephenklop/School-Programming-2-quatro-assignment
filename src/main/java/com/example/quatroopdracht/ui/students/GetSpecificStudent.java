@@ -24,6 +24,7 @@ public class GetSpecificStudent {
         // Create layout
         VBox body = new VBox();
         GridPane formBody = new GridPane();
+        VBox progressBox = new VBox();
 
         // Create labels
         Label nameLabel = new Label("Naam:");
@@ -47,6 +48,16 @@ public class GetSpecificStudent {
         Text stateText = new Text("<Insert state here>");
         Text countryText = new Text("<Insert country here>");
         Text postalCodeText = new Text("<Insert postal code here>");
+
+        // Create sign up button
+        Button signupButton = new Button("Inschrijven voor een cursus");
+        signupButton.setOnAction(e -> stage.setScene(new CreateSignup().getCreateSignUp(stage, itemData)));
+
+        // Create progress buttons
+        Button moduleProgress = new Button("Module voortgang");
+        Button webcastProgress = new Button("Webcast voortgang");
+
+        progressBox.getChildren().addAll(moduleProgress, webcastProgress);
 
         // Create table for added courses
         TableView<Course> tableCourses = new TableView<>();
@@ -144,6 +155,8 @@ public class GetSpecificStudent {
         formBody.add(postalCodeText, 1, 8);
         formBody.add(enrolledCoursesLabel, 0 ,9);
         formBody.add(tableCourses, 0, 10);
+        formBody.add(progressBox, 1, 10);
+        formBody.add(signupButton, 0, 11);
 
         body.getChildren().addAll(formBody, backButton);
 
