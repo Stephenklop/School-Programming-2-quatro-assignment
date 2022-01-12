@@ -18,6 +18,14 @@ public class Module extends Content {
         this.version = version;
     }
 
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
     public String getSerialNumber() {
         return serialNumber;
     }
@@ -48,5 +56,16 @@ public class Module extends Content {
 
     public void setContactPerson(ContactPerson contactPerson) {
         this.contactPerson = contactPerson;
+    }
+
+    @Override
+    public String toString() {
+        return "Module{" +
+                "version=" + version +
+                ", course=" + course +
+                ", contactPerson=" + contactPerson +
+                ", serialNumber='" + serialNumber + '\'' +
+                ", courseIndex=" + courseIndex +
+                "} " + super.toString();
     }
 }

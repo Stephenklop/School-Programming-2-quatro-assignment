@@ -24,6 +24,10 @@ public class Course {
         this.level = level.trim();
     }
 
+    public Course() {
+        //empty constructor for forms
+    }
+
     public String getName() {
         return name;
     }

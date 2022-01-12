@@ -1,7 +1,9 @@
 package com.example.quatroopdracht.ui.courses;
 
 import com.example.quatroopdracht.data.CourseRepository;
+import com.example.quatroopdracht.data.ModuleRepository;
 import com.example.quatroopdracht.domain.Course;
+import com.example.quatroopdracht.domain.Module;
 import com.example.quatroopdracht.ui.content.CreateModule;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,11 +17,23 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
 public class CreateCourse {
     private final CourseRepository courseRepository;
+    private final ModuleRepository moduleRepository;
+
+    private Course addCourse;
+    private Stack<Module> selectedModules;
 
     public CreateCourse() {
         courseRepository = new CourseRepository();
+        moduleRepository = new ModuleRepository();
+
+        addCourse = new Course();
+        selectedModules = new Stack<>();
     }
 
     public Scene getCreateCourseScene(Stage stage) {
@@ -51,11 +65,25 @@ public class CreateCourse {
         TableColumn<Module, String> colDesc = new TableColumn<>("Beschrijving:");
         TableColumn<Module, String> colVersion = new TableColumn<>("Versie:");
 
-        colTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
+        colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        colDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
         colVersion.setCellValueFactory(new PropertyValueFactory<>("version"));
 
         tableModules.getColumns().addAll(colTitle, colDesc, colVersion);
+
+        tableModules.setRowFactory(data -> {
+            TableRow<Module> row = new TableRow<>();
+            row.setOnMouseClicked(e -> {
+                if(e.getClickCount() == 2 && (! row.isEmpty())) {
+                    Module rowData = row.getItem();
+                    rowData.setCourse(addCourse);
+                    selectedModules.push(rowData);
+                    System.out.println(selectedModules.size());
+                    tableModules.getItems().remove(rowData);
+                }
+            });
+            return row;
+        });
 
         // Create footer
         Button cancelButton = new Button("Annuleren");
@@ -63,19 +91,23 @@ public class CreateCourse {
 
         cancelButton.setOnAction(event -> stage.setScene(new GetCourse().getGetCoursesScene(stage)));
         submitButton.setOnAction(event -> {
-            Course addCourse = new Course(
-                    name.getText(),
-                    subject.getText(),
-                    introduction.getText(),
-                    level.getValue()
-            );
+            addCourse.setName(name.getText());
+            addCourse.setSubject(subject.getText());
+            addCourse.setIntroText(introduction.getText());
+            addCourse.setLevel(level.getValue());
 
             if (courseRepository.addCourse(addCourse)) {
-                stage.setScene(new CreateModule().getCreateModuleScene(stage, true));
+                while (!selectedModules.isEmpty()) {
+                    moduleRepository.updateModule(selectedModules.pop());
+                }
+                stage.setScene(new GetCourse().getGetCoursesScene(stage));
             }
         });
 
         footer.getChildren().addAll(cancelButton, submitButton);
+
+        moduleRepository.getAllModules().forEach(System.out::println);
+        tableModules.getItems().addAll(moduleRepository.getAllModules());
 
         // Bootstrap body
         formBody.setPadding(new Insets(10));

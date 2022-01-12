@@ -17,5 +17,6 @@ public class GetCertificates {
         Button createCertificateButton = new Button("Certificaat aanmaken");
 
         createCertificateButton.setOnAction(e -> {});
+        return null;
     }
 }

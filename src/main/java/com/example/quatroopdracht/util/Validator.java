@@ -35,7 +35,7 @@ public final class Validator {
             Module module = (Module) content;
             Validator.validateNotEmpty(module.getContactPerson(), module.getCourse(), module.getSerialNumber());
             Validator.validateContactPerson(module.getContactPerson());
-            Validator.validateCourse(module.getCourse());
+            Validator.validateCourseSimple(module.getCourse());
         } else if (content instanceof Webcast) { // Webcast specific validation
             Webcast webcast = (Webcast) content;
             Validator.validateNotEmpty(webcast.getSpeakerName(), webcast.getSpeakerOrg());

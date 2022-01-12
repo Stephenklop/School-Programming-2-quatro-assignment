@@ -145,15 +145,8 @@ public class ModuleRepository extends DatabaseConnection{
         }
 
         String sql = String.format(
-                "UPDATE Module SET SET PublicationDate = '%s', Status = '%s', Description = '%s' " +
-                        "EmailContactperson = '%s', SerialNumberCourse = '%s', CourseName = '%s' " +
-                        "WHERE  Title = '%s' AND Version = '%s' AND ContentID = '%s'" +
-                        "INNER JOIN Content ON Module.ContentID = Content.ContentID",
-                module.getPublicationDate(),
-                module.getStatus(),
-                module.getDescription(),
-                module.getContactPerson().getEmail(),
-                module.getSerialNumber(),
+                "UPDATE Module SET CourseName = '%s' " +
+                        "WHERE  Title = '%s' AND Version = '%s' AND ContentID = '%s'",
                 module.getCourse().getName(),
                 module.getTitle(),
                 module.getVersion(),

@@ -151,7 +151,7 @@ public class GetCourse {
             return row;
         });
 
-        // Add single test entry
+        // Add entries
         tableCourses.getItems().addAll(courseRepository.getAllCourses());
         // Create back button
         Button backButton = new Button("Terug");
