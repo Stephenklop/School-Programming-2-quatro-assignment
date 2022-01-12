@@ -66,6 +66,7 @@ public class RegistrationRepository extends DatabaseConnection{
     }
 
     public boolean addStudentEnrollment(StudentEnrollment studentEnrollment){
+        System.out.println(studentEnrollment);
         try {
             Validator.validateEnrollmentSimple(studentEnrollment);
         } catch (Exception ex) {

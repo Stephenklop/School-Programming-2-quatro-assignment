@@ -24,7 +24,6 @@ import java.time.format.FormatStyle;
 
 public class GetSpecificStudent {
     public Scene getGetSpecificStudentsScene(Stage stage, Student itemData) {
-        System.out.println(itemData);
 
         // Create layout
         VBox body = new VBox();

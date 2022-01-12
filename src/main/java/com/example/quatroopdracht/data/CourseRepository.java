@@ -32,6 +32,22 @@ public class CourseRepository extends DatabaseConnection {
         return courses;
     }
 
+    public List<String> getAllAvailableCourses(Student student) {
+        String sql = "SELECT * FROM Course WHERE Name NOT IN ( SELECT CourseId AS Name FROM Registration WHERE StudentId = '%s' )";
+        List<String> courses = new ArrayList<>();
+
+        this.select(sql, resultSet -> {
+            try {
+                while (resultSet.next()) {
+                    courses.add(resultSet.getString("Name"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        return courses;
+    }
+
     public Course getCourse(String name) {
         AtomicReference<Course> course = new AtomicReference<>(null);
         String sql = String.format(

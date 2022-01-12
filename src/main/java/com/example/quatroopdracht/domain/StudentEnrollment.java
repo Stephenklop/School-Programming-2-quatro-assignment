@@ -52,4 +52,14 @@ public class StudentEnrollment {
     public void setCourse(Course course) {
         this.course = course;
     }
+
+    @Override
+    public String toString() {
+        return "StudentEnrollment{" +
+                "student=" + student +
+                ", course=" + course +
+                ", certificate=" + certificate +
+                ", signUpDate=" + signUpDate +
+                '}';
+    }
 }
