@@ -20,6 +20,7 @@ import javafx.util.Callback;
 
 public class GetSpecificStudent {
     public Scene getGetSpecificStudentsScene(Stage stage, Student itemData) {
+        System.out.println(itemData);
 
         // Create layout
         VBox body = new VBox();
@@ -33,9 +34,7 @@ public class GetSpecificStudent {
         Label genderLabel = new Label("Geslacht:");
         Label addressLabel = new Label("Adres:");
         Label cityLabel = new Label("Stad:");
-        Label stateLabel = new Label("Provincie:");
         Label countryLabel = new Label("Land:");
-        Label postalCodeLabel = new Label("Postcode:");
         Label enrolledCoursesLabel = new Label("Ingeschreven cursussen:");
 
         // Create text
@@ -45,9 +44,7 @@ public class GetSpecificStudent {
         Text genderText = new Text("<Insert gender here>");
         Text addressText = new Text("<Insert address here>");
         Text cityText = new Text("<Insert city here>");
-        Text stateText = new Text("<Insert state here>");
         Text countryText = new Text("<Insert country here>");
-        Text postalCodeText = new Text("<Insert postal code here>");
 
         // Create sign up button
         Button signupButton = new Button("Inschrijven voor een cursus");
@@ -147,16 +144,12 @@ public class GetSpecificStudent {
         formBody.add(addressText, 1, 4);
         formBody.add(cityLabel, 0, 5);
         formBody.add(cityText, 1, 5);
-        formBody.add(stateLabel, 0, 6);
-        formBody.add(stateText, 1, 6);
-        formBody.add(countryLabel, 0 ,7);
-        formBody.add(countryText, 1, 7);
-        formBody.add(postalCodeLabel, 0, 8);
-        formBody.add(postalCodeText, 1, 8);
-        formBody.add(enrolledCoursesLabel, 0 ,9);
-        formBody.add(tableCourses, 0, 10);
-        formBody.add(progressBox, 1, 10);
-        formBody.add(signupButton, 0, 11);
+        formBody.add(countryLabel, 0 ,6);
+        formBody.add(countryText, 1, 6);
+        formBody.add(enrolledCoursesLabel, 0 ,7);
+        formBody.add(tableCourses, 0, 8);
+        formBody.add(progressBox, 1, 8);
+        formBody.add(signupButton, 0, 9);
 
         body.getChildren().addAll(formBody, backButton);
 

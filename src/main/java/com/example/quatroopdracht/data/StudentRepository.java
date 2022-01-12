@@ -112,6 +112,8 @@ public class StudentRepository extends DatabaseConnection {
                 student.getEmail()
         );
 
+        System.out.println(sql);
+
         int updated = this.update(sql);
 
         switch (updated) {

@@ -1,5 +1,6 @@
 package com.example.quatroopdracht.ui.students;
 
+import com.example.quatroopdracht.data.StudentRepository;
 import com.example.quatroopdracht.domain.Student;
 import com.example.quatroopdracht.domain.StudentEnrollment;
 import com.example.quatroopdracht.ui.Dashboard;
@@ -16,6 +17,12 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class GetStudents {
+    private final StudentRepository studentRepository;
+
+    public GetStudents() {
+        studentRepository = new StudentRepository();
+    }
+
     public Scene getGetStudents(Stage stage) {
 
         // Create layout
@@ -52,7 +59,7 @@ public class GetStudents {
                     {
                         updateBtn.setOnAction((ActionEvent event) -> {
                             Student data = getTableView().getItems().get(getIndex());
-                            stage.setScene(new UpdateStudent().getUpdateStudentScene(stage));
+                            stage.setScene(new UpdateStudent(data).getUpdateStudentScene(stage));
                             System.out.println("selectedData: " + data);
                         });
                     }
@@ -145,9 +152,8 @@ public class GetStudents {
         body.setPadding(new Insets(10));
         body.setSpacing(10);
 
-        // Add test entries
-        Student student = new Student("stefklop18@gmail.com", "Stephen Klop", "male", "Thuis", "Thuis", "NL");
-        tableStudents.getItems().addAll(student);
+
+        tableStudents.getItems().addAll(studentRepository.getAllStudents());
 
         return new Scene(body);
     }
