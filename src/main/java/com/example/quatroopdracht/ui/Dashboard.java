@@ -1,8 +1,6 @@
 package com.example.quatroopdracht.ui;
 
 import com.example.quatroopdracht.ui.courses.GetCourse;
-import com.example.quatroopdracht.ui.signup.CreateSignup;
-import com.example.quatroopdracht.ui.signup.GetSignup;
 import com.example.quatroopdracht.ui.students.GetStudents;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -21,15 +19,15 @@ public class Dashboard {
 
         // Create buttons
         Button coursesButton = new Button("Cursussen");
-        Button applyButton = new Button("Inschrijven");
-        Button studentsButton = new Button("Students");
+        Button studentsButton = new Button("Cursisten");
+        Button applicationsButton = new Button("Inschrijvingen");
+        Button certificatesButton = new Button("Certificaten");
 
         // Add actions to buttons
         coursesButton.setOnAction(e -> stage.setScene(new GetCourse().getGetCoursesScene(stage)));
-        applyButton.setOnAction(e -> stage.setScene(new GetSignup().getSignUp(stage)));
         studentsButton.setOnAction(e -> stage.setScene(new GetStudents().getGetStudents(stage)));
 
-        menubar.getChildren().addAll(coursesButton, applyButton, studentsButton);
+        menubar.getChildren().addAll(coursesButton, studentsButton);
 
         return new Scene(menubar);
     }

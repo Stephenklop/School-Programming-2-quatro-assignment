@@ -32,13 +32,13 @@ public class CreateContactPerson {
         Button cancelButton = new Button("Annuleren");
         Button submitButton = new Button("Opslaan");
 
-        cancelButton.setOnAction(e -> {
-            if(fromCreateModuleRedirect) {
-                stage.setScene(new CreateModule().getCreateModuleScene(stage, true));
-            } else {
-                stage.setScene(new GetContactPerson().getGetContactPersonScene(stage, false));
-            }
-        });
+//        cancelButton.setOnAction(e -> {
+//            if(fromCreateModuleRedirect) {
+//                stage.setScene(new CreateModule().getCreateModuleScene(stage, true));
+//            } else {
+//                stage.setScene(new GetContactPerson().getGetContactPersonScene(stage, false));
+//            }
+//        });
 
         buttonBox.getChildren().addAll(cancelButton, submitButton);
 

@@ -2,6 +2,7 @@ package com.example.quatroopdracht.ui.courses;
 
 import com.example.quatroopdracht.domain.Course;
 import com.example.quatroopdracht.ui.Dashboard;
+import com.example.quatroopdracht.ui.content.CreateModule;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -12,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.Dragboard;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -23,28 +25,29 @@ public class GetCourse {
     public Scene getGetCoursesScene(Stage stage) {
 
         // Create layout
+        VBox body = new VBox();
+        HBox header = new HBox();
+
+        // Create header
         Button createCourseButton = new Button("Cursus aanmaken");
 
-        createCourseButton.setOnAction(e -> {
-            stage.setScene(new CreateCourse().getCreateCourseScene(stage));
-        });
+        createCourseButton.setOnAction(e -> stage.setScene(new CreateCourse().getCreateCourseScene(stage)));
 
+        header.getChildren().addAll(createCourseButton);
+
+        // Create table for existing courses
         TableView<Course> tableCourses = new TableView<>();
         tableCourses.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         TableColumn<Course, String> colName = new TableColumn<>("Naam:");
         TableColumn<Course, String> colSubject = new TableColumn<>("Onderwerp:");
         TableColumn<Course, String> colLevel = new TableColumn<>("Niveau:");
+        TableColumn<Course, Void> colUpdate = new TableColumn<>("");
+        TableColumn<Course, Void> colDelete = new TableColumn<>("");
 
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colSubject.setCellValueFactory(new PropertyValueFactory<>("subject"));
         colLevel.setCellValueFactory(new PropertyValueFactory<>("level"));
-
-        tableCourses.getColumns().addAll(colName, colSubject, colLevel);
-
-        // Insert action buttons
-        TableColumn<Course, Void> colUpdate = new TableColumn<>("");
-        TableColumn<Course, Void> colDelete = new TableColumn<>("");
 
         // Update Button Factory
         Callback<TableColumn<Course, Void>, TableCell<Course, Void>> updateFactory = new Callback<TableColumn<Course, Void>, TableCell<Course, Void>>() {
@@ -55,7 +58,7 @@ public class GetCourse {
                     {
                         updateBtn.setOnAction((ActionEvent event) -> {
                             Course data = getTableView().getItems().get(getIndex());
-                            stage.setScene(new CreateCourse().getCreateCourseScene(stage));
+                            stage.setScene(new UpdateCourse().getUpdateCourseScene(stage));
                             System.out.println("selectedData: " + data);
                         });
                     }
@@ -124,13 +127,10 @@ public class GetCourse {
 
         colUpdate.setCellFactory(updateFactory);
         colDelete.setCellFactory(deleteFactory);
-        tableCourses.getColumns().addAll(colUpdate, colDelete);
 
-        VBox vbox = new VBox(createCourseButton, tableCourses);
-        vbox.setPadding(new Insets(10));
-        vbox.setSpacing(10);
+        tableCourses.getColumns().addAll(colName, colSubject, colLevel, colUpdate, colDelete);
 
-        // Check if course is selected
+        // Check if row in table is double-clicked to open detail page
         tableCourses.setRowFactory(data -> {
             TableRow<Course> row = new TableRow<>();
             row.setOnMouseClicked(e -> {
@@ -142,11 +142,20 @@ public class GetCourse {
             return row;
         });
 
-        // Add single test entry
+        // Create back button
+        Button backButton = new Button("Terug");
+        backButton.setOnAction(e -> stage.setScene(new Dashboard().getDashboardScene(stage)));
+
+        // Bootstrap body
+        body.getChildren().addAll(header, tableCourses, backButton);
+        body.setPadding(new Insets(10));
+        body.setSpacing(10);
+
+        // Add test entries
         Course course = new Course("Test", "TestSubject", "This is a description", "expert");
         Course course1 = new Course("Test1", "TestSubject1", "This is a description1", "beginner");
         tableCourses.getItems().addAll(course, course1);
 
-        return new Scene(vbox);
+        return new Scene(body);
     }
 }

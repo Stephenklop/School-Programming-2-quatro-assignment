@@ -19,28 +19,29 @@ public class GetStudents {
     public Scene getGetStudents(Stage stage) {
 
         // Create layout
-        VBox vBox = new VBox();
+        VBox body = new VBox();
+        HBox header = new HBox();
 
-        // Create action button
-        Button createStudentButton = new Button("Student aanmaken");
+        // Create header
+        Button createStudentButton = new Button("Cursist aanmaken");
 
-        // Create table
+        createStudentButton.setOnAction(e -> stage.setScene(new CreateStudent().getCreateStudentScene(stage)));
+
+        header.getChildren().addAll(createStudentButton);
+
+        // Create table for existing students
         TableView<Student> tableStudents = new TableView<>();
         tableStudents.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         TableColumn<Student, String> colName  = new TableColumn<>("Naam:");
         TableColumn<Student, String> colEmail = new TableColumn<>("Email:");
         TableColumn<Student, String> colGender = new TableColumn<>("Geslacht:");
+        TableColumn<Student, Void> colUpdate = new TableColumn<>("");
+        TableColumn<Student, Void> colDelete = new TableColumn<>("");
 
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colGender.setCellValueFactory(new PropertyValueFactory<>("gender"));
-
-        tableStudents.getColumns().addAll(colName, colEmail, colGender);
-
-        // Insert action buttons
-        TableColumn<Student, Void> colUpdate = new TableColumn<>("");
-        TableColumn<Student, Void> colDelete = new TableColumn<>("");
 
         // Update Button Factory
         Callback<TableColumn<Student, Void>, TableCell<Student, Void>> updateFactory = new Callback<TableColumn<Student, Void>, TableCell<Student, Void>>() {
@@ -51,6 +52,7 @@ public class GetStudents {
                     {
                         updateBtn.setOnAction((ActionEvent event) -> {
                             Student data = getTableView().getItems().get(getIndex());
+                            stage.setScene(new UpdateStudent().getUpdateStudentScene(stage));
                             System.out.println("selectedData: " + data);
                         });
                     }
@@ -78,14 +80,14 @@ public class GetStudents {
                     {
                         deleteBtn.setOnAction((ActionEvent event) -> {
                             Student data = getTableView().getItems().get(getIndex());
-                            System.out.println("selectedDate: " + data);
+                            System.out.println("selectedData: " + data);
 
                             final Stage dialog = new Stage();
                             dialog.initModality(Modality.APPLICATION_MODAL);
                             dialog.initOwner(stage);
                             VBox dialogVbox = new VBox(20);
 
-                            javafx.scene.text.Text areYouSureText = new Text("Weet je het zeker dat je de cursus <coursename> wilt verwijderen?");
+                            javafx.scene.text.Text areYouSureText = new Text("Weet je het zeker dat je de cursusist <coursename> wilt verwijderen?");
                             HBox buttonBox = new HBox();
                             Button noBtn = new Button("Nee");
                             Button yesBtn = new Button("Ja");
@@ -119,13 +121,10 @@ public class GetStudents {
 
         colUpdate.setCellFactory(updateFactory);
         colDelete.setCellFactory(deleteFactory);
-        tableStudents.getColumns().addAll(colUpdate, colDelete);
 
-        // Set styling
-        vBox.setPadding(new Insets(10));
-        vBox.setSpacing(10);
+        tableStudents.getColumns().addAll(colName, colEmail, colGender, colUpdate, colDelete);
 
-        // Check if student is selected
+        // Check if row in table is double-clicked to open detail page
         tableStudents.setRowFactory(data -> {
             TableRow<Student> row = new TableRow<>();
             row.setOnMouseClicked(e -> {
@@ -141,12 +140,15 @@ public class GetStudents {
         Button backButton = new Button("Terug");
         backButton.setOnAction(e -> stage.setScene(new Dashboard().getDashboardScene(stage)));
 
-        vBox.getChildren().addAll(createStudentButton, tableStudents, backButton);
+        // Bootstrap body
+        body.getChildren().addAll(header, tableStudents, backButton);
+        body.setPadding(new Insets(10));
+        body.setSpacing(10);
 
+        // Add test entries
         Student student = new Student("stefklop18@gmail.com", "Stephen Klop", "male", "Thuis", "Thuis", "NL");
-
         tableStudents.getItems().addAll(student);
 
-        return new Scene(vBox);
+        return new Scene(body);
     }
 }

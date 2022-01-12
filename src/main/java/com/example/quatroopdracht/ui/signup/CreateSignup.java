@@ -46,7 +46,9 @@ public class CreateSignup {
         Button backButton = new Button("Terug");
         Button signUpButton = new Button("Inschrijven");
 
-        backButton.setOnAction(e -> stage.setScene(new GetSignup().getSignUp(stage)));
+        backButton.setOnAction(e -> {
+            // Add action
+        });
         signUpButton.setOnAction(e -> {});
 
         buttonBox.getChildren().addAll(backButton, signUpButton);
