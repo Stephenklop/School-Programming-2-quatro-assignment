@@ -1,5 +1,6 @@
 package com.example.quatroopdracht.data;
 
+import com.example.quatroopdracht.domain.Course;
 import com.example.quatroopdracht.domain.Module;
 import com.example.quatroopdracht.util.Util;
 import com.example.quatroopdracht.util.Validator;
@@ -48,7 +49,7 @@ public class ModuleRepository extends DatabaseConnection{
     public Module getModule(int ContentID) {
         AtomicReference<Module> module = new AtomicReference<>(null);
         String sql = String.format(
-                "SELECT * FROM Module WHERE ContentID = ‘%s’ INNER JOIN Content ON Module.ContentID = Content.ContentID",
+                "SELECT * FROM Module WHERE ContentID = '%s' INNER JOIN Content ON Module.ContentID = Content.ContentID",
                 ContentID
         );
 
@@ -76,6 +77,33 @@ public class ModuleRepository extends DatabaseConnection{
         return module.get();
     }
 
+    public List<Module> getModulesForCourse(Course course) {
+        String sql = String.format("SELECT * FROM Module INNER JOIN Content ON Module.ContentID = Content.ContentID WHERE CourseName = '%s'", course.getName());
+        List<Module> modules = new ArrayList<>();
+
+        this.select(sql, resultSet -> {
+            try {
+                while (resultSet.next()) {
+                    modules.add(new Module(
+                            resultSet.getInt("ContentID"),
+                            resultSet.getDate("PublicationDate"),
+                            resultSet.getString("Status"),
+                            resultSet.getString("Title"),
+                            resultSet.getInt("Version"),
+                            resultSet.getString("Description"),
+                            courseRepository.getCourse(resultSet.getString("CourseName")),
+                            contactPersonRepository.getContactPerson(resultSet.getString("EmailContactperson")),
+                            resultSet.getString("SerialNumberCourse"),
+                            resultSet.getInt("SerialNumberCourse")
+                    ));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        return modules;
+    }
+
     public boolean addModule(Module module) {
         try {
             Validator.validateContent(module);
@@ -85,7 +113,7 @@ public class ModuleRepository extends DatabaseConnection{
         }
 
         String sql = String.format(
-                "INSERT INTO Module VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s') INNER JOIN Content ON Module.ContentID = Content.ContentID",
+                "INSERT INTO Module (PublicationDate, Status, Description, Title, Version, EmailContactPerson, Ser) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s') INNER JOIN Content ON Module.ContentID = Content.ContentID",
                 module.getContentItemId(),
                 module.getPublicationDate(),
                 module.getStatus(),
@@ -117,9 +145,9 @@ public class ModuleRepository extends DatabaseConnection{
         }
 
         String sql = String.format(
-                "UPDATE Module SET SET PublicationDate = ‘%s’, Status = ‘%s’, Description = ‘%s’ " +
-                        "EmailContactperson = ‘%s’, SerialNumberCourse = ‘%s’, CourseName = ‘%s’ " +
-                        "WHERE  Title = ‘%s’ AND Version = ‘%s’ AND ContentID = ‘%s’" +
+                "UPDATE Module SET SET PublicationDate = '%s', Status = '%s', Description = '%s' " +
+                        "EmailContactperson = '%s', SerialNumberCourse = '%s', CourseName = '%s' " +
+                        "WHERE  Title = '%s' AND Version = '%s' AND ContentID = '%s'" +
                         "INNER JOIN Content ON Module.ContentID = Content.ContentID",
                 module.getPublicationDate(),
                 module.getStatus(),
@@ -149,7 +177,7 @@ public class ModuleRepository extends DatabaseConnection{
 
     public boolean deleteModule(int ContentID, String Title, int Version) {
         String sql = String.format(
-                "DELETE FROM Module WHERE Title = ‘%s’ AND Version = ‘%s’ AND ContentID = ‘%s’ INNER JOIN Content ON Module.ContentID = Content.ContentID",
+                "DELETE FROM Module WHERE Title = '%s' AND Version = '%s' AND ContentID = '%s' INNER JOIN Content ON Module.ContentID = Content.ContentID",
                 Title,
                 Version,
                 ContentID
