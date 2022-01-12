@@ -18,6 +18,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+
 public class GetSpecificStudent {
     public Scene getGetSpecificStudentsScene(Stage stage, Student itemData) {
         System.out.println(itemData);
@@ -38,13 +42,13 @@ public class GetSpecificStudent {
         Label enrolledCoursesLabel = new Label("Ingeschreven cursussen:");
 
         // Create text
-        Text nameText = new Text("<Insert name here>");
-        Text emailText = new Text("<Insert email here>");
-        Text dateOfBirthText = new Text("<Insert birthday here>");
-        Text genderText = new Text("<Insert gender here>");
-        Text addressText = new Text("<Insert address here>");
-        Text cityText = new Text("<Insert city here>");
-        Text countryText = new Text("<Insert country here>");
+        Text nameText = new Text(itemData.getName());
+        Text emailText = new Text(itemData.getEmail());
+        Text dateOfBirthText = new Text(LocalDate.parse(itemData.getDateOfBirth().toString()).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)));
+        Text genderText = new Text(itemData.getGender());
+        Text addressText = new Text(itemData.getAddress());
+        Text cityText = new Text(itemData.getResidence());
+        Text countryText = new Text(itemData.getCountry());
 
         // Create sign up button
         Button signupButton = new Button("Inschrijven voor een cursus");
