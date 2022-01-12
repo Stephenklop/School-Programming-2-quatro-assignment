@@ -25,6 +25,15 @@ public class Student {
         this.country = country.trim();
     }
 
+    public Student(String email, String name, String gender, String address, String residence, String country) {
+        this.email = email.trim();
+        this.name = name.trim();
+        this.gender = gender.trim();
+        this.address = address.trim();
+        this.residence = residence.trim();
+        this.country = country.trim();
+    }
+
     // Only used for GetStudentScene
     public void initializeButtons() {
         this.deleteButton = new Button("Delete");

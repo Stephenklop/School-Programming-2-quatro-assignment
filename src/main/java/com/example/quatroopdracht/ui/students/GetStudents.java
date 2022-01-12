@@ -1,7 +1,7 @@
-package com.example.quatroopdracht.ui.courses;
+package com.example.quatroopdracht.ui.students;
 
-import com.example.quatroopdracht.data.CourseRepository;
-import com.example.quatroopdracht.domain.Course;
+import com.example.quatroopdracht.domain.Student;
+import com.example.quatroopdracht.domain.StudentEnrollment;
 import com.example.quatroopdracht.ui.Dashboard;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -15,50 +15,44 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-public class GetCourse {
-    private final CourseRepository courseRepository;
-
-    public GetCourse() {
-        courseRepository = new CourseRepository();
-    }
-
-    public Scene getGetCoursesScene(Stage stage) {
+public class GetStudents {
+    public Scene getGetStudents(Stage stage) {
 
         // Create layout
         VBox body = new VBox();
         HBox header = new HBox();
 
         // Create header
-        Button createCourseButton = new Button("Cursus aanmaken");
+        Button createStudentButton = new Button("Cursist aanmaken");
 
-        createCourseButton.setOnAction(e -> stage.setScene(new CreateCourse().getCreateCourseScene(stage)));
+        createStudentButton.setOnAction(e -> stage.setScene(new CreateStudent().getCreateStudentScene(stage)));
 
-        header.getChildren().addAll(createCourseButton);
+        header.getChildren().addAll(createStudentButton);
 
-        // Create table for existing courses
-        TableView<Course> tableCourses = new TableView<>();
-        tableCourses.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        // Create table for existing students
+        TableView<Student> tableStudents = new TableView<>();
+        tableStudents.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        TableColumn<Course, String> colName = new TableColumn<>("Naam:");
-        TableColumn<Course, String> colSubject = new TableColumn<>("Onderwerp:");
-        TableColumn<Course, String> colLevel = new TableColumn<>("Niveau:");
-        TableColumn<Course, Void> colUpdate = new TableColumn<>("");
-        TableColumn<Course, Void> colDelete = new TableColumn<>("");
+        TableColumn<Student, String> colName  = new TableColumn<>("Naam:");
+        TableColumn<Student, String> colEmail = new TableColumn<>("Email:");
+        TableColumn<Student, String> colGender = new TableColumn<>("Geslacht:");
+        TableColumn<Student, Void> colUpdate = new TableColumn<>("");
+        TableColumn<Student, Void> colDelete = new TableColumn<>("");
 
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colSubject.setCellValueFactory(new PropertyValueFactory<>("subject"));
-        colLevel.setCellValueFactory(new PropertyValueFactory<>("level"));
+        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colGender.setCellValueFactory(new PropertyValueFactory<>("gender"));
 
         // Update Button Factory
-        Callback<TableColumn<Course, Void>, TableCell<Course, Void>> updateFactory = new Callback<TableColumn<Course, Void>, TableCell<Course, Void>>() {
+        Callback<TableColumn<Student, Void>, TableCell<Student, Void>> updateFactory = new Callback<TableColumn<Student, Void>, TableCell<Student, Void>>() {
             @Override
-            public TableCell<Course, Void> call(TableColumn<Course, Void> param) {
-                final TableCell<Course, Void> cell = new TableCell<Course, Void>() {
+            public TableCell<Student, Void> call(TableColumn<Student, Void> param) {
+                final TableCell<Student, Void> cell = new TableCell<Student, Void>() {
                     private final Button updateBtn = new Button("Update");
                     {
                         updateBtn.setOnAction((ActionEvent event) -> {
-                            Course data = getTableView().getItems().get(getIndex());
-                            stage.setScene(new UpdateCourse(data).getUpdateCourseScene(stage));
+                            Student data = getTableView().getItems().get(getIndex());
+                            stage.setScene(new UpdateStudent().getUpdateStudentScene(stage));
                             System.out.println("selectedData: " + data);
                         });
                     }
@@ -78,22 +72,22 @@ public class GetCourse {
         };
 
         // Delete Button Factory
-        Callback<TableColumn<Course, Void>, TableCell<Course, Void>> deleteFactory = new Callback<TableColumn<Course, Void>, TableCell<Course, Void>>() {
+        Callback<TableColumn<Student, Void>, TableCell<Student, Void>> deleteFactory = new Callback<TableColumn<Student, Void>, TableCell<Student, Void>>() {
             @Override
-            public TableCell<Course, Void> call(TableColumn<Course, Void> param) {
-                final TableCell<Course, Void> cell = new TableCell<Course, Void>() {
+            public TableCell<Student, Void> call(TableColumn<Student, Void> param) {
+                final TableCell<Student, Void> cell = new TableCell<Student, Void>() {
                     private final Button deleteBtn = new Button("Verwijder");
                     {
                         deleteBtn.setOnAction((ActionEvent event) -> {
-                            Course data = getTableView().getItems().get(getIndex());
-                            System.out.println("selectedDate: " + data);
+                            Student data = getTableView().getItems().get(getIndex());
+                            System.out.println("selectedData: " + data);
 
                             final Stage dialog = new Stage();
                             dialog.initModality(Modality.APPLICATION_MODAL);
                             dialog.initOwner(stage);
                             VBox dialogVbox = new VBox(20);
 
-                            Text areYouSureText = new Text(String.format("Weet je het zeker dat je de cursus %s wilt verwijderen?", data.getName()));
+                            javafx.scene.text.Text areYouSureText = new Text("Weet je het zeker dat je de cursusist <coursename> wilt verwijderen?");
                             HBox buttonBox = new HBox();
                             Button noBtn = new Button("Nee");
                             Button yesBtn = new Button("Ja");
@@ -104,17 +98,8 @@ public class GetCourse {
                                 dialog.close();
                             });
 
-                            yesBtn.setOnAction(e -> {
-                                courseRepository.deleteCourse(data);
-                                dialog.close();
-                                stage.setScene(new GetCourse().getGetCoursesScene(stage));
-                            });
-
-                            buttonBox.setSpacing(20);
                             dialogVbox.getChildren().addAll(areYouSureText, buttonBox);
-                            dialogVbox.setSpacing(20);
-                            dialogVbox.setPadding(new Insets(20, 20, 20, 20));
-                            Scene dialogScene = new Scene(dialogVbox);
+                            Scene dialogScene = new Scene(dialogVbox, 300, 200);
                             dialog.setScene(dialogScene);
                             dialog.show();
                         });
@@ -137,30 +122,32 @@ public class GetCourse {
         colUpdate.setCellFactory(updateFactory);
         colDelete.setCellFactory(deleteFactory);
 
-        tableCourses.getColumns().addAll(colName, colSubject, colLevel, colUpdate, colDelete);
+        tableStudents.getColumns().addAll(colName, colEmail, colGender, colUpdate, colDelete);
 
         // Check if row in table is double-clicked to open detail page
-        tableCourses.setRowFactory(data -> {
-            TableRow<Course> row = new TableRow<>();
+        tableStudents.setRowFactory(data -> {
+            TableRow<Student> row = new TableRow<>();
             row.setOnMouseClicked(e -> {
-                if(e.getClickCount() == 2 && (! row.isEmpty())) {
-                    Course rowData = row.getItem();
-                    stage.setScene(new GetSpecificCourse().getGetSpecificCourseScene(stage, rowData));
+                if(e.getClickCount() == 2 && (!row.isEmpty())) {
+                    Student rowData = row.getItem();
+                    stage.setScene(new GetSpecificStudent().getGetSpecificStudentsScene(stage, rowData));
                 }
             });
             return row;
         });
 
-        // Add single test entry
-        tableCourses.getItems().addAll(courseRepository.getAllCourses());
         // Create back button
         Button backButton = new Button("Terug");
         backButton.setOnAction(e -> stage.setScene(new Dashboard().getDashboardScene(stage)));
 
         // Bootstrap body
-        body.getChildren().addAll(header, tableCourses, backButton);
+        body.getChildren().addAll(header, tableStudents, backButton);
         body.setPadding(new Insets(10));
         body.setSpacing(10);
+
+        // Add test entries
+        Student student = new Student("stefklop18@gmail.com", "Stephen Klop", "male", "Thuis", "Thuis", "NL");
+        tableStudents.getItems().addAll(student);
 
         return new Scene(body);
     }

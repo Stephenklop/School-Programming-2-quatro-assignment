@@ -39,13 +39,13 @@ public class GetContactPerson {
 
         Button backButton = new Button("Terug");
 
-        backButton.setOnAction(e -> {
-            if(fromCreateModuleRedirect) {
-                stage.setScene(new CreateModule().getCreateModuleScene(stage, true));
-            } else {
-                stage.setScene(new Dashboard().getDashboardScene(stage));
-            }
-        });
+//        backButton.setOnAction(e -> {
+//            if(fromCreateModuleRedirect) {
+//                stage.setScene(new CreateModule().getCreateModuleScene(stage, true));
+//            } else {
+//                stage.setScene(new Dashboard().getDashboardScene(stage));
+//            }
+//        });
 
         // Check if user is on this page to select a user to update/delete them
         VBox vbox;
