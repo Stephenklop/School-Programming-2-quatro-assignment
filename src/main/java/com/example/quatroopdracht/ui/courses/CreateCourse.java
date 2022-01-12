@@ -4,7 +4,6 @@ import com.example.quatroopdracht.data.CourseRepository;
 import com.example.quatroopdracht.data.ModuleRepository;
 import com.example.quatroopdracht.domain.Course;
 import com.example.quatroopdracht.domain.Module;
-import com.example.quatroopdracht.ui.content.CreateModule;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -17,8 +16,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 
 public class CreateCourse {
@@ -106,7 +103,7 @@ public class CreateCourse {
 
         footer.getChildren().addAll(cancelButton, submitButton);
 
-        tableModules.getItems().addAll(moduleRepository.getAllModules());
+        tableModules.getItems().addAll(moduleRepository.getAllAvailableModules());
 
         // Bootstrap body
         formBody.setPadding(new Insets(10));

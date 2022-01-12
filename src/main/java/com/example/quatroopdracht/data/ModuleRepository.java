@@ -19,8 +19,8 @@ public class ModuleRepository extends DatabaseConnection{
         contactPersonRepository = new ContactPersonRepository();
     }
 
-    public List<Module> getAllModules() {
-        String sql = "SELECT * FROM Module INNER JOIN Content ON Module.ContentID = Content.ContentID";
+    public List<Module> getAllAvailableModules() {
+        String sql = "SELECT * FROM Module INNER JOIN Content ON Module.ContentID = Content.ContentID WHERE CourseName IS NOT NULL";
         List<Module> modules = new ArrayList<>();
 
         this.select(sql, resultSet -> {
