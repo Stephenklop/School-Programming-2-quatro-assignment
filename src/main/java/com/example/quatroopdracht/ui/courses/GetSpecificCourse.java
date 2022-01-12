@@ -1,5 +1,6 @@
 package com.example.quatroopdracht.ui.courses;
 
+import com.example.quatroopdracht.data.ModuleRepository;
 import com.example.quatroopdracht.domain.Course;
 import com.example.quatroopdracht.domain.Module;
 import javafx.geometry.Insets;
@@ -13,6 +14,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class GetSpecificCourse {
+    private final ModuleRepository moduleRepository;
+
+    public GetSpecificCourse() {
+        moduleRepository = new ModuleRepository();
+    }
+
     public Scene getGetSpecificCourseScene(Stage stage, Course itemData) {
 
         // Create layout
@@ -40,11 +47,24 @@ public class GetSpecificCourse {
         TableColumn<Module, String> colTitle = new TableColumn<>("Titel:");
         TableColumn<Module, String> colDesc = new TableColumn<>("Descriptie:");
 
-        colFollowNumber.setCellValueFactory(new PropertyValueFactory<>("follownumber"));
+        colFollowNumber.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
 
         tableModules.getColumns().addAll(colFollowNumber, colTitle, colDesc);
+        tableModules.setRowFactory(data -> {
+            TableRow<Module> row = new TableRow<>();
+            row.setOnMouseClicked(e -> {
+//                if(e.getClickCount() == 2 && (! row.isEmpty())) {
+//                    Module rowData = row.getItem();
+//                    rowData.setCourse(addCourse);
+//                    selectedModules.push(rowData);
+//                    System.out.println(selectedModules.size());
+//                    tableModules.getItems().remove(rowData);
+//                }
+            });
+            return row;
+        });
 
         // Check if row in table is double-clicked to open detail page
         tableModules.setRowFactory(data -> {
@@ -60,6 +80,8 @@ public class GetSpecificCourse {
         // Create back button
         Button backButton = new Button("Terug");
         backButton.setOnAction(event -> stage.setScene(new GetCourse().getGetCoursesScene(stage)));
+
+        tableModules.getItems().addAll(moduleRepository.getModulesForCourse(itemData));
 
         // Set styling
         formBody.setPadding(new Insets(10));

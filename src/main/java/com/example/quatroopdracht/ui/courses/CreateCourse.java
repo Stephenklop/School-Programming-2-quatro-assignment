@@ -106,7 +106,6 @@ public class CreateCourse {
 
         footer.getChildren().addAll(cancelButton, submitButton);
 
-        moduleRepository.getAllModules().forEach(System.out::println);
         tableModules.getItems().addAll(moduleRepository.getAllModules());
 
         // Bootstrap body
