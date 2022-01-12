@@ -1,8 +1,9 @@
 package com.example.quatroopdracht.ui.courses;
 
 import com.example.quatroopdracht.data.CourseRepository;
+import com.example.quatroopdracht.data.ModuleRepository;
 import com.example.quatroopdracht.domain.Course;
-import com.example.quatroopdracht.ui.content.CreateModule;
+import com.example.quatroopdracht.domain.Module;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -15,13 +16,20 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.Stack;
+import java.util.stream.Collectors;
+
 public class UpdateCourse {
     private final CourseRepository courseRepository;
+    private final ModuleRepository moduleRepository;
     private Course course;
+    private Stack<Module> selectedModules;
 
     public UpdateCourse(Course course) {
         this.course = course;
         courseRepository = new CourseRepository();
+        moduleRepository = new ModuleRepository();
+        selectedModules = new Stack<>();
     }
     public Scene getUpdateCourseScene(Stage stage) {
 
@@ -50,11 +58,24 @@ public class UpdateCourse {
         TableColumn<Module, String> colDesc = new TableColumn<>("Beschrijving:");
         TableColumn<Module, String> colVersion = new TableColumn<>("Versie:");
 
-        colTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
+        colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        colDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
         colVersion.setCellValueFactory(new PropertyValueFactory<>("version"));
 
         tableModules.getColumns().addAll(colTitle, colDesc, colVersion);
+        tableModules.setRowFactory(data -> {
+            TableRow<Module> row = new TableRow<>();
+            row.setOnMouseClicked(e -> {
+                if(e.getClickCount() == 2 && (! row.isEmpty())) {
+                    Module rowData = row.getItem();
+                    rowData.setCourse(course);
+                    selectedModules.push(rowData);
+                    System.out.println(selectedModules.size());
+                    tableModules.getItems().remove(rowData);
+                }
+            });
+            return row;
+        });
 
         // Create footer
         Button cancelButton = new Button("Annuleren");
@@ -67,11 +88,22 @@ public class UpdateCourse {
             course.setLevel(level.getValue());
 
             if (courseRepository.updateCourse(course)) {
+                while (!selectedModules.isEmpty()) {
+                    moduleRepository.updateModule(selectedModules.pop());
+                }
                 stage.setScene(new GetCourse().getGetCoursesScene(stage));
             }
         });
 
         footer.getChildren().addAll(cancelButton, submitButton);
+
+        // Set input field placeholders
+        subject.setText(course.getSubject());
+        introduction.setText(course.getIntroText());
+        level.setValue(levelList.stream().filter(l -> l.equals(course.getLevel())).collect(Collectors.joining()));
+
+        // retrieve modules
+        tableModules.getItems().addAll(moduleRepository.getAllAvailableModules());
 
         // Bootstrap body
         formBody.setPadding(new Insets(10));

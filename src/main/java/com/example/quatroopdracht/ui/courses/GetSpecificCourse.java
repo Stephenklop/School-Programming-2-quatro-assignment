@@ -51,20 +51,8 @@ public class GetSpecificCourse {
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
 
+        // retrieve modules
         tableModules.getColumns().addAll(colFollowNumber, colTitle, colDesc);
-        tableModules.setRowFactory(data -> {
-            TableRow<Module> row = new TableRow<>();
-            row.setOnMouseClicked(e -> {
-//                if(e.getClickCount() == 2 && (! row.isEmpty())) {
-//                    Module rowData = row.getItem();
-//                    rowData.setCourse(addCourse);
-//                    selectedModules.push(rowData);
-//                    System.out.println(selectedModules.size());
-//                    tableModules.getItems().remove(rowData);
-//                }
-            });
-            return row;
-        });
 
         // Check if row in table is double-clicked to open detail page
         tableModules.setRowFactory(data -> {

@@ -103,6 +103,7 @@ public class CreateCourse {
 
         footer.getChildren().addAll(cancelButton, submitButton);
 
+        // retrieve modules
         tableModules.getItems().addAll(moduleRepository.getAllAvailableModules());
 
         // Bootstrap body
