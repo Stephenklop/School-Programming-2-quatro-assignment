@@ -2,6 +2,7 @@ package com.example.quatroopdracht.data;
 
 import com.example.quatroopdracht.domain.Course;
 import com.example.quatroopdracht.domain.Student;
+import com.example.quatroopdracht.domain.StudentEnrollment;
 import com.example.quatroopdracht.util.Util;
 import com.example.quatroopdracht.util.Validator;
 
@@ -40,6 +41,27 @@ public class CourseRepository extends DatabaseConnection {
             try {
                 while (resultSet.next()) {
                     courses.add(resultSet.getString("Name"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        return courses;
+    }
+
+    public List<Course> getAllEnrolledCourses(Student student){
+        String sql = String.format("SELECT * FROM Course WHERE Name IN ( SELECT CourseID AS Name FROM Registration WHERE StudentID = '%s' )", student.getEmail());
+        List<Course> courses = new ArrayList<>();
+
+        this.select(sql, resultSet -> {
+            try {
+                while (resultSet.next()) {
+                    courses.add(new Course(
+                            resultSet.getString("Name"),
+                            resultSet.getString("Subject"),
+                            resultSet.getString("IntroductionText"),
+                            resultSet.getString("Level")
+                    ));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

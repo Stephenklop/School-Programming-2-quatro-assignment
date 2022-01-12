@@ -124,10 +124,10 @@ public class RegistrationRepository extends DatabaseConnection{
     }
 
     //delete registration
-    public boolean deleteStudentEnrollment(String CourseID, String StudentID, Date SignUpDate) {
+    public boolean deleteStudentEnrollment(String CourseID, String StudentID) {
         String sql = String.format(
-                "DELETE FROM Registration WHERE CourseID = '%s' AND StudentID = '%s' AND SignUpDate = '%s'",
-                CourseID, StudentID, SignUpDate
+                "DELETE FROM Registration WHERE CourseID = '%s' AND StudentID = '%s'",
+                CourseID, StudentID
         );
 
         int deleted = this.update(sql);
@@ -140,7 +140,7 @@ public class RegistrationRepository extends DatabaseConnection{
                 Util.displayError("An exception occurred!");
                 return false;
             default:
-                Util.displaySuccess("Successfully deleted student!");
+                Util.displaySuccess("Successfully deleted enrollment!");
                 return true;
         }
     }

@@ -1,5 +1,7 @@
 package com.example.quatroopdracht.ui.students;
 
+import com.example.quatroopdracht.data.CourseRepository;
+import com.example.quatroopdracht.data.RegistrationRepository;
 import com.example.quatroopdracht.domain.Course;
 import com.example.quatroopdracht.domain.Student;
 import com.example.quatroopdracht.ui.courses.UpdateCourse;
@@ -23,6 +25,14 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
 public class GetSpecificStudent {
+    private final CourseRepository courseRepository;
+    private final RegistrationRepository registrationRepository;
+
+    public GetSpecificStudent() {
+        courseRepository = new CourseRepository();
+        registrationRepository = new RegistrationRepository();
+    }
+
     public Scene getGetSpecificStudentsScene(Stage stage, Student itemData) {
 
         // Create layout
@@ -61,6 +71,7 @@ public class GetSpecificStudent {
 
         // Create table for added courses
         TableView<Course> tableCourses = new TableView<>();
+        tableCourses.getItems().addAll(courseRepository.getAllEnrolledCourses(itemData));
         tableCourses.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         TableColumn<Course, String> colName = new TableColumn<>("Titel:");
@@ -69,7 +80,7 @@ public class GetSpecificStudent {
         TableColumn<Course, Void> colUnsub = new TableColumn<>("");
 
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colDesc.setCellValueFactory(new PropertyValueFactory<>("introText"));
         colLevel.setCellValueFactory(new PropertyValueFactory<>("level"));
 
         // Unsubscribe Button Factory
@@ -97,6 +108,13 @@ public class GetSpecificStudent {
                             // Set button actions
                             noBtn.setOnAction(e -> {
                                 dialog.close();
+                            });
+
+                            yesBtn.setOnAction(e -> {
+                                if (registrationRepository.deleteStudentEnrollment(data.getName(), itemData.getEmail())) {
+                                    stage.setScene(new GetSpecificStudent().getGetSpecificStudentsScene(stage, itemData));
+                                    dialog.close();
+                                }
                             });
 
                             dialogVbox.getChildren().addAll(areYouSureText, buttonBox);
