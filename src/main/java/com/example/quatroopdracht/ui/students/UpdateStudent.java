@@ -47,7 +47,7 @@ public class UpdateStudent {
         TextField name = new TextField(student.getName());
         DatePicker birthday = new DatePicker();
         birthday.setValue(LocalDate.parse(student.getDateOfBirth().toString()));
-        ObservableList<String> genderList = FXCollections.observableArrayList("Male", "Female", "Other");
+        ObservableList<String> genderList = FXCollections.observableArrayList("Man", "Vrouw", "Anders");
         ComboBox<String> gender = new ComboBox<>(genderList);
         gender.setValue(student.getGender());
         TextField address = new TextField(student.getAddress());

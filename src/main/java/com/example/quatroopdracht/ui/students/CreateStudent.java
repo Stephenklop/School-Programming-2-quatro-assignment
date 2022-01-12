@@ -1,5 +1,7 @@
 package com.example.quatroopdracht.ui.students;
 
+import com.example.quatroopdracht.data.StudentRepository;
+import com.example.quatroopdracht.domain.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -13,6 +15,12 @@ import javafx.stage.Stage;
 import org.w3c.dom.Text;
 
 public class CreateStudent {
+    private final StudentRepository studentRepository;
+
+    public CreateStudent() {
+        studentRepository = new StudentRepository();
+    }
+
     public Scene getCreateStudentScene(Stage stage) {
 
         // Create layout
@@ -30,10 +38,10 @@ public class CreateStudent {
         Label countryLabel = new Label("Land:");
 
         // Create input fields
-        TextField name = new TextField("Naam:");
-        TextField email = new TextField("Email:");
+        TextField name = new TextField();
+        TextField email = new TextField();
         DatePicker birthday = new DatePicker();
-        ObservableList<String> genderList = FXCollections.observableArrayList("Male", "Female", "Other");
+        ObservableList<String> genderList = FXCollections.observableArrayList("Man", "Vrouw", "Anders");
         ComboBox<String> gender = new ComboBox<>(genderList);
         TextField address = new TextField();
         TextField city = new TextField();
@@ -45,6 +53,19 @@ public class CreateStudent {
 
         cancelButton.setOnAction(e -> stage.setScene(new GetStudents().getGetStudents(stage)));
         submitButton.setOnAction(e -> {
+            Student student = new Student(
+                    email.getText(),
+                    name.getText(),
+                    gender.getValue(),
+                    java.sql.Timestamp.valueOf(birthday.getValue().atStartOfDay()),
+                    address.getText(),
+                    city.getText(),
+                    country.getText()
+            );
+
+            if (studentRepository.addStudent(student)) {
+                stage.setScene(new GetStudents().getGetStudents(stage));
+            }
         });
 
         footer.getChildren().addAll(cancelButton, submitButton);
