@@ -20,7 +20,6 @@ public class Dashboard {
         // Create buttons
         Button coursesButton = new Button("Cursussen");
         Button studentsButton = new Button("Cursisten");
-        Button applicationsButton = new Button("Inschrijvingen");
         Button certificatesButton = new Button("Certificaten");
 
         // Add actions to buttons
