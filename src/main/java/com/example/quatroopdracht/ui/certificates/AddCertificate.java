@@ -45,7 +45,7 @@ public class AddCertificate {
             stage.setScene(new SubscribedCourseDetails().getSubscribedCourseDetailsPage(stage, course, student));
         });
         submitButton.setOnAction(e -> {
-            Certificate addCertificate = new Certificate((course.getName()+student.getEmail()).hashCode(), Float.parseFloat(grade.getText()), employeeName.getText());
+            Certificate addCertificate = new Certificate((int) (System.currentTimeMillis() / 1000), Float.parseFloat(grade.getText()), employeeName.getText());
             System.out.println(addCertificate);
             if (certificateRepository.addCertificate(addCertificate)) {
 
