@@ -26,7 +26,11 @@ public class SubscribedCourseDetails {
 
         // Create header
         Button addCertificateButton = new Button("Voeg certificaat toe");
+        Button updateCertificateButton = new Button("Update certificaat");
+        Button removeCertificateButton = new Button("Verwijder certificaat");
         addCertificateButton.setOnAction(e -> stage.setScene(new AddCertificate().getAddCertificateScene(stage, item, studentItem)));
+        updateCertificateButton.setOnAction(e -> {});
+        removeCertificateButton.setOnAction(e -> {});
 
         header.getChildren().add(addCertificateButton);
 
