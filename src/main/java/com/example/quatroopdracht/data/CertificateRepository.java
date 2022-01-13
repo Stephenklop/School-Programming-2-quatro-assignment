@@ -31,18 +31,18 @@ public class CertificateRepository extends DatabaseConnection{
 
     }
 
-    public Certificate getCertificate(int CertificateID) {
+    public Certificate getCertificate(int certificateID) {
         AtomicReference<Certificate> certificate = new AtomicReference<>(null);
         String sql = String.format(
-                "SELECT * FROM Registration WHERE CourseID = ‘%s’",
-                certificate
+                "SELECT * FROM Certificate WHERE CertificateID = '%s'",
+                certificateID
         );
-
+        System.out.println(sql);
         this.select(sql, resultSet -> {
             try {
                 if (resultSet.isBeforeFirst() && resultSet.next()) {
                     certificate.set(new Certificate(
-                            CertificateID,
+                            certificateID,
                             resultSet.getFloat("Grade"),
                             resultSet.getString("EmployeeName")
                     ));
@@ -90,7 +90,7 @@ public class CertificateRepository extends DatabaseConnection{
         }
 
         String sql = String.format(
-                "UPDATE Certificate SET Grade = ‘%s’, EmployeeName = ‘%s’ WHERE CertificateID = ‘%s’",
+                "UPDATE Certificate SET Grade = '%s', EmployeeName = '%s' WHERE CertificateID = '%s'",
                 certificate.getGrade(),
                 certificate.getEmployeeName(),
                 certificate.getCertificateId()
@@ -113,7 +113,7 @@ public class CertificateRepository extends DatabaseConnection{
 
     public boolean deleteCertificate(int certificateID) {
         String sql = String.format(
-                "DELETE FROM Certificate WHERE CertificateID = ‘%s’",
+                "DELETE FROM Certificate WHERE CertificateID = '%s'",
                 certificateID
         );
 

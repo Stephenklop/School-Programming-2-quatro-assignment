@@ -42,11 +42,11 @@ public class RegistrationRepository extends DatabaseConnection{
         return enrollments;
     }
 
-    public StudentEnrollment getStudentEnrollment(String courseID, String studentID, Date SignUpDate){
+    public StudentEnrollment getStudentEnrollment(String courseID, String studentID){
         AtomicReference<StudentEnrollment> studentEnrollment = new AtomicReference<>(null);
         String sql = String.format(
-                "SELECT * FROM Registration WHERE CourseID = '%s' AND StudentID = '%s' AND SignUpDate = '%s' AND CertificateID = '%s'",
-                courseID, studentID, SignUpDate
+                "SELECT * FROM Registration WHERE CourseID = '%s' AND StudentID = '%s'",
+                courseID, studentID
         );
 
         this.select(sql, resultSet -> {
@@ -57,6 +57,9 @@ public class RegistrationRepository extends DatabaseConnection{
                             courseRepository.getCourse(resultSet.getString("CourseID")),
                             resultSet.getDate("SignUpDate")
                     ));
+                    if (resultSet.getBoolean("CertificateID")) {
+                        studentEnrollment.get().setCertificate(certificateRepository.getCertificate(resultSet.getInt("CertificateID")));
+                    }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -92,20 +95,12 @@ public class RegistrationRepository extends DatabaseConnection{
         }
     }
 
-    public boolean updateStudentEnrollment(StudentEnrollment studentEnrollment) {
-        try {
-            Validator.validateEnrollment(studentEnrollment);
-        } catch (Exception ex) {
-            Util.displayError(ex.getMessage());
-            return false;
-        }
-
+    public boolean updateStudentEnrollmentWithCertificate(String courseName, String studentEmail, int certificateId) {
         String sql = String.format(
-                "UPDATE Registration SET CertificateID = '%s' WHERE CourseID = '%s' AND StudentID = '%s' AND SignUpDate = '%s'",
-                studentEnrollment.getCertificate().getCertificateId(),
-                studentEnrollment.getCourse().getName(),
-                studentEnrollment.getStudent().getEmail(),
-                studentEnrollment.getSignUpDate()
+                "UPDATE Registration SET CertificateID = '%s' WHERE CourseID = '%s' AND StudentID = '%s'",
+                certificateId,
+                courseName,
+                studentEmail
         );
 
         int updated = this.update(sql);

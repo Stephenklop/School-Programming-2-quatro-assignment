@@ -1,10 +1,11 @@
 package com.example.quatroopdracht.ui.certificates;
 
+import com.example.quatroopdracht.data.CertificateRepository;
+import com.example.quatroopdracht.data.RegistrationRepository;
+import com.example.quatroopdracht.domain.Certificate;
 import com.example.quatroopdracht.domain.Course;
 import com.example.quatroopdracht.domain.Student;
 import com.example.quatroopdracht.ui.courses.SubscribedCourseDetails;
-import com.example.quatroopdracht.ui.students.GetSpecificStudent;
-import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,6 +15,14 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class AddCertificate {
+    private final CertificateRepository certificateRepository;
+    private final RegistrationRepository registrationRepositor;
+
+    public AddCertificate() {
+        certificateRepository = new CertificateRepository();
+        registrationRepositor = new RegistrationRepository();
+    }
+
     public Scene getAddCertificateScene(Stage stage, Course course, Student student) {
 
         // Create layout
@@ -35,7 +44,15 @@ public class AddCertificate {
         cancelButton.setOnAction(e -> {
             stage.setScene(new SubscribedCourseDetails().getSubscribedCourseDetailsPage(stage, course, student));
         });
+        submitButton.setOnAction(e -> {
+            Certificate addCertificate = new Certificate((course.getName()+student.getEmail()).hashCode(), Float.parseFloat(grade.getText()), employeeName.getText());
+            System.out.println(addCertificate);
+            if (certificateRepository.addCertificate(addCertificate)) {
 
+                registrationRepositor.updateStudentEnrollmentWithCertificate(course.getName(), student.getEmail(), addCertificate.getCertificateId());
+                stage.setScene(new SubscribedCourseDetails().getSubscribedCourseDetailsPage(stage, course, student));
+            }
+        });
 
         footer.getChildren().addAll(cancelButton, submitButton);
 

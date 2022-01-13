@@ -1,8 +1,9 @@
 package com.example.quatroopdracht.ui.courses;
 
-import com.example.quatroopdracht.domain.Course;
+import com.example.quatroopdracht.data.CertificateRepository;
+import com.example.quatroopdracht.data.RegistrationRepository;
+import com.example.quatroopdracht.domain.*;
 import com.example.quatroopdracht.domain.Module;
-import com.example.quatroopdracht.domain.Student;
 import com.example.quatroopdracht.ui.certificates.AddCertificate;
 import com.example.quatroopdracht.ui.students.GetSpecificStudent;
 import javafx.geometry.Insets;
@@ -17,12 +18,23 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class SubscribedCourseDetails {
+    private final RegistrationRepository registrationRepository;
+    private final CertificateRepository certificateRepository;
+
+    public SubscribedCourseDetails() {
+        registrationRepository = new RegistrationRepository();
+        certificateRepository = new CertificateRepository();
+    }
+
     public Scene getSubscribedCourseDetailsPage(Stage stage, Course item, Student studentItem) {
+        StudentEnrollment enrollment = registrationRepository.getStudentEnrollment(item.getName(), studentItem.getEmail());
 
         // Create layout
         VBox body = new VBox();
-        HBox header = new HBox();
+        VBox header = new VBox();
+        HBox buttonGroup = new HBox();
         GridPane formBody = new GridPane();
+        GridPane certificateData = new GridPane();
 
         // Create header
         Button addCertificateButton = new Button("Voeg certificaat toe");
@@ -30,9 +42,30 @@ public class SubscribedCourseDetails {
         Button removeCertificateButton = new Button("Verwijder certificaat");
         addCertificateButton.setOnAction(e -> stage.setScene(new AddCertificate().getAddCertificateScene(stage, item, studentItem)));
         updateCertificateButton.setOnAction(e -> {});
-        removeCertificateButton.setOnAction(e -> {});
+        removeCertificateButton.setOnAction(e -> {
+            certificateRepository.deleteCertificate(enrollment.getCertificate().getCertificateId());
+            stage.setScene(new SubscribedCourseDetails().getSubscribedCourseDetailsPage(stage, item, studentItem));
+        });
 
-        header.getChildren().add(addCertificateButton);
+        if (enrollment.getCertificate() == null) {
+            buttonGroup.getChildren().add(addCertificateButton);
+        } else {
+            // Insert certifictate data
+            Label gradeLabel = new Label("Cijfer:");
+            Label employeeLabel = new Label("Uitvoerende medewerker:");
+
+            Text gradeText = new Text(String.valueOf(enrollment.getCertificate().getGrade()));
+            Text employeeText = new Text(enrollment.getCertificate().getEmployeeName());
+
+            certificateData.add(gradeLabel, 1, 1);
+            certificateData.add(gradeText, 2, 1);
+            certificateData.add(employeeLabel, 1, 2);
+            certificateData.add(employeeText, 2, 2);
+
+            buttonGroup.getChildren().addAll(updateCertificateButton, removeCertificateButton);
+            header.getChildren().addAll(buttonGroup, certificateData);
+        }
+
 
         // Create labels
         Label nameLabel = new Label("Naam:");
@@ -42,10 +75,10 @@ public class SubscribedCourseDetails {
         Label moduleLabel = new Label("Modules:");
 
         // Create text
-        Text nameText = new Text("Name");
-        Text subjectText = new Text("Subject");
-        Text introText = new Text("Intro");
-        Text levelText = new Text("Level");
+        Text nameText = new Text(item.getName());
+        Text subjectText = new Text(item.getSubject());
+        Text introText = new Text(item.getIntroText());
+        Text levelText = new Text(item.getLevel());
 
         // Create table for added modules
         TableView<Module> tableModules = new TableView<>();
@@ -81,6 +114,9 @@ public class SubscribedCourseDetails {
         formBody.setPadding(new Insets(10));
         formBody.setHgap(4);
         formBody.setVgap(8);
+        certificateData.setHgap(4);
+        certificateData.setVgap(8);
+        buttonGroup.setSpacing(20);
         VBox.setVgrow(formBody, Priority.ALWAYS);
 
         // Set grid layout

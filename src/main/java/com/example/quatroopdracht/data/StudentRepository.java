@@ -50,7 +50,7 @@ public class StudentRepository extends DatabaseConnection {
                             resultSet.getString("Name"),
                             resultSet.getString("Gender"),
                             resultSet.getDate("BirthDate"),
-                            resultSet.getString("Address"),
+                            resultSet.getString("Adress"),
                             resultSet.getString("Residence"),
                             resultSet.getString("Country")
                     ));

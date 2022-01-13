@@ -34,4 +34,13 @@ public class Certificate {
     public void setEmployeeName(String employeeName) {
         this.employeeName = employeeName;
     }
+
+    @Override
+    public String toString() {
+        return "Certificate{" +
+                "certificateId=" + certificateId +
+                ", grade=" + grade +
+                ", employeeName='" + employeeName + '\'' +
+                '}';
+    }
 }
