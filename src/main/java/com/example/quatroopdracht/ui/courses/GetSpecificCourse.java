@@ -1,6 +1,7 @@
 package com.example.quatroopdracht.ui.courses;
 
 import com.example.quatroopdracht.data.ModuleRepository;
+import com.example.quatroopdracht.data.StatisticsRepository;
 import com.example.quatroopdracht.domain.Course;
 import com.example.quatroopdracht.domain.Module;
 import javafx.geometry.Insets;
@@ -14,11 +15,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 public class GetSpecificCourse {
     private final ModuleRepository moduleRepository;
+    private final StatisticsRepository statisticsRepository;
 
     public GetSpecificCourse() {
         moduleRepository = new ModuleRepository();
+        statisticsRepository = new StatisticsRepository();
     }
 
     public Scene getGetSpecificCourseScene(Stage stage, Course itemData) {
@@ -55,7 +60,7 @@ public class GetSpecificCourse {
         colFollowNumber.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
-        colAverageProgress.setCellValueFactory(new PropertyValueFactory<>("26,5%"));
+        colAverageProgress.setCellValueFactory(new PropertyValueFactory<>("completion"));
 
         // retrieve modules
         tableModules.getColumns().addAll(colFollowNumber, colTitle, colDesc, colAverageProgress);
@@ -90,7 +95,11 @@ public class GetSpecificCourse {
         Button backButton = new Button("Terug");
         backButton.setOnAction(event -> stage.setScene(new GetCourse().getGetCoursesScene(stage)));
 
-        tableModules.getItems().addAll(moduleRepository.getModulesForCourse(itemData));
+        List<Module> modules = moduleRepository.getModulesForCourse(itemData);
+        modules.forEach(module -> {
+            module.setCompletion(statisticsRepository.getAvgCompletion(module.getContentItemId()) + "%");
+        });
+        tableModules.getItems().addAll(modules);
 
         // Set styling
         formBody.setPadding(new Insets(10));

@@ -8,6 +8,7 @@ public class Module extends Content {
     private ContactPerson contactPerson;
     private String serialNumber;
     private int courseIndex;
+    private String completion;
 
     public Module(int contentItemId, Date publicationDate, String status, String title, int version, String description, Course course, ContactPerson contactPerson, String serialNumber, int courseIndex) {
         super(contentItemId, publicationDate, status, title, description);
@@ -58,6 +59,14 @@ public class Module extends Content {
         this.contactPerson = contactPerson;
     }
 
+    public String getCompletion() {
+        return completion;
+    }
+
+    public void setCompletion(String completion) {
+        this.completion = completion;
+    }
+
     @Override
     public String toString() {
         return "Module{" +
@@ -66,6 +75,7 @@ public class Module extends Content {
                 ", contactPerson=" + contactPerson +
                 ", serialNumber='" + serialNumber + '\'' +
                 ", courseIndex=" + courseIndex +
+                ", avgCompletion='" + completion + '\'' +
                 "} " + super.toString();
     }
 }

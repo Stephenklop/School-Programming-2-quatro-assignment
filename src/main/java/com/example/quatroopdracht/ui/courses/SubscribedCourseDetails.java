@@ -1,7 +1,9 @@
 package com.example.quatroopdracht.ui.courses;
 
 import com.example.quatroopdracht.data.CertificateRepository;
+import com.example.quatroopdracht.data.ModuleRepository;
 import com.example.quatroopdracht.data.RegistrationRepository;
+import com.example.quatroopdracht.data.StatisticsRepository;
 import com.example.quatroopdracht.domain.*;
 import com.example.quatroopdracht.domain.Module;
 import com.example.quatroopdracht.ui.certificates.AddCertificate;
@@ -17,13 +19,19 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 public class SubscribedCourseDetails {
     private final RegistrationRepository registrationRepository;
     private final CertificateRepository certificateRepository;
+    private final ModuleRepository moduleRepository;
+    private final StatisticsRepository statisticsRepository;
 
     public SubscribedCourseDetails() {
         registrationRepository = new RegistrationRepository();
         certificateRepository = new CertificateRepository();
+        moduleRepository = new ModuleRepository();
+        statisticsRepository = new StatisticsRepository();
     }
 
     public Scene getSubscribedCourseDetailsPage(Stage stage, Course item, Student studentItem) {
@@ -92,10 +100,16 @@ public class SubscribedCourseDetails {
         colFollowNumber.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
-        colProgress.setCellValueFactory(new PropertyValueFactory<>("progress"));
+        colProgress.setCellValueFactory(new PropertyValueFactory<>("completion"));
 
         // retrieve modules
         tableModules.getColumns().addAll(colFollowNumber, colTitle, colDesc, colProgress);
+
+        List<Module> modules = moduleRepository.getModulesForCourse(item);
+        modules.forEach(module -> {
+            module.setCompletion(statisticsRepository.getCompletion(module.getContentItemId(), studentItem) + "%");
+        });
+        tableModules.getItems().addAll(modules);
 
         // Check if row in table is double-clicked to open detail page
         tableModules.setRowFactory(data -> {

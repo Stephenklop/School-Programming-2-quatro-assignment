@@ -7,6 +7,7 @@ import com.example.quatroopdracht.domain.Webcast;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class StatisticsRepository extends DatabaseConnection {
     public List<Webcast> getTop3Webcasts() {
@@ -78,5 +79,57 @@ public class StatisticsRepository extends DatabaseConnection {
             }
         });
         return courses;
+    }
+
+    public int getAvgCompletion(int contentId) {
+        AtomicReference<Integer> avgCompletion = new AtomicReference<>(0);
+        String sql = String.format(
+                "SELECT ContentID, AVG(WatchPercentage) AS AverageCompletion\n" +
+                "FROM StudentWatchesContent\n" +
+                "GROUP BY ContentID\n" +
+                "HAVING ContentID IN (\n" +
+                "\tSELECT ContentID\n" +
+                "\tFROM Module\n" +
+                ") AND ContentID = '%s';",
+                contentId
+        );
+
+        this.select(sql, resultSet -> {
+            try {
+                if (resultSet.isBeforeFirst() && resultSet.next()) {
+                    avgCompletion.set(resultSet.getInt("AverageCompletion"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        return avgCompletion.get();
+    }
+
+    public int getCompletion(int contentId, Student student) {
+        AtomicReference<Integer> avgCompletion = new AtomicReference<>(0);
+        String sql = String.format(
+                "SELECT ContentID, StudentEmail, AVG(WatchPercentage) AS AverageCompletion\n" +
+                "FROM StudentWatchesContent\n" +
+                "GROUP BY ContentID, StudentEmail\n" +
+                "HAVING ContentID IN (\n" +
+                "\tSELECT ContentID\n" +
+                "\tFROM Module\n" +
+                ") AND ContentID = %s\n" +
+                "AND StudentEmail = '%s'",
+                contentId,
+                student.getEmail()
+        );
+
+        this.select(sql, resultSet -> {
+            try {
+                if (resultSet.isBeforeFirst() && resultSet.next()) {
+                    avgCompletion.set(resultSet.getInt("AverageCompletion"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        return avgCompletion.get();
     }
 }
