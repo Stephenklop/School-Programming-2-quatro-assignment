@@ -153,12 +153,25 @@ public class GetCourse {
 
         // Add entries
         tableCourses.getItems().addAll(courseRepository.getAllCourses());
+
+        // Create statistics
+        VBox statisticsBox = new VBox();
+
+        Label statisticsLabel = new Label("Statistics:");
+        Text top3MostCertificates = new Text("Top 3 cursussen met de meeste uitgegeven certificaten");
+        Text firstPlace = new Text("first place");
+        Text secondPlace = new Text("second place");
+        Text thirdPlace = new Text("third place");
+
+
+        statisticsBox.getChildren().addAll(statisticsLabel, top3MostCertificates, firstPlace, secondPlace, thirdPlace);
+
         // Create back button
         Button backButton = new Button("Terug");
         backButton.setOnAction(e -> stage.setScene(new Dashboard().getDashboardScene(stage)));
 
         // Bootstrap body
-        body.getChildren().addAll(header, tableCourses, backButton);
+        body.getChildren().addAll(header, tableCourses, statisticsBox, backButton);
         body.setPadding(new Insets(10));
         body.setSpacing(10);
 
