@@ -1,5 +1,7 @@
 package com.example.quatroopdracht.ui;
 
+import com.example.quatroopdracht.data.StatisticsRepository;
+import com.example.quatroopdracht.domain.Webcast;
 import com.example.quatroopdracht.ui.courses.GetCourse;
 import com.example.quatroopdracht.ui.students.GetStudents;
 import javafx.scene.Scene;
@@ -10,7 +12,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 public class Dashboard {
+    private final StatisticsRepository statisticsRepository;
+
+    public Dashboard() {
+        statisticsRepository = new StatisticsRepository();
+    }
+
     public Scene getDashboardScene(Stage stage) {
         stage.setTitle("Codecademy statistics");
 
@@ -25,12 +35,16 @@ public class Dashboard {
         Label statisticsLabel = new Label("Statistics:");
 
         // Create text
+        List<Webcast> top3WebCasts = statisticsRepository.getTop3Webcasts();
+
         VBox mostWatchedWebcastsContainer = new VBox();
         Text top3MostWatchedWebcasts = new Text("Top 3 meest bekeken webcasts");
-        Text webcast1 = new Text("Webcast 1");
-        Text webcast2 = new Text("Webcast 2");
-        Text webcast3 = new Text("Webcast 3");
-        mostWatchedWebcastsContainer.getChildren().addAll(statisticsLabel, top3MostWatchedWebcasts, webcast1, webcast2, webcast3);
+        mostWatchedWebcastsContainer.getChildren().addAll(statisticsLabel, top3MostWatchedWebcasts);
+        int i = 1;
+        for (Webcast webcast : top3WebCasts) {
+            mostWatchedWebcastsContainer.getChildren().add(new Text(String.format("%d: %s", i, webcast.getTitle())));
+            i++;
+        }
 
         // Create buttons
         Button coursesButton = new Button("Cursussen");
