@@ -4,17 +4,20 @@ import com.example.quatroopdracht.data.CourseRepository;
 import com.example.quatroopdracht.data.RegistrationRepository;
 import com.example.quatroopdracht.domain.Course;
 import com.example.quatroopdracht.domain.Student;
+import com.example.quatroopdracht.ui.certificates.AddCertificate;
+import com.example.quatroopdracht.ui.courses.GetSpecificCourse;
+import com.example.quatroopdracht.ui.courses.SubscribedCourseDetails;
 import com.example.quatroopdracht.ui.courses.UpdateCourse;
 import com.example.quatroopdracht.ui.signup.CreateSignup;
+import javafx.beans.property.ObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -144,7 +147,18 @@ public class GetSpecificStudent {
 
         // Create back button
         Button backButton = new Button("Terug");
-        backButton.setOnAction(e -> stage.setScene(new GetStudents().getGetStudents(stage)));
+
+        // Check if row in table is double-clicked to open detail page
+        tableCourses.setRowFactory(data -> {
+            TableRow<Course> row = new TableRow<>();
+            row.setOnMouseClicked(e -> {
+                if(e.getClickCount() == 2 && (! row.isEmpty())) {
+                    Course rowData = row.getItem();
+                    stage.setScene(new SubscribedCourseDetails().getSubscribedCourseDetailsPage(stage, rowData, itemData));
+                }
+            });
+            return row;
+        });
 
         // Set styling
         formBody.setPadding(new Insets(10));
