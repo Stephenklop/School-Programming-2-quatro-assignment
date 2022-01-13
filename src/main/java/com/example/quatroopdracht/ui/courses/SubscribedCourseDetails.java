@@ -63,8 +63,8 @@ public class SubscribedCourseDetails {
             certificateData.add(employeeText, 2, 2);
 
             buttonGroup.getChildren().addAll(updateCertificateButton, removeCertificateButton);
-            header.getChildren().addAll(buttonGroup, certificateData);
         }
+        header.getChildren().addAll(buttonGroup, certificateData);
 
 
         // Create labels
