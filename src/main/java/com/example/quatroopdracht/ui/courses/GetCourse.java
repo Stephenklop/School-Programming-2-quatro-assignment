@@ -1,7 +1,9 @@
 package com.example.quatroopdracht.ui.courses;
 
 import com.example.quatroopdracht.data.CourseRepository;
+import com.example.quatroopdracht.data.StatisticsRepository;
 import com.example.quatroopdracht.domain.Course;
+import com.example.quatroopdracht.domain.Webcast;
 import com.example.quatroopdracht.ui.Dashboard;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -15,11 +17,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.util.List;
+
 public class GetCourse {
     private final CourseRepository courseRepository;
+    private final StatisticsRepository statisticsRepository;
 
     public GetCourse() {
         courseRepository = new CourseRepository();
+        statisticsRepository = new StatisticsRepository();
     }
 
     public Scene getGetCoursesScene(Stage stage) {
@@ -155,16 +161,23 @@ public class GetCourse {
         tableCourses.getItems().addAll(courseRepository.getAllCourses());
 
         // Create statistics
+        List<Course> top3Courses = statisticsRepository.getTop3CoursesByCertificate();
         VBox statisticsBox = new VBox();
 
         Label statisticsLabel = new Label("Statistics:");
         Text top3MostCertificates = new Text("Top 3 cursussen met de meeste uitgegeven certificaten");
+        statisticsBox.getChildren().addAll(statisticsLabel, top3MostCertificates);
+        int i = 1;
+        for (Course course : top3Courses) {
+            statisticsBox.getChildren().add(new Text(String.format("%d: %s", i, course.getName())));
+            i++;
+        }
         Text firstPlace = new Text("first place");
         Text secondPlace = new Text("second place");
         Text thirdPlace = new Text("third place");
 
 
-        statisticsBox.getChildren().addAll(statisticsLabel, top3MostCertificates, firstPlace, secondPlace, thirdPlace);
+
 
         // Create back button
         Button backButton = new Button("Terug");

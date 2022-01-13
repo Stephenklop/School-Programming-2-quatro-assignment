@@ -36,7 +36,6 @@ public class Dashboard {
 
         // Create text
         List<Webcast> top3WebCasts = statisticsRepository.getTop3Webcasts();
-
         VBox mostWatchedWebcastsContainer = new VBox();
         Text top3MostWatchedWebcasts = new Text("Top 3 meest bekeken webcasts");
         mostWatchedWebcastsContainer.getChildren().addAll(statisticsLabel, top3MostWatchedWebcasts);
