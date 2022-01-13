@@ -5,6 +5,7 @@ import com.example.quatroopdracht.data.RegistrationRepository;
 import com.example.quatroopdracht.domain.Course;
 import com.example.quatroopdracht.domain.Student;
 import com.example.quatroopdracht.ui.certificates.AddCertificate;
+import com.example.quatroopdracht.ui.courses.GetCourse;
 import com.example.quatroopdracht.ui.courses.GetSpecificCourse;
 import com.example.quatroopdracht.ui.courses.SubscribedCourseDetails;
 import com.example.quatroopdracht.ui.courses.UpdateCourse;
@@ -65,12 +66,6 @@ public class GetSpecificStudent {
         // Create sign up button
         Button signupButton = new Button("Inschrijven voor een cursus");
         signupButton.setOnAction(e -> stage.setScene(new CreateSignup().getCreateSignUp(stage, itemData)));
-
-        // Create progress buttons
-        Button moduleProgress = new Button("Module voortgang");
-        Button webcastProgress = new Button("Webcast voortgang");
-
-        progressBox.getChildren().addAll(moduleProgress, webcastProgress);
 
         // Create table for added courses
         TableView<Course> tableCourses = new TableView<>();
@@ -147,6 +142,7 @@ public class GetSpecificStudent {
 
         // Create back button
         Button backButton = new Button("Terug");
+        backButton.setOnAction(e -> stage.setScene(new GetStudents().getGetStudents(stage)));
 
         // Check if row in table is double-clicked to open detail page
         tableCourses.setRowFactory(data -> {

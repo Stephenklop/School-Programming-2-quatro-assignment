@@ -54,13 +54,15 @@ public class SubscribedCourseDetails {
         TableColumn<Module, String> colFollowNumber = new TableColumn<>("Volgnummer:");
         TableColumn<Module, String> colTitle = new TableColumn<>("Titel:");
         TableColumn<Module, String> colDesc = new TableColumn<>("Descriptie:");
+        TableColumn<Module, String> colProgress = new TableColumn<>("Voortgang:");
 
         colFollowNumber.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colProgress.setCellValueFactory(new PropertyValueFactory<>("progress"));
 
         // retrieve modules
-        tableModules.getColumns().addAll(colFollowNumber, colTitle, colDesc);
+        tableModules.getColumns().addAll(colFollowNumber, colTitle, colDesc, colProgress);
 
         // Check if row in table is double-clicked to open detail page
         tableModules.setRowFactory(data -> {

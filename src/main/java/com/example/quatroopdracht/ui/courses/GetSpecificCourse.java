@@ -76,8 +76,15 @@ public class GetSpecificCourse {
         Text totalFinishedUsers = new Text("10 ");
         Text totalUsers = new Text(" 100");
         ProgressBar pb = new ProgressBar(0.1);
-
         progress.getChildren().addAll(totalFinishedUsers, pb, totalUsers);
+
+        VBox suggestionVbox = new VBox();
+        Text suggestedCourses = new Text("Aanbevolen cursussen:");
+        Text firstSuggestion = new Text("Suggestion 1");
+        Text secondSuggestion = new Text("Suggestion 2");
+        Text thirdSuggestion = new Text("Suggestion 3");
+
+        suggestionVbox.getChildren().addAll(suggestedCourses, firstSuggestion, secondSuggestion, thirdSuggestion);
 
         // Create back button
         Button backButton = new Button("Terug");
@@ -106,6 +113,7 @@ public class GetSpecificCourse {
         formBody.add(statisticLabel, 3, 0);
         formBody.add(statisticText, 3, 1);
         formBody.add(progress, 3, 2);
+        formBody.add(suggestionVbox, 3, 3);
 
         body.getChildren().addAll(formBody, backButton);
 
