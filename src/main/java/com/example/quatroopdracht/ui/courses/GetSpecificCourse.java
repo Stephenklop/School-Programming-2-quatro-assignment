@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -32,12 +33,15 @@ public class GetSpecificCourse {
         Label introductionLabel = new Label("Introductie:");
         Label levelLabel = new Label("Niveau:");
         Label moduleLabel = new Label("Modules:");
+        Label statisticLabel = new Label("Statistics:");
 
         // Create text
         Text nameText = new Text(itemData.getName());
         Text subjectText = new Text(itemData.getSubject());
         Text introText = new Text(itemData.getIntroText());
         Text levelText = new Text(itemData.getLevel());
+        Text statisticText = new Text("Totaal cursisten die cursus hebben afgerond");
+        Text emptyText = new Text("        ");
 
         // Create table for added modules
         TableView<Module> tableModules = new TableView<>();
@@ -46,13 +50,15 @@ public class GetSpecificCourse {
         TableColumn<Module, String> colFollowNumber = new TableColumn<>("Volgnummer:");
         TableColumn<Module, String> colTitle = new TableColumn<>("Titel:");
         TableColumn<Module, String> colDesc = new TableColumn<>("Descriptie:");
+        TableColumn<Module, String> colAverageProgress = new TableColumn<>("Gemiddelde voortgang");
 
         colFollowNumber.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colAverageProgress.setCellValueFactory(new PropertyValueFactory<>("26,5%"));
 
         // retrieve modules
-        tableModules.getColumns().addAll(colFollowNumber, colTitle, colDesc);
+        tableModules.getColumns().addAll(colFollowNumber, colTitle, colDesc, colAverageProgress);
 
         // Check if row in table is double-clicked to open detail page
         tableModules.setRowFactory(data -> {
@@ -64,6 +70,14 @@ public class GetSpecificCourse {
             });
             return row;
         });
+
+        // Create statistics
+        HBox progress = new HBox();
+        Text totalFinishedUsers = new Text("10 ");
+        Text totalUsers = new Text(" 100");
+        ProgressBar pb = new ProgressBar(0.1);
+
+        progress.getChildren().addAll(totalFinishedUsers, pb, totalUsers);
 
         // Create back button
         Button backButton = new Button("Terug");
@@ -88,6 +102,10 @@ public class GetSpecificCourse {
         formBody.add(levelText, 1, 3);
         formBody.add(moduleLabel, 0, 4);
         formBody.add(tableModules, 0, 5);
+        formBody.add(emptyText, 2, 0);
+        formBody.add(statisticLabel, 3, 0);
+        formBody.add(statisticText, 3, 1);
+        formBody.add(progress, 3, 2);
 
         body.getChildren().addAll(formBody, backButton);
 
