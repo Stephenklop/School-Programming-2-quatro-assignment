@@ -43,7 +43,7 @@ class StudentTests {
     }
 
     @Test
-    @DisplayName("Valid Students - Does not throw exception")
+    @DisplayName("Valid Students - Does not throw exceptions")
     void testValidateStudentValidDoesNotThrowException() {
         Assertions.assertDoesNotThrow(() -> Validator.validateStudent(TestHelper.VALID_STUDENT));
 

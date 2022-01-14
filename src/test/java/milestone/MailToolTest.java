@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class MailToolTest {
+class MailToolTest {
 
     /**
      * @subcontract local-subdomain delimiter {
@@ -121,7 +121,6 @@ public class MailToolTest {
     @Test
     @DisplayName("mailAddress contains tld is valid")
     void testIsValidMailAddressWithThreeLengthTldReturnsTrue() {
-        System.out.println(MailTools.validateMailAddress("local@subdomain.tld"));
         Assertions.assertTrue(MailTools.validateMailAddress("local@subdomain.tld"));
     }
 
