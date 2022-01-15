@@ -37,7 +37,6 @@ public class CertificateRepository extends DatabaseConnection{
                 "SELECT * FROM Certificate WHERE CertificateID = '%s'",
                 certificateID
         );
-        System.out.println(sql);
         this.select(sql, resultSet -> {
             try {
                 if (resultSet.isBeforeFirst() && resultSet.next()) {

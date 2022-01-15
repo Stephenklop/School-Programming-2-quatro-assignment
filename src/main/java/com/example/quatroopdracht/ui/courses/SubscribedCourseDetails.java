@@ -106,9 +106,7 @@ public class SubscribedCourseDetails {
         tableModules.getColumns().addAll(colFollowNumber, colTitle, colDesc, colProgress);
 
         List<Module> modules = moduleRepository.getModulesForCourse(item);
-        modules.forEach(module -> {
-            module.setCompletion(statisticsRepository.getCompletion(module.getContentItemId(), studentItem) + "%");
-        });
+        modules.forEach(module -> module.setCompletion(statisticsRepository.getCompletion(module.getContentItemId(), studentItem) + "%"));
         tableModules.getItems().addAll(modules);
 
         // Check if row in table is double-clicked to open detail page

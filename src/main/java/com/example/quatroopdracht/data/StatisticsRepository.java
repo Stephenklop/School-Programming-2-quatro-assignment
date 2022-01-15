@@ -132,4 +132,43 @@ public class StatisticsRepository extends DatabaseConnection {
         });
         return avgCompletion.get();
     }
+
+    /**
+     * get registration count and certificate count for a course
+     * @param course
+     * @return [total amount of registrations for course, total amount of certificates for course]
+     */
+    public int[] getProgress(Course course) {
+        String sql = String.format(
+                "SELECT Registrations.TotalRegistrations, Certificates.TotalCertificates\n" +
+                "FROM (\n" +
+                "\tSELECT COUNT(*) AS TotalRegistrations\n" +
+                "\tFROM Registration\n" +
+                "\tWHERE CourseID = '%s'\n" +
+                ") AS Registrations, (\n" +
+                "\tSELECT COUNT(*) AS TotalCertificates\n" +
+                "\tFROM Registration\n" +
+                "\tWHERE CourseID = '%s'\n" +
+                "\tAND CertificateID IS NOT NULL\n" +
+                ") AS Certificates;\n",
+                course.getName(),
+                course.getName()
+        );
+
+        int[] progress = new int[2];
+
+        this.select(sql, resultSet -> {
+            try {
+                if (resultSet.isBeforeFirst() && resultSet.next()) {
+                    progress[0] = resultSet.getInt("TotalRegistrations");
+                    progress[1] = resultSet.getInt("TotalCertificates");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        return progress;
+    }
 }
+
+

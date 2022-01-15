@@ -81,9 +81,10 @@ public class GetSpecificCourse {
 
         // Create statistics
         HBox progress = new HBox();
-        Text totalFinishedUsers = new Text("10 ");
-        Text totalUsers = new Text(" 100");
-        ProgressBar pb = new ProgressBar(0.1);
+        int[] progressArr = statisticsRepository.getProgress(itemData);
+        Text totalFinishedUsers = new Text(String.valueOf(progressArr[1]));
+        Text totalUsers = new Text(String.valueOf(progressArr[0]));
+        ProgressBar pb = new ProgressBar((double) progressArr[1] / progressArr[0]);
         progress.getChildren().addAll(totalFinishedUsers, pb, totalUsers);
 
         VBox suggestionVbox = new VBox();
@@ -107,6 +108,7 @@ public class GetSpecificCourse {
         formBody.setHgap(4);
         formBody.setVgap(8);
         VBox.setVgrow(formBody, Priority.ALWAYS);
+        progress.setSpacing(20);
 
         // Set grid layout
         formBody.add(nameLabel, 0, 0);
