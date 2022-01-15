@@ -46,7 +46,6 @@ public class AddCertificate {
         });
         submitButton.setOnAction(e -> {
             Certificate addCertificate = new Certificate((int) (System.currentTimeMillis() / 1000), Float.parseFloat(grade.getText()), employeeName.getText());
-            System.out.println(addCertificate);
             if (certificateRepository.addCertificate(addCertificate)) {
 
                 registrationRepositor.updateStudentEnrollmentWithCertificate(course.getName(), student.getEmail(), addCertificate.getCertificateId());

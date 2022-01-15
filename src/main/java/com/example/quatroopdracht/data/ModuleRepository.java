@@ -152,7 +152,6 @@ public class ModuleRepository extends DatabaseConnection{
                 module.getVersion(),
                 module.getContentItemId()
         );
-        System.out.println(sql);
         int updated = this.update(sql);
 
         switch (updated) {
