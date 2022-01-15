@@ -6,7 +6,7 @@ import javafx.scene.control.Alert;
 public final class Util {
 
     public static void displayError(String content) {
-        displayAlert("Error", "An error occurred!", Alert.AlertType.ERROR, content);
+        displayAlert("Error", "Er is een fout opgetreden!", Alert.AlertType.ERROR, content);
     }
 
     public static void displaySuccess(String content) {

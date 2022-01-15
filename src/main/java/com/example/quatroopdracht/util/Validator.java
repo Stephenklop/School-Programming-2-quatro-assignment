@@ -13,26 +13,26 @@ public final class Validator {
     public static void validateNotEmpty(Object... objects) throws Exception {
         for (Object obj : objects) {
             if (obj == null || (obj instanceof String && ((String) obj).isEmpty())) {
-                throw new Exception("Empty field.");
+                throw new Exception("Een veld is leeg.");
             }
         }
     }
 
     public static void validateEmail(String email) throws Exception {
         if (!EMAIL_PATTERN.matcher(email).matches()) {
-            throw new Exception("Email is invalid.");
+            throw new Exception("Email is ongeldig.");
         }
     }
 
     public static void validateZipcode(String zipcode) throws Exception {
         if (!ZIPCODE_PATTERN.matcher(zipcode).matches()) {
-            throw new Exception("Zipcode is invalid.");
+            throw new Exception("Postcode is ongeldig.");
         }
     }
 
     private static void validateWithinRange(double value, int min, int max, String name) throws Exception {
-        if (value < min) throw new Exception(String.format("%s can not be lower than %d!", name, min));
-        if (value > max) throw new Exception(String.format("%s can not be higher than %d!", name, max));
+        if (value < min) throw new Exception(String.format("%s kan niet lager zijn dan %d!", name, min));
+        if (value > max) throw new Exception(String.format("%s kan niet hoger zijn dan %d!", name, max));
     }
 
     public static void validateStudent(Student student) throws Exception {
