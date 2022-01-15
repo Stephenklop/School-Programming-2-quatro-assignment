@@ -8,15 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Db interactions for Recommendations entity
+ * db interactions for Recommendations entity
  */
-public class RecomendationsRepository extends DatabaseConnection{
+public class RecommendationsRepository extends DatabaseConnection{
     /**
-     * Get recommendations for a course
-     * @param course
-     * @return recommendations for course
+     * get recommendations for a Course
+     * @param course the Course to retrieve recommendations for
+     * @return list of suggested Courses
      */
-    public List<Course> getReccomendations(Course course) {
+    public List<Course> getRecommendations(Course course) {
         String sql = String.format(
                 "SELECT * FROM Course\n" +
                 "WHERE Name IN (\n" +
@@ -26,12 +26,12 @@ public class RecomendationsRepository extends DatabaseConnection{
                 ");",
                 course.getName()
         );
-        List<Course> reccomendations = new ArrayList<>();
+        List<Course> recommendations = new ArrayList<>();
 
         this.select(sql, resultSet -> {
             try {
                 while (resultSet.next()) {
-                    reccomendations.add(new Course(
+                    recommendations.add(new Course(
                             resultSet.getString("Name"),
                             resultSet.getString("Subject"),
                             resultSet.getString("IntroductionText"),
@@ -42,6 +42,6 @@ public class RecomendationsRepository extends DatabaseConnection{
                 e.printStackTrace();
             }
         });
-        return reccomendations;
+        return recommendations;
     }
 }

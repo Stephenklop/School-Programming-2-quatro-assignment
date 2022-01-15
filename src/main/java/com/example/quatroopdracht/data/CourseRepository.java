@@ -11,7 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * db interaction for the Course entity
+ */
 public class CourseRepository extends DatabaseConnection {
+    /**
+     * get all Courses
+     * @return list of Courses
+     */
     public List<Course> getAllCourses() {
         String sql = "SELECT * FROM Course";
         List<Course> courses = new ArrayList<>();
@@ -33,6 +40,11 @@ public class CourseRepository extends DatabaseConnection {
         return courses;
     }
 
+    /**
+     * get all Courses a Student hasn't enrolled in
+     * @param student the Student object to retrieve courses for
+     * @return a list of available Courses
+     */
     public List<String> getAllAvailableCourses(Student student) {
         String sql = "SELECT * FROM Course WHERE Name NOT IN ( SELECT CourseId AS Name FROM Registration WHERE StudentId = '%s' )";
         List<String> courses = new ArrayList<>();
@@ -49,6 +61,11 @@ public class CourseRepository extends DatabaseConnection {
         return courses;
     }
 
+    /**
+     * get all Courses a student has enrolled in
+     * @param student the student to retrieve courses for
+     * @return a list of enrolled Courses
+     */
     public List<Course> getAllEnrolledCourses(Student student){
         String sql = String.format("SELECT * FROM Course WHERE Name IN ( SELECT CourseID AS Name FROM Registration WHERE StudentID = '%s' )", student.getEmail());
         List<Course> courses = new ArrayList<>();
@@ -70,6 +87,11 @@ public class CourseRepository extends DatabaseConnection {
         return courses;
     }
 
+    /**
+     * get a Course
+     * @param name the name property of the Course entity to retrieve
+     * @return Course with Course.name = name
+     */
     public Course getCourse(String name) {
         AtomicReference<Course> course = new AtomicReference<>(null);
         String sql = String.format(
@@ -94,6 +116,11 @@ public class CourseRepository extends DatabaseConnection {
         return course.get();
     }
 
+    /**
+     * create a Course
+     * @param course the Course object to persist
+     * @return completion of the transaction
+     */
     public boolean addCourse(Course course) {
         try {
             Validator.validateCourseSimple(course);
@@ -121,6 +148,11 @@ public class CourseRepository extends DatabaseConnection {
         }
     }
 
+    /**
+     * update a Course
+     * @param course the modified Course object
+     * @return completions of the transaction
+     */
     public boolean updateCourse(Course course) {
         try {
             Validator.validateCourseSimple(course);
@@ -152,6 +184,11 @@ public class CourseRepository extends DatabaseConnection {
         }
     }
 
+    /**
+     * delete a Course
+     * @param course the Course object to remove
+     * @return completion of the transaction
+     */
     public boolean deleteCourse(Course course) {
         String sql = String.format(
                 "DELETE FROM Course WHERE Name = '%s'",

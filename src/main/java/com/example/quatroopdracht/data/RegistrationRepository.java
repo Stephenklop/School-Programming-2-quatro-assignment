@@ -10,18 +10,27 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * db interaction for the Registration entity
+ */
 public class RegistrationRepository extends DatabaseConnection{
     private final StudentRepository studentRepository;
     private final CourseRepository courseRepository;
     private final CertificateRepository certificateRepository;
 
     public RegistrationRepository() {
+        /*
+          dependency instantiation
+         */
         studentRepository = new StudentRepository();
         courseRepository = new CourseRepository();
         certificateRepository = new CertificateRepository();
     }
 
-
+    /**
+     * get all Registrations
+     * @return a list of StudentEnrollments
+     */
     public List<StudentEnrollment> getAllRegistrations(){
         String sql = "SELECT * FROM Registration";
         List<StudentEnrollment> enrollments = new ArrayList<>();
@@ -42,6 +51,12 @@ public class RegistrationRepository extends DatabaseConnection{
         return enrollments;
     }
 
+    /**
+     * get a Registration
+     * @param courseID the identifier of the course to retrieve a Registration for
+     * @param studentID the identifier of the student to retrieve a Regisration for
+     * @return StudentEnrollment with StudentEnrollment.course.name = courseID && StudentEnrollment.student.name = studentID
+     */
     public StudentEnrollment getStudentEnrollment(String courseID, String studentID){
         AtomicReference<StudentEnrollment> studentEnrollment = new AtomicReference<>(null);
         String sql = String.format(
@@ -68,6 +83,11 @@ public class RegistrationRepository extends DatabaseConnection{
         return studentEnrollment.get();
     }
 
+    /**
+     * create a Registration
+     * @param studentEnrollment te StudentEnrollment object to persist
+     * @return completion of the transaction
+     */
     public boolean addStudentEnrollment(StudentEnrollment studentEnrollment){
         try {
             Validator.validateEnrollmentSimple(studentEnrollment);
@@ -94,12 +114,19 @@ public class RegistrationRepository extends DatabaseConnection{
         }
     }
 
-    public boolean updateStudentEnrollmentWithCertificate(String courseName, String studentEmail, int certificateId) {
+    /**
+     * Update the Certificate property of a Registration entity
+     * @param courseID the courseID property of the Registration entity
+     * @param studentID the StudentID property of the Registration entity
+     * @param certificateID the identifier of the Certificate entity to modify in the Registration to modify
+     * @return completion of the transaction
+     */
+    public boolean updateStudentEnrollmentWithCertificate(String courseID, String studentID, int certificateID) {
         String sql = String.format(
                 "UPDATE Registration SET CertificateID = '%s' WHERE CourseID = '%s' AND StudentID = '%s'",
-                certificateId,
-                courseName,
-                studentEmail
+                certificateID,
+                courseID,
+                studentID
         );
 
         int updated = this.update(sql);
@@ -117,7 +144,12 @@ public class RegistrationRepository extends DatabaseConnection{
         }
     }
 
-    //delete registration
+    /**
+     * delete a Registration
+     * @param CourseID the CourseID property of the Registration entity to remove
+     * @param StudentID the StudentID property of the Registration entity to remove
+     * @return completion of the transaction
+     */
     public boolean deleteStudentEnrollment(String CourseID, String StudentID) {
         String sql = String.format(
                 "DELETE FROM Registration WHERE CourseID = '%s' AND StudentID = '%s'",

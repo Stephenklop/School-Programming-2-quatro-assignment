@@ -10,7 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * db interaction for the ContactPerson entity
+ */
 public class ContactPersonRepository extends DatabaseConnection{
+    /**
+     * get all ContactPerson entities
+     * @return list of ContactPeople
+     */
     public List<ContactPerson> getAllContactPeople() {
         String sql = "SELECT * FROM ContactPerson";
         List<ContactPerson> contactPeople = new ArrayList<>();
@@ -30,6 +37,11 @@ public class ContactPersonRepository extends DatabaseConnection{
         return contactPeople;
     }
 
+    /**
+     * get a ContactPerson
+     * @param email id of the ContactPerson to retrieve
+     * @return ContactPerson with ContactPerson.email = ContactPerson
+     */
     public ContactPerson getContactPerson(String email) {
         AtomicReference<ContactPerson> contactPerson = new AtomicReference<>(null);
         String sql = String.format(
@@ -53,6 +65,11 @@ public class ContactPersonRepository extends DatabaseConnection{
         return contactPerson.get();
     }
 
+    /**
+     * create a ContactPerson
+     * @param contactPerson the ContactPerson object to persist
+     * @return completion of the transaction
+     */
     public boolean addContactPerson(ContactPerson contactPerson) {
         try {
             Validator.validateContactPerson(contactPerson);

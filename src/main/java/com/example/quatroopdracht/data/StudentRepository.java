@@ -9,8 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * db interaction for Student entities
+ */
 public class StudentRepository extends DatabaseConnection {
-
+    /**
+     * get all Student entities
+     * @return lst of Students
+     */
     public List<Student> getAllStudents() {
         String sql = "SELECT * FROM Student";
         List<Student> students = new ArrayList<>();
@@ -36,6 +42,11 @@ public class StudentRepository extends DatabaseConnection {
         return students;
     }
 
+    /**
+     * get a Student entity
+     * @param email the email property of the Student to retrieve
+     * @return Student with Student.email = email
+     */
     public Student getStudent(String email) {
         AtomicReference<Student> student = new AtomicReference<>(null);
         String sql = String.format(
@@ -65,6 +76,11 @@ public class StudentRepository extends DatabaseConnection {
         return student.get();
     }
 
+    /**
+     * create a Student
+     * @param student the STudent object to persist
+     * @return completion of the transaction
+     */
     public boolean addStudent(Student student) {
         try {
             Validator.validateStudent(student);
@@ -96,6 +112,11 @@ public class StudentRepository extends DatabaseConnection {
         }
     }
 
+    /**
+     * update a Student
+     * @param student the modified Student object
+     * @return completion of the transaction
+     */
     public boolean updateStudent(Student student) {
         try {
             Validator.validateStudent(student);
@@ -131,6 +152,11 @@ public class StudentRepository extends DatabaseConnection {
         }
     }
 
+    /**
+     * delete a Student
+     * @param email email property of the Student entity to remove
+     * @return completion of the transaction
+     */
     public boolean deleteStudent(String email) {
         String sql = String.format(
                 "DELETE FROM Student WHERE Email = '%s'",

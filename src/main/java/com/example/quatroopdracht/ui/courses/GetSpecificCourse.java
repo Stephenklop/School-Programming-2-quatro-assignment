@@ -1,7 +1,7 @@
 package com.example.quatroopdracht.ui.courses;
 
 import com.example.quatroopdracht.data.ModuleRepository;
-import com.example.quatroopdracht.data.RecomendationsRepository;
+import com.example.quatroopdracht.data.RecommendationsRepository;
 import com.example.quatroopdracht.data.StatisticsRepository;
 import com.example.quatroopdracht.domain.Course;
 import com.example.quatroopdracht.domain.Module;
@@ -21,12 +21,12 @@ import java.util.List;
 public class GetSpecificCourse {
     private final ModuleRepository moduleRepository;
     private final StatisticsRepository statisticsRepository;
-    private final RecomendationsRepository recomendationsRepository;
+    private final RecommendationsRepository recomendationsRepository;
 
     public GetSpecificCourse() {
         moduleRepository = new ModuleRepository();
         statisticsRepository = new StatisticsRepository();
-        recomendationsRepository = new RecomendationsRepository();
+        recomendationsRepository = new RecommendationsRepository();
     }
 
     public Scene getGetSpecificCourseScene(Stage stage, Course itemData) {
@@ -90,7 +90,7 @@ public class GetSpecificCourse {
         VBox suggestionVbox = new VBox();
         Text suggestedCourses = new Text("Aanbevolen cursussen:");
         suggestionVbox.getChildren().add(suggestedCourses);
-        List<Course> recommendations = recomendationsRepository.getReccomendations(itemData);
+        List<Course> recommendations = recomendationsRepository.getRecommendations(itemData);
         recommendations.forEach(course -> suggestionVbox.getChildren().add(new Text(course.getName())));
 
         // Create back button

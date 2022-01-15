@@ -9,7 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * db interaction for Certificate entity
+ */
 public class CertificateRepository extends DatabaseConnection{
+    /**
+     * get all Certificate entities
+     * @return list of Certificates
+     */
     public List<Certificate> getAllCertificates(){
         String sql = "SELECT * FROM Certificate";
         List<Certificate> certificates = new ArrayList<>();
@@ -31,6 +38,11 @@ public class CertificateRepository extends DatabaseConnection{
 
     }
 
+    /**
+     * get a Certificate
+     * @param certificateID the id of the certificate to retrieve
+     * @return Certificate with Certificate.certificateID = certificateID
+     */
     public Certificate getCertificate(int certificateID) {
         AtomicReference<Certificate> certificate = new AtomicReference<>(null);
         String sql = String.format(
@@ -54,6 +66,11 @@ public class CertificateRepository extends DatabaseConnection{
         return certificate.get();
     }
 
+    /**
+     * create a Certificate
+     * @param certificate the Certificate object to persist
+     * @return completion of the transaction
+     */
     public boolean addCertificate(Certificate certificate) {
         try {
             Validator.validateCertificate(certificate);
@@ -80,6 +97,11 @@ public class CertificateRepository extends DatabaseConnection{
         }
     }
 
+    /**
+     * update a Certificate
+     * @param certificate the modified Certificate object
+     * @return completion of the transaction
+     */
     public boolean updateCertificate(Certificate certificate) {
         try {
             Validator.validateCertificate(certificate);
@@ -110,6 +132,11 @@ public class CertificateRepository extends DatabaseConnection{
         }
     }
 
+    /**
+     * delete a Certificate
+     * @param certificateID the id of the Certificate to remove
+     * @return completion of the transaction
+     */
     public boolean deleteCertificate(int certificateID) {
         String sql = String.format(
                 "DELETE FROM Certificate WHERE CertificateID = '%s'",

@@ -10,15 +10,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * db interaction for the Module entity
+ */
 public class ModuleRepository extends DatabaseConnection{
     private final CourseRepository courseRepository;
     private final ContactPersonRepository contactPersonRepository;
 
     public ModuleRepository() {
+        /*
+         * dependency instantiation
+         */
         courseRepository = new CourseRepository();
         contactPersonRepository = new ContactPersonRepository();
     }
 
+    /**
+     * get all Modules
+     * @return list of Modules
+     */
     public List<Module> getAllAvailableModules() {
         String sql = "SELECT * FROM Module INNER JOIN Content ON Module.ContentID = Content.ContentID WHERE CourseName IS NULL";
         List<Module> modules = new ArrayList<>();
@@ -46,6 +56,11 @@ public class ModuleRepository extends DatabaseConnection{
         return modules;
     }
 
+    /**
+     * get a Module
+     * @param ContentID the contentID property of the module to retrieve
+     * @return Module with Module.contentID = contentID
+     */
     public Module getModule(int ContentID) {
         AtomicReference<Module> module = new AtomicReference<>(null);
         String sql = String.format(
@@ -77,6 +92,11 @@ public class ModuleRepository extends DatabaseConnection{
         return module.get();
     }
 
+    /**
+     * get all Modules for a Course
+     * @param course the Course to retrieve modules for
+     * @return list of Modules with Module.course = course
+     */
     public List<Module> getModulesForCourse(Course course) {
         String sql = String.format("SELECT * FROM Module INNER JOIN Content ON Module.ContentID = Content.ContentID WHERE CourseName = '%s'", course.getName());
         List<Module> modules = new ArrayList<>();
@@ -104,6 +124,11 @@ public class ModuleRepository extends DatabaseConnection{
         return modules;
     }
 
+    /**
+     * create a Module
+     * @param module the Module object to persist
+     * @return completion of the transaction
+     */
     public boolean addModule(Module module) {
         try {
             Validator.validateContent(module);
@@ -136,6 +161,11 @@ public class ModuleRepository extends DatabaseConnection{
         }
     }
 
+    /**
+     * update a Module
+     * @param module the modified module object
+     * @return completion of the transaction
+     */
     public boolean updateModule(Module module) {
         try {
             Validator.validateContent(module);
@@ -168,12 +198,19 @@ public class ModuleRepository extends DatabaseConnection{
         }
     }
 
-    public boolean deleteModule(int ContentID, String Title, int Version) {
+    /**
+     * delete a Module
+     * @param contentID property of the Module entity to remove
+     * @param title title property of the Module entity to remove
+     * @param version version property of the Module entity to remove
+     * @return completion of the transaction
+     */
+    public boolean deleteModule(int contentID, String title, int version) {
         String sql = String.format(
                 "DELETE FROM Module WHERE Title = '%s' AND Version = '%s' AND ContentID = '%s' INNER JOIN Content ON Module.ContentID = Content.ContentID",
-                Title,
-                Version,
-                ContentID
+                title,
+                version,
+                contentID
         );
 
         int deleted = this.update(sql);

@@ -9,7 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * db interaction for various statistics
+ */
 public class StatisticsRepository extends DatabaseConnection {
+    /**
+     * get the 3 Webcast entities with the StudentWatchesContent entities
+     * @return list with 3 most watched webcasts
+     */
     public List<Webcast> getTop3Webcasts() {
         String sql =
                 "SELECT TOP 3 *\n" +
@@ -49,6 +56,10 @@ public class StatisticsRepository extends DatabaseConnection {
         return webcasts;
     }
 
+    /**
+     * get the 3 Course entities with the most Certificate entities
+     * @return list with the 3 Courses with the most Certificates
+     */
     public List<Course> getTop3CoursesByCertificate() {
         String sql =
                 "SELECT TOP 3 *\n" +
@@ -81,6 +92,11 @@ public class StatisticsRepository extends DatabaseConnection {
         return courses;
     }
 
+    /**
+     * get the average completion rate of a Content entity
+     * @param contentId the identifier of the Content to retrieve completion for
+     * @return average completion percentage of a Content entity
+     */
     public int getAvgCompletion(int contentId) {
         AtomicReference<Integer> avgCompletion = new AtomicReference<>(0);
         String sql = String.format(
@@ -106,6 +122,12 @@ public class StatisticsRepository extends DatabaseConnection {
         return avgCompletion.get();
     }
 
+    /**
+     * get the completion percentage of a Content entity for a Student
+     * @param contentId the identifier of the Content to retrieve completion for
+     * @param student the Student to retrieve completion for
+     * @return completion percentage of a Content entity
+     */
     public int getCompletion(int contentId, Student student) {
         AtomicReference<Integer> avgCompletion = new AtomicReference<>(0);
         String sql = String.format(
@@ -134,9 +156,9 @@ public class StatisticsRepository extends DatabaseConnection {
     }
 
     /**
-     * get registration count and certificate count for a course
-     * @param course
-     * @return [total amount of registrations for course, total amount of certificates for course]
+     * get registration count and certificate count for a Course entity
+     * @param course the Course to retrieve certificate and registration data for
+     * @return array containing the total amount of registrations for course at index = 0 and total amount of certificates for course at index = 1
      */
     public int[] getProgress(Course course) {
         String sql = String.format(
