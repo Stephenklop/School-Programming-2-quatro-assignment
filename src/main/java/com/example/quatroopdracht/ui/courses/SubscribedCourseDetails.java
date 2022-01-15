@@ -7,6 +7,7 @@ import com.example.quatroopdracht.data.StatisticsRepository;
 import com.example.quatroopdracht.domain.*;
 import com.example.quatroopdracht.domain.Module;
 import com.example.quatroopdracht.ui.certificates.AddCertificate;
+import com.example.quatroopdracht.ui.certificates.UpdateCertificate;
 import com.example.quatroopdracht.ui.students.GetSpecificStudent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -49,7 +50,7 @@ public class SubscribedCourseDetails {
         Button updateCertificateButton = new Button("Update certificaat");
         Button removeCertificateButton = new Button("Verwijder certificaat");
         addCertificateButton.setOnAction(e -> stage.setScene(new AddCertificate().getAddCertificateScene(stage, item, studentItem)));
-        updateCertificateButton.setOnAction(e -> {});
+        updateCertificateButton.setOnAction(e -> stage.setScene(new UpdateCertificate().getUpdateCertificateScene(stage, item, studentItem)));
         removeCertificateButton.setOnAction(e -> {
             certificateRepository.deleteCertificate(enrollment.getCertificate().getCertificateId());
             stage.setScene(new SubscribedCourseDetails().getSubscribedCourseDetailsPage(stage, item, studentItem));
