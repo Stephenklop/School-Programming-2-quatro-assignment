@@ -191,6 +191,51 @@ public class StatisticsRepository extends DatabaseConnection {
         });
         return progress;
     }
+
+    /**
+     * get registration count and certificate count for a Course entity for a certain gender
+     * @param gender the gender to retrieve certificate and registration data for
+     * @return array containing the total amount of registrations for course at index = 0 and total amount of certificates for course at index = 1
+     */
+    public int[] getProgressByGender(String gender) {
+        String sql = String.format(
+                "SELECT Registrations.TotalRegistrations, Certificates.TotalCertificates\n" +
+                "FROM (\n" +
+                "\tSELECT COUNT(*) AS TotalRegistrations\n" +
+                "\tFROM Registration\n" +
+                "\tWHERE StudentID IN (\n" +
+                "\t\tSELECT Email\n" +
+                "\t\tFROM Student\n" +
+                "\t\tWHERE Gender = '%s'\n" +
+                "\t)\n" +
+                ") AS Registrations, (\n" +
+                "\tSELECT COUNT(*) AS TotalCertificates\n" +
+                "\tFROM Registration\n" +
+                "\tWHERE CertificateID IS NOT NULL\n" +
+                "\tAND StudentID IN (\n" +
+                "\t\tSELECT Email\n" +
+                "\t\tFROM Student\n" +
+                "\t\tWHERE Gender = '%s'\n" +
+                "\t)\n" +
+                ") AS Certificates;",
+                gender,
+                gender
+        );
+
+        int[] progress = new int[2];
+
+        this.select(sql, resultSet -> {
+            try {
+                if (resultSet.isBeforeFirst() && resultSet.next()) {
+                    progress[0] = resultSet.getInt("TotalRegistrations");
+                    progress[1] = resultSet.getInt("TotalCertificates");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        return progress;
+    }
 }
 
 

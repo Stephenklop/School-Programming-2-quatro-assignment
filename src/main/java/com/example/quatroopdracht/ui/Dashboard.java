@@ -17,6 +17,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicIntegerArray;
 
 public class Dashboard {
     private final StatisticsRepository statisticsRepository;
@@ -54,9 +55,15 @@ public class Dashboard {
         Label percentageCertificateEarned = new Label("Slagingspercentage per geslacht:");
         ObservableList<String> genderList = FXCollections.observableArrayList("Man", "Vrouw", "Anders");
         ComboBox<String> gender = new ComboBox<>(genderList);
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(new PieChart.Data("Behaald", 15), new PieChart.Data("Niet behaald", 50));
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(new PieChart.Data("Behaald", 0), new PieChart.Data("Niet behaald", 0));
         PieChart chart = new PieChart(pieChartData);
         percentageCertificateEarnedBody.getChildren().addAll(percentageCertificateEarned, gender, chart);
+
+        gender.setOnAction(e -> {
+            int[] res = statisticsRepository.getProgressByGender(gender.getValue());
+            pieChartData.clear();
+            pieChartData.addAll(new PieChart.Data("Behaald", res[1]), new PieChart.Data("Niet behaald", res[0] - res[1]));
+        });
 
         // Create buttons
         Button coursesButton = new Button("Cursussen");
