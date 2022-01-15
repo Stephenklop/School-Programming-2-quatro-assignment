@@ -24,7 +24,8 @@ class StudentTests {
                 TestHelper.CURRENT_DATE,
                 "",
                 "Breda",
-                "Netherlands"
+                "Netherlands",
+                "1234AB"
         )));
     }
 
@@ -38,7 +39,8 @@ class StudentTests {
                 TestHelper.CURRENT_DATE,
                 "Lovensdijkstraat 61",
                 "Breda",
-                "Netherlands"
+                "Netherlands",
+                "1234AB"
         )));
     }
 
@@ -54,7 +56,8 @@ class StudentTests {
                 TestHelper.CURRENT_DATE,
                 "Zandstraat 32",
                 "Machelen",
-                "België"
+                "België",
+                "1234AB"
         )));
 
         Assertions.assertDoesNotThrow(() -> Validator.validateStudent(new Student(
@@ -64,7 +67,8 @@ class StudentTests {
                 TestHelper.CURRENT_DATE,
                 "Lovensdijkstraat 61",
                 "Breda",
-                "Netherlands"
+                "Netherlands",
+                "1234AB"
         )));
     }
 }
