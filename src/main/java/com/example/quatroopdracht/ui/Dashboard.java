@@ -22,7 +22,7 @@ public class Dashboard {
     }
 
     public Scene getDashboardScene(Stage stage) {
-        stage.setTitle("Codecademy statistics");
+        stage.setTitle("Codecademy statistics - Anika Wante: 2135022 - Frank Gabrsek: 2171626 - Wesley Snijdelaar: 2176710 - Stephen Klop: 2180344");
 
         stage.setMinHeight(500);
         stage.setMinWidth(800);
