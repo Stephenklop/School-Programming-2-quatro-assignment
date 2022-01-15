@@ -35,7 +35,9 @@ public class CreateStudent {
         Label genderLabel = new Label("Geslacht:");
         Label addressLabel = new Label("Adres:");
         Label cityLabel = new Label("Stad:");
+        Label zipcodeLabel = new Label("Postcode:");
         Label countryLabel = new Label("Land:");
+
 
         // Create input fields
         TextField name = new TextField();
@@ -45,6 +47,7 @@ public class CreateStudent {
         ComboBox<String> gender = new ComboBox<>(genderList);
         TextField address = new TextField();
         TextField city = new TextField();
+        TextField zipcode = new TextField();
         TextField country = new TextField();
 
         // Create footer
@@ -61,7 +64,7 @@ public class CreateStudent {
                     address.getText(),
                     city.getText(),
                     country.getText(),
-                    "1000AA"
+                    zipcode.getText()
             );
 
             if (studentRepository.addStudent(student)) {
@@ -89,8 +92,10 @@ public class CreateStudent {
         formBody.add(address, 1, 4);
         formBody.add(cityLabel, 0 ,5);
         formBody.add(city, 1, 5);
-        formBody.add(countryLabel, 0, 6);
-        formBody.add(country, 1, 6);
+        formBody.add(zipcodeLabel, 0 ,6);
+        formBody.add(zipcode, 1, 6);
+        formBody.add(countryLabel, 0, 7);
+        formBody.add(country, 1, 7);
 
         body.getChildren().addAll(formBody, footer);
 

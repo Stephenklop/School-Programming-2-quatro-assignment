@@ -41,6 +41,7 @@ public class UpdateStudent {
         Label genderLabel = new Label("Geslacht:");
         Label addressLabel = new Label("Adres:");
         Label cityLabel = new Label("Stad:");
+        Label zipcodeLabel = new Label("Postcode:");
         Label countryLabel = new Label("Land:");
 
         // Create input fields
@@ -52,6 +53,7 @@ public class UpdateStudent {
         gender.setValue(student.getGender());
         TextField address = new TextField(student.getAddress());
         TextField city = new TextField(student.getResidence());
+        TextField zipcode = new TextField(student.getNlZipcode());
         TextField country = new TextField(student.getCountry());
 
         // Create footer
@@ -66,6 +68,7 @@ public class UpdateStudent {
             student.setAddress(address.getText());
             student.setResidence(city.getText());
             student.setCountry(country.getText());
+            student.setNlZipcode(zipcode.getText());
 
             if (studentRepository.updateStudent(student)) {
                 stage.setScene(new GetStudents().getGetStudents(stage));
@@ -90,6 +93,8 @@ public class UpdateStudent {
         formBody.add(address, 1, 4);
         formBody.add(cityLabel, 0 ,5);
         formBody.add(city, 1, 5);
+        formBody.add(zipcodeLabel, 0, 6);
+        formBody.add(zipcode, 1, 6);
         formBody.add(countryLabel, 0, 7);
         formBody.add(country, 1, 7);
 

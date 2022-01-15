@@ -55,6 +55,7 @@ public class GetSpecificStudent {
         Label genderLabel = new Label("Geslacht:");
         Label addressLabel = new Label("Adres:");
         Label cityLabel = new Label("Stad:");
+        Label zipcodeLabel = new Label("Postcode:");
         Label countryLabel = new Label("Land:");
         Label enrolledCoursesLabel = new Label("Ingeschreven cursussen:");
         Label earnedCertificates = new Label("Verkregen certificaten:");
@@ -66,6 +67,7 @@ public class GetSpecificStudent {
         Text genderText = new Text(itemData.getGender());
         Text addressText = new Text(itemData.getAddress());
         Text cityText = new Text(itemData.getResidence());
+        Text zipcode = new Text(itemData.getNlZipcode());
         Text countryText = new Text(itemData.getCountry());
 
         // Create sign up button
@@ -191,14 +193,16 @@ public class GetSpecificStudent {
         formBody.add(addressText, 1, 4);
         formBody.add(cityLabel, 0, 5);
         formBody.add(cityText, 1, 5);
-        formBody.add(countryLabel, 0 ,6);
-        formBody.add(countryText, 1, 6);
-        formBody.add(enrolledCoursesLabel, 0 ,7);
-        formBody.add(tableCourses, 0, 8);
-        formBody.add(progressBox, 1, 8);
-        formBody.add(signupButton, 0, 9);
-        formBody.add(earnedCertificates, 1, 7);
-        formBody.add(tableCertificates, 1, 8);
+        formBody.add(zipcodeLabel, 0, 6);
+        formBody.add(zipcode, 1, 6);
+        formBody.add(countryLabel, 0 ,7);
+        formBody.add(countryText, 1, 7);
+        formBody.add(enrolledCoursesLabel, 0 ,8);
+        formBody.add(tableCourses, 0, 9);
+        formBody.add(progressBox, 1, 9);
+        formBody.add(signupButton, 0, 10);
+        formBody.add(earnedCertificates, 1, 8);
+        formBody.add(tableCertificates, 1, 9);
 
         body.getChildren().addAll(formBody, backButton);
 
