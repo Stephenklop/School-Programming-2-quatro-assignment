@@ -1,5 +1,6 @@
 package com.example.quatroopdracht.ui.content;
 
+import com.example.quatroopdracht.data.StudentWatchesContentRepository;
 import com.example.quatroopdracht.domain.Course;
 import com.example.quatroopdracht.domain.Module;
 import com.example.quatroopdracht.domain.Student;
@@ -16,7 +17,15 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class UpdateModuleProgress {
+    private final StudentWatchesContentRepository studentWatchesContentRepository;
+    private Integer progress;
+
+    public UpdateModuleProgress() {
+        studentWatchesContentRepository = new StudentWatchesContentRepository();
+    }
+
     public Scene getUpdateModuleProgress(Stage stage, Module module, Course course, Student student) {
+        progress = studentWatchesContentRepository.getProgressForContent(module, student);
 
         // Create layout
         VBox body = new VBox();
@@ -39,6 +48,8 @@ public class UpdateModuleProgress {
             }
         });
 
+        slider.setValue(progress != null ? progress : 0);
+
         Slider webcastSlider = new Slider(0, 100, 0);
         webcastSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -52,7 +63,17 @@ public class UpdateModuleProgress {
         Button submitButton = new Button("Opslaan");
 
         cancelButton.setOnAction(e -> stage.setScene(new SubscribedCourseDetails().getSubscribedCourseDetailsPage(stage, course, student)));
-        submitButton.setOnAction(e ->{});
+        submitButton.setOnAction(e ->{
+            if (progress == null) {
+                if (studentWatchesContentRepository.addStudentWatchesContent(module, student, (int) slider.getValue())) {
+                    stage.setScene(new SubscribedCourseDetails().getSubscribedCourseDetailsPage(stage, course, student));
+                }
+            } else {
+                if (studentWatchesContentRepository.updateStudentWatchesContent(module, student, (int) slider.getValue())) {
+                    stage.setScene(new SubscribedCourseDetails().getSubscribedCourseDetailsPage(stage, course, student));
+                }
+            }
+        });
 
         footer.getChildren().addAll(cancelButton, submitButton);
 

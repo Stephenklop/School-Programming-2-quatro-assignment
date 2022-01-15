@@ -78,7 +78,7 @@ public class StudentRepository extends DatabaseConnection {
 
     /**
      * create a Student
-     * @param student the STudent object to persist
+     * @param student the Student object to persist
      * @return completion of the transaction
      */
     public boolean addStudent(Student student) {
