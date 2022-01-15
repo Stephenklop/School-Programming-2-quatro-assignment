@@ -95,7 +95,7 @@ public class TestHelper {
 
     protected static final Course INVALID_COURSE = new Course(
             null,
-            "Name",
+            "",
             "Subject",
             "Introduction Text",
             "Level"

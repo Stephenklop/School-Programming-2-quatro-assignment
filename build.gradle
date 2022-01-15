@@ -24,7 +24,7 @@ tasks.withType(JavaCompile) {
 
 application {
     mainModule = 'com.example.quatroopdracht'
-    mainClass = 'com.example.quatroopdracht.HelloApplication'
+    mainClass = 'com.example.quatroopdracht.Main'
 }
 
 javafx {
