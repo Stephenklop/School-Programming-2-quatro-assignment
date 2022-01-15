@@ -26,6 +26,30 @@ class ValidatorTests {
     }
 
     @Test
+    @DisplayName("Invalid Zipcode - One character too long throws exception")
+    void testValidateZipcodeTooLongThrowsException() {
+        Assertions.assertThrows(Exception.class, () -> Validator.validateZipcode("2231ADS"));
+    }
+
+    @Test
+    @DisplayName("Invalid Zipcode - Number in last 2 characters throws exception")
+    void testValidateZipcodeInvalidZipEndThrowsException() {
+        Assertions.assertThrows(Exception.class, () -> Validator.validateZipcode("4231L4"));
+    }
+
+    @Test
+    @DisplayName("Invalid Zipcode - Letter in first 4 digits throws exception")
+    void testValidateZipcodeInvalidDigitsThrowsException() {
+        Assertions.assertThrows(Exception.class, () -> Validator.validateZipcode("T323DF"));
+    }
+
+    @Test
+    @DisplayName("Valid Zipcode - Does not throw exception")
+    void testValidateZipcodeValidDoesNotThrowException() {
+        Assertions.assertDoesNotThrow(() -> Validator.validateZipcode("3241LP"));
+    }
+
+    @Test
     @DisplayName("Valid Emails - Does not throw exceptions")
     void testValidateEmailValidDoesNotThrowException() {
         Assertions.assertDoesNotThrow(() -> Validator.validateEmail("test@test.com"));
