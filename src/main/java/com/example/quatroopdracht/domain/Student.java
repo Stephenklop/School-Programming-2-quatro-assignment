@@ -12,11 +12,11 @@ public class Student {
     private String address;
     private String residence;
     private String country;
-    private String zipcode;
+    private String nlZipcode;
     private Button updateButton;
     private Button deleteButton;
 
-    public Student(String email, String name, String gender, Date dateOfBirth, String address, String residence, String country) {
+    public Student(String email, String name, String gender, Date dateOfBirth, String address, String residence, String country, String nlZipcode) {
         this.email = email.trim();
         this.name = name.trim();
         this.gender = gender.trim();
@@ -24,6 +24,7 @@ public class Student {
         this.address = address.trim();
         this.residence = residence.trim();
         this.country = country.trim();
+        this.nlZipcode = nlZipcode;
     }
 
     // Only used for GetStudentScene
@@ -48,12 +49,12 @@ public class Student {
         this.email = email;
     }
 
-    public String getZipcode() {
-        return zipcode;
+    public String getNlZipcode() {
+        return nlZipcode;
     }
 
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
+    public void setNlZipcode(String nlZipcode) {
+        this.nlZipcode = nlZipcode;
     }
 
     public String getName() {
@@ -110,10 +111,11 @@ public class Student {
                 "email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 ", gender='" + gender + '\'' +
-                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
                 ", address='" + address + '\'' +
                 ", residence='" + residence + '\'' +
                 ", country='" + country + '\'' +
+                ", nlZipcode='" + nlZipcode + '\'' +
                 '}';
     }
 }

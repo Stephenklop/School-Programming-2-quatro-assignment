@@ -15,6 +15,12 @@ public class StudentEnrollment {
         this.signUpDate = signUpDate;
     }
 
+    public StudentEnrollment(Student student, Course course, Date signUpDate) {
+        this.student = student;
+        this.course = course;
+        this.signUpDate = signUpDate;
+    }
+
     public Date getSignUpDate() {
         return signUpDate;
     }
@@ -45,5 +51,15 @@ public class StudentEnrollment {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    @Override
+    public String toString() {
+        return "StudentEnrollment{" +
+                "student=" + student +
+                ", course=" + course +
+                ", certificate=" + certificate +
+                ", signUpDate=" + signUpDate +
+                '}';
     }
 }

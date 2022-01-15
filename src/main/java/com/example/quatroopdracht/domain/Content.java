@@ -10,12 +10,12 @@ public abstract class Content {
     private int version;
     private String description;
 
-    protected Content(int contentItemId, Date publicationDate, String status, String title, int version, String description) {
+    protected Content(int contentItemId, Date publicationDate, String status, String title, String description) {
         this.contentItemId = contentItemId;
         this.publicationDate = publicationDate;
         this.status = status.trim();
         this.title = title.trim();
-        this.version = version;
+
         this.description = description.trim();
     }
 
@@ -51,19 +51,23 @@ public abstract class Content {
         this.title = title;
     }
 
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Content{" +
+                "contentItemId=" + contentItemId +
+                ", publicationDate=" + publicationDate +
+                ", status='" + status + '\'' +
+                ", title='" + title + '\'' +
+                ", version=" + version +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

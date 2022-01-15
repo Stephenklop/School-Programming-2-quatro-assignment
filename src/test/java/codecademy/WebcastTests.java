@@ -21,8 +21,9 @@ class WebcastTests {
                 0,
                 TestHelper.CURRENT_DATE,
                 "Status",
+                "Description",
                 "Title",
-                0,
+                "0",
                 "Description",
                 "SpeakerName",
                 null

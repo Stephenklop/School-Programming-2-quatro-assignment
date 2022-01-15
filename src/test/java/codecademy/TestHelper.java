@@ -16,7 +16,8 @@ public class TestHelper {
             CURRENT_DATE,
             "Address",
             "Residence",
-            "Country"
+            "Country",
+            "1000AA"
     );
 
     protected static final ContactPerson VALID_CONTACT_PERSON = new ContactPerson(
@@ -49,9 +50,10 @@ public class TestHelper {
             0,
             CURRENT_DATE,
             "Status",
-            "Title",
-            0,
             "Description",
+            "Title",
+            "0",
+            "URL",
             "SpeakerName",
             "SpeakerOrg"
     );
@@ -82,7 +84,8 @@ public class TestHelper {
             null,
             "Address",
             "Residence",
-            "Country"
+            "Country",
+            "1000AA"
     );
 
     protected static final ContactPerson INVALID_CONTACT_PERSON = new ContactPerson(
@@ -92,7 +95,7 @@ public class TestHelper {
 
     protected static final Course INVALID_COURSE = new Course(
             null,
-            "Name",
+            "",
             "Subject",
             "Introduction Text",
             "Level"
@@ -115,8 +118,9 @@ public class TestHelper {
             0,
             CURRENT_DATE,
             "Status",
+            "Description",
             "Title",
-            0,
+            "0",
             "",
             "",
             "SpeakerOrg"

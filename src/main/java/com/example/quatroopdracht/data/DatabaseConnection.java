@@ -3,6 +3,9 @@ package com.example.quatroopdracht.data;
 import java.sql.*;
 import java.util.function.Consumer;
 
+/**
+ * database connectivity manager
+ */
 public class DatabaseConnection {
     private static final String URL = "jdbc:sqlserver://aei-sql2.avans.nl\\studenten;databaseName=CodeCademy30;user=group30;password=groepje30;portNumber=1443;";
 
