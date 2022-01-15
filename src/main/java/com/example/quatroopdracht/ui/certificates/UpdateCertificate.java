@@ -1,5 +1,6 @@
 package com.example.quatroopdracht.ui.certificates;
 
+import com.example.quatroopdracht.data.CertificateRepository;
 import com.example.quatroopdracht.domain.Certificate;
 import com.example.quatroopdracht.domain.Course;
 import com.example.quatroopdracht.domain.Student;
@@ -13,7 +14,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class UpdateCertificate {
-    public Scene getUpdateCertificateScene(Stage stage, Course course, Student student) {
+    private final CertificateRepository certificateRepository;
+
+    public UpdateCertificate() {
+        certificateRepository = new CertificateRepository();
+    }
+
+    public Scene getUpdateCertificateScene(Stage stage, Course course, Student student, Certificate certificate) {
 
         // Create layout
         VBox body = new VBox();
@@ -24,8 +31,8 @@ public class UpdateCertificate {
         Label employeeNameLabel = new Label("Employee name:");
 
         // Create input fields
-        TextField grade = new TextField();
-        TextField employeeName = new TextField();
+        TextField grade = new TextField(String.valueOf(certificate.getGrade()));
+        TextField employeeName = new TextField(certificate.getEmployeeName());
 
         // Create footer
         Button cancelButton = new Button("Annuleren");
@@ -35,7 +42,11 @@ public class UpdateCertificate {
             stage.setScene(new SubscribedCourseDetails().getSubscribedCourseDetailsPage(stage, course, student));
         });
         submitButton.setOnAction(e -> {
-
+            certificate.setEmployeeName(employeeName.getText());
+            certificate.setGrade(Float.parseFloat(grade.getText()));
+            if (certificateRepository.updateCertificate(certificate)) {
+                stage.setScene(new SubscribedCourseDetails().getSubscribedCourseDetailsPage(stage, course, student));
+            }
         });
 
         footer.getChildren().addAll(cancelButton, submitButton);

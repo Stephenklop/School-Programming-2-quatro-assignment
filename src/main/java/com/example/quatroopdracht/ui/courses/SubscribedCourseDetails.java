@@ -51,7 +51,7 @@ public class SubscribedCourseDetails {
         Button updateCertificateButton = new Button("Update certificaat");
         Button removeCertificateButton = new Button("Verwijder certificaat");
         addCertificateButton.setOnAction(e -> stage.setScene(new AddCertificate().getAddCertificateScene(stage, item, studentItem)));
-        updateCertificateButton.setOnAction(e -> stage.setScene(new UpdateCertificate().getUpdateCertificateScene(stage, item, studentItem)));
+        updateCertificateButton.setOnAction(e -> stage.setScene(new UpdateCertificate().getUpdateCertificateScene(stage, item, studentItem, enrollment.getCertificate())));
         removeCertificateButton.setOnAction(e -> {
             certificateRepository.deleteCertificate(enrollment.getCertificate().getCertificateId());
             stage.setScene(new SubscribedCourseDetails().getSubscribedCourseDetailsPage(stage, item, studentItem));
