@@ -36,6 +36,11 @@ public class CreateCourse {
 
     public Scene getCreateCourseScene(Stage stage) {
 
+        stage.setMinHeight(500);
+        stage.setMaxHeight(500);
+        stage.setMinWidth(1200);
+        stage.setMaxWidth(1200);
+
         // Create layout
         VBox body = new VBox();
         GridPane formBody = new GridPane();
@@ -47,7 +52,7 @@ public class CreateCourse {
         Label introductionLabel = new Label("Introductie:");
         Label levelLabel = new Label("Niveau:");
         Label moduleLabel = new Label("Beschikbare modules:");
-        Label selectedModuleLabel = new Label("Modules in cursus");
+        Label selectedModuleLabel = new Label("Modules in cursus:");
 
         // Create input fields
         TextField name = new TextField();
@@ -127,6 +132,8 @@ public class CreateCourse {
         });
 
         footer.getChildren().addAll(cancelButton, submitButton);
+        footer.setSpacing(10);
+        footer.setPadding(new Insets(10));
 
         // retrieve modules
         tableModules.getItems().addAll(moduleRepository.getAllAvailableModules());

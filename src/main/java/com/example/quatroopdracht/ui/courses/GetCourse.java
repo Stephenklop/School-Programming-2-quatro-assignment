@@ -30,6 +30,9 @@ public class GetCourse {
 
     public Scene getGetCoursesScene(Stage stage) {
 
+        stage.getWidth();
+        stage.getHeight();
+
         // Create layout
         VBox body = new VBox();
         HBox header = new HBox();
@@ -165,6 +168,7 @@ public class GetCourse {
         VBox statisticsBox = new VBox();
 
         Label statisticsLabel = new Label("Statistics:");
+        statisticsLabel.setStyle("-fx-font-size: 18");
         Text top3MostCertificates = new Text("Top 3 cursussen met de meeste uitgegeven certificaten");
         statisticsBox.getChildren().addAll(statisticsLabel, top3MostCertificates);
         int i = 1;
@@ -172,12 +176,6 @@ public class GetCourse {
             statisticsBox.getChildren().add(new Text(String.format("%d: %s", i, course.getName())));
             i++;
         }
-        Text firstPlace = new Text("first place");
-        Text secondPlace = new Text("second place");
-        Text thirdPlace = new Text("third place");
-
-
-
 
         // Create back button
         Button backButton = new Button("Terug");
