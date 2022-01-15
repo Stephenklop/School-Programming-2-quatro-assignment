@@ -1,5 +1,6 @@
 package com.example.quatroopdracht.ui.students;
 
+import com.example.quatroopdracht.data.CertificateRepository;
 import com.example.quatroopdracht.data.CourseRepository;
 import com.example.quatroopdracht.data.RegistrationRepository;
 import com.example.quatroopdracht.domain.Certificate;
@@ -32,10 +33,12 @@ import java.time.format.FormatStyle;
 public class GetSpecificStudent {
     private final CourseRepository courseRepository;
     private final RegistrationRepository registrationRepository;
+    private final CertificateRepository certificateRepository;
 
     public GetSpecificStudent() {
         courseRepository = new CourseRepository();
         registrationRepository = new RegistrationRepository();
+        certificateRepository = new CertificateRepository();
     }
 
     public Scene getGetSpecificStudentsScene(Stage stage, Student itemData) {
@@ -74,7 +77,8 @@ public class GetSpecificStudent {
         tableCourses.getItems().addAll(courseRepository.getAllEnrolledCourses(itemData));
         tableCourses.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        TableView<Course> tableCertificates = new TableView<>();
+        TableView<Certificate> tableCertificates = new TableView<>();
+        tableCertificates.getItems().addAll(certificateRepository.getAllCertificatesForStudent(itemData));
         tableCertificates.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         TableColumn<Course, String> colName = new TableColumn<>("Titel:");
@@ -82,14 +86,14 @@ public class GetSpecificStudent {
         TableColumn<Course, String> colLevel = new TableColumn<>("Niveau:");
         TableColumn<Course, Void> colUnsub = new TableColumn<>("");
 
-        TableColumn<Course, String> colCourse = new TableColumn<>("Cursus:");
-        TableColumn<Course, String> colGrade = new TableColumn<>("Cijfer:");
+        TableColumn<Certificate, String> colCourse = new TableColumn<>("Cursus:");
+        TableColumn<Certificate, String> colGrade = new TableColumn<>("Cijfer:");
 
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colDesc.setCellValueFactory(new PropertyValueFactory<>("introText"));
         colLevel.setCellValueFactory(new PropertyValueFactory<>("level"));
 
-        colCourse.setCellValueFactory(new PropertyValueFactory<>("course"));
+        colCourse.setCellValueFactory(new PropertyValueFactory<>("courseName"));
         colGrade.setCellValueFactory(new PropertyValueFactory<>("grade"));
 
         // Unsubscribe Button Factory

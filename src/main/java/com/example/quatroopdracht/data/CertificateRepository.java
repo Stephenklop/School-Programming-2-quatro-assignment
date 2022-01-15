@@ -1,6 +1,7 @@
 package com.example.quatroopdracht.data;
 
 import com.example.quatroopdracht.domain.Certificate;
+import com.example.quatroopdracht.domain.Student;
 import com.example.quatroopdracht.util.Util;
 import com.example.quatroopdracht.util.Validator;
 
@@ -15,10 +16,14 @@ import java.util.concurrent.atomic.AtomicReference;
 public class CertificateRepository extends DatabaseConnection{
     /**
      * get all Certificate entities
+     * @param student the Student to retrieve certificates for
      * @return list of Certificates
      */
-    public List<Certificate> getAllCertificates(){
-        String sql = "SELECT * FROM Certificate";
+    public List<Certificate> getAllCertificatesForStudent(Student student){
+        String sql = String.format(
+                "SELECT Certificate.*, CourseID FROM Certificate INNER JOIN Registration ON Registration.CertificateID = Certificate.CertificateID WHERE StudentID = '%s'",
+                student.getEmail()
+        );
         List<Certificate> certificates = new ArrayList<>();
 
         this.select(sql, resultSet -> {
@@ -27,7 +32,8 @@ public class CertificateRepository extends DatabaseConnection{
                     certificates.add(new Certificate(
                             resultSet.getInt("CertificateID"),
                             resultSet.getFloat("Grade"),
-                            resultSet.getString("EmployeeName")
+                            resultSet.getString("EmployeeName"),
+                            resultSet.getString("CourseID")
                     ));
                 }
             }catch (SQLException e) {
