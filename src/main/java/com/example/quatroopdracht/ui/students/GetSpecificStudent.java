@@ -2,6 +2,7 @@ package com.example.quatroopdracht.ui.students;
 
 import com.example.quatroopdracht.data.CourseRepository;
 import com.example.quatroopdracht.data.RegistrationRepository;
+import com.example.quatroopdracht.domain.Certificate;
 import com.example.quatroopdracht.domain.Course;
 import com.example.quatroopdracht.domain.Student;
 import com.example.quatroopdracht.ui.certificates.AddCertificate;
@@ -53,6 +54,7 @@ public class GetSpecificStudent {
         Label cityLabel = new Label("Stad:");
         Label countryLabel = new Label("Land:");
         Label enrolledCoursesLabel = new Label("Ingeschreven cursussen:");
+        Label earnedCertificates = new Label("Verkregen certificaten:");
 
         // Create text
         Text nameText = new Text(itemData.getName());
@@ -67,19 +69,28 @@ public class GetSpecificStudent {
         Button signupButton = new Button("Inschrijven voor een cursus");
         signupButton.setOnAction(e -> stage.setScene(new CreateSignup().getCreateSignUp(stage, itemData)));
 
-        // Create table for added courses
+        // Create table for added courses and earned certificates
         TableView<Course> tableCourses = new TableView<>();
         tableCourses.getItems().addAll(courseRepository.getAllEnrolledCourses(itemData));
         tableCourses.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        TableView<Course> tableCertificates = new TableView<>();
+        tableCertificates.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         TableColumn<Course, String> colName = new TableColumn<>("Titel:");
         TableColumn<Course, String> colDesc = new TableColumn<>("Descriptie:");
         TableColumn<Course, String> colLevel = new TableColumn<>("Niveau:");
         TableColumn<Course, Void> colUnsub = new TableColumn<>("");
 
+        TableColumn<Course, String> colCourse = new TableColumn<>("Cursus:");
+        TableColumn<Course, String> colGrade = new TableColumn<>("Cijfer:");
+
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colDesc.setCellValueFactory(new PropertyValueFactory<>("introText"));
         colLevel.setCellValueFactory(new PropertyValueFactory<>("level"));
+
+        colCourse.setCellValueFactory(new PropertyValueFactory<>("course"));
+        colGrade.setCellValueFactory(new PropertyValueFactory<>("grade"));
 
         // Unsubscribe Button Factory
         Callback<TableColumn<Course, Void>, TableCell<Course, Void>> unsubFactory = new Callback<TableColumn<Course, Void>, TableCell<Course, Void>>() {
@@ -139,6 +150,7 @@ public class GetSpecificStudent {
         colUnsub.setCellFactory(unsubFactory);
 
         tableCourses.getColumns().addAll(colName, colDesc, colLevel, colUnsub);
+        tableCertificates.getColumns().addAll(colCourse, colGrade);
 
         // Create back button
         Button backButton = new Button("Terug");
@@ -181,6 +193,8 @@ public class GetSpecificStudent {
         formBody.add(tableCourses, 0, 8);
         formBody.add(progressBox, 1, 8);
         formBody.add(signupButton, 0, 9);
+        formBody.add(earnedCertificates, 1, 7);
+        formBody.add(tableCertificates, 1, 8);
 
         body.getChildren().addAll(formBody, backButton);
 
