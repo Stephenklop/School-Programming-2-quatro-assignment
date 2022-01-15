@@ -4,6 +4,7 @@ import com.example.quatroopdracht.data.CourseRepository;
 import com.example.quatroopdracht.data.ModuleRepository;
 import com.example.quatroopdracht.domain.Course;
 import com.example.quatroopdracht.domain.Module;
+import com.example.quatroopdracht.util.Util;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -120,10 +121,15 @@ public class CreateCourse {
             addCourse.setIntroText(introduction.getText());
             addCourse.setLevel(level.getValue());
 
-            if (courseRepository.addCourse(addCourse)) {
-                selectedModules.forEach(moduleRepository::updateModule);
-                stage.setScene(new GetCourse().getGetCoursesScene(stage));
+            if (selectedModules.size() > 0) {
+                if (courseRepository.addCourse(addCourse)) {
+                    selectedModules.forEach(moduleRepository::updateModule);
+                    stage.setScene(new GetCourse().getGetCoursesScene(stage));
+                }
+            } else {
+                Util.displayAlert("Cursus kan niet worden gemaakt", "Selecteer minimaal 1 module", Alert.AlertType.WARNING, "Een Cursus moet uit minimaal 1 module bestaan");
             }
+
         });
 
         footer.getChildren().addAll(cancelButton, submitButton);
