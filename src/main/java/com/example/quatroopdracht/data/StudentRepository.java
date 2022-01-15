@@ -25,7 +25,8 @@ public class StudentRepository extends DatabaseConnection {
                             resultSet.getDate("BirthDate"),
                             resultSet.getString("Adress"),
                             resultSet.getString("Residence"),
-                            resultSet.getString("Country")
+                            resultSet.getString("Country"),
+                            resultSet.getString("NLZipcode")
                     ));
                 }
             } catch (SQLException e) {
@@ -52,7 +53,8 @@ public class StudentRepository extends DatabaseConnection {
                             resultSet.getDate("BirthDate"),
                             resultSet.getString("Adress"),
                             resultSet.getString("Residence"),
-                            resultSet.getString("Country")
+                            resultSet.getString("Country"),
+                            resultSet.getString("NLZipcode")
                     ));
                 }
             } catch (SQLException e) {
@@ -72,14 +74,15 @@ public class StudentRepository extends DatabaseConnection {
         }
 
         String sql = String.format(
-                "INSERT INTO Student VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')",
+                "INSERT INTO Student VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
                 student.getEmail(),
                 student.getName(),
                 student.getDateOfBirth(),
                 student.getGender(),
                 student.getAddress(),
                 student.getResidence(),
-                student.getCountry()
+                student.getCountry(),
+                student.getNlZipcode()
         );
 
         boolean inserted = this.insert(sql);
@@ -102,13 +105,14 @@ public class StudentRepository extends DatabaseConnection {
         }
 
         String sql = String.format(
-                "UPDATE Student SET Name = '%s', BirthDate = '%s', Gender = '%s', Adress = '%s', Residence = '%s', Country = '%s' WHERE Email = '%s'",
+                "UPDATE Student SET Name = '%s', BirthDate = '%s', Gender = '%s', Adress = '%s', Residence = '%s', Country = '%s', NLZipcode = '%s' WHERE Email = '%s'",
                 student.getName(),
                 student.getDateOfBirth(),
                 student.getGender(),
                 student.getAddress(),
                 student.getResidence(),
                 student.getCountry(),
+                student.getNlZipcode(),
                 student.getEmail()
         );
 

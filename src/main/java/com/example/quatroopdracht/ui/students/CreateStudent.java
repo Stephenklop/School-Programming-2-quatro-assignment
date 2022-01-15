@@ -60,7 +60,8 @@ public class CreateStudent {
                     java.sql.Timestamp.valueOf(birthday.getValue().atStartOfDay()),
                     address.getText(),
                     city.getText(),
-                    country.getText()
+                    country.getText(),
+                    "1000AA"
             );
 
             if (studentRepository.addStudent(student)) {

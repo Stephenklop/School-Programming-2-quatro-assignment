@@ -38,7 +38,7 @@ public final class Validator {
     public static void validateStudent(Student student) throws Exception {
         Validator.validateNotEmpty(student.getName(), student.getAddress(), student.getCountry(), student.getEmail(), student.getGender(), student.getResidence(), student.getDateOfBirth());
         Validator.validateEmail(student.getEmail());
-        Validator.validateZipcode(student.getZipcode());
+        Validator.validateZipcode(student.getNlZipcode());
     }
 
     public static void validateContent(Content content) throws Exception {
