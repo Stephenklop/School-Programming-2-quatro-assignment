@@ -16,20 +16,26 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.Stack;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class UpdateCourse {
     private final CourseRepository courseRepository;
     private final ModuleRepository moduleRepository;
     private Course course;
-    private Stack<Module> selectedModules;
+    private List<Module> selectedModules;
+    private List<Module> allModules;
+    private List<Module> availableModules;
 
     public UpdateCourse(Course course) {
         this.course = course;
         courseRepository = new CourseRepository();
         moduleRepository = new ModuleRepository();
-        selectedModules = new Stack<>();
+        selectedModules = moduleRepository.getModulesForCourse(course);
+        availableModules = moduleRepository.getAllAvailableModules();
+        allModules = new LinkedList<>();
+        allModules.addAll(availableModules);
+        allModules.addAll(selectedModules);
     }
     public Scene getUpdateCourseScene(Stage stage) {
 
@@ -42,7 +48,8 @@ public class UpdateCourse {
         Label subjectLabel = new Label("Onderwerp:");
         Label introductionLabel = new Label("Introductie:");
         Label levelLabel = new Label("Niveau:");
-        Label moduleLabel = new Label("Kies modules:");
+        Label moduleLabel = new Label("Beschikbare modules");
+        Label availableModuleLabel = new Label("Modules in de cursus:");
 
         // Create input fields
         TextField subject = new TextField();
@@ -52,26 +59,49 @@ public class UpdateCourse {
 
         // Create module table
         TableView<Module> tableModules = new TableView<>();
+        TableView<Module> tableAvailableModules = new TableView<>();
+
         tableModules.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        tableAvailableModules.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         TableColumn<Module, String> colTitle = new TableColumn<>("Titel:");
         TableColumn<Module, String> colDesc = new TableColumn<>("Beschrijving:");
         TableColumn<Module, String> colVersion = new TableColumn<>("Versie:");
+        TableColumn<Module, String> colTitleAvailable = new TableColumn<>("Titel:");
+        TableColumn<Module, String> colDescAvailable = new TableColumn<>("Beschrijving:");
+        TableColumn<Module, String> colVersionAvailable = new TableColumn<>("Versie:");
 
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
         colVersion.setCellValueFactory(new PropertyValueFactory<>("version"));
+        colTitleAvailable.setCellValueFactory(new PropertyValueFactory<>("title"));
+        colDescAvailable.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colVersionAvailable.setCellValueFactory(new PropertyValueFactory<>("version"));
 
         tableModules.getColumns().addAll(colTitle, colDesc, colVersion);
+        tableAvailableModules.getColumns().addAll(colTitleAvailable, colDescAvailable, colVersionAvailable);
+
         tableModules.setRowFactory(data -> {
             TableRow<Module> row = new TableRow<>();
             row.setOnMouseClicked(e -> {
                 if(e.getClickCount() == 2 && (! row.isEmpty())) {
                     Module rowData = row.getItem();
-                    rowData.setCourse(course);
-                    selectedModules.push(rowData);
-                    System.out.println(selectedModules.size());
+                    rowData.setCourse(null);
                     tableModules.getItems().remove(rowData);
+                    tableAvailableModules.getItems().add(rowData);
+                }
+            });
+            return row;
+        });
+
+        tableAvailableModules.setRowFactory(data -> {
+            TableRow<Module> row = new TableRow<>();
+            row.setOnMouseClicked(e -> {
+                if(e.getClickCount() == 2 && (! row.isEmpty())) {
+                    Module rowData = row.getItem();
+                    rowData.setCourse(course);
+                    tableModules.getItems().add(rowData);
+                    tableAvailableModules.getItems().remove(rowData);
                 }
             });
             return row;
@@ -87,10 +117,9 @@ public class UpdateCourse {
             course.setIntroText(introduction.getText());
             course.setLevel(level.getValue());
 
+            // update modules and course
             if (courseRepository.updateCourse(course)) {
-                while (!selectedModules.isEmpty()) {
-                    moduleRepository.updateModule(selectedModules.pop());
-                }
+                allModules.forEach(moduleRepository::updateModule);
                 stage.setScene(new GetCourse().getGetCoursesScene(stage));
             }
         });
@@ -103,7 +132,8 @@ public class UpdateCourse {
         level.setValue(levelList.stream().filter(l -> l.equals(course.getLevel())).collect(Collectors.joining()));
 
         // retrieve modules
-        tableModules.getItems().addAll(moduleRepository.getAllAvailableModules());
+        tableModules.getItems().addAll(selectedModules);
+        tableAvailableModules.getItems().addAll(availableModules);
 
         // Bootstrap body
         formBody.setPadding(new Insets(10));
@@ -119,6 +149,8 @@ public class UpdateCourse {
         formBody.add(level, 1, 3);
         formBody.add(moduleLabel, 2, 1);
         formBody.add(tableModules, 2, 2);
+        formBody.add(availableModuleLabel, 3, 1);
+        formBody.add(tableAvailableModules, 3, 2);
 
         body.getChildren().addAll(formBody, footer);
 

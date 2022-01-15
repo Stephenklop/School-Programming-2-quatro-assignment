@@ -94,7 +94,7 @@ public class GetStudents {
                             dialog.initOwner(stage);
                             VBox dialogVbox = new VBox(20);
 
-                            javafx.scene.text.Text areYouSureText = new Text("Weet je het zeker dat je de cursusist <coursename> wilt verwijderen?");
+                            javafx.scene.text.Text areYouSureText = new Text(String.format("Weet je het zeker dat je de cursusist '%s' wilt verwijderen?", data.getName()));
                             HBox buttonBox = new HBox();
                             Button noBtn = new Button("Nee");
                             Button yesBtn = new Button("Ja");
@@ -102,6 +102,11 @@ public class GetStudents {
 
                             // Set button actions
                             noBtn.setOnAction(e -> {
+                                dialog.close();
+                            });
+                            yesBtn.setOnAction(e -> {
+                                studentRepository.deleteStudent(data.getEmail());
+                                stage.setScene(new GetStudents().getGetStudents(stage));
                                 dialog.close();
                             });
 

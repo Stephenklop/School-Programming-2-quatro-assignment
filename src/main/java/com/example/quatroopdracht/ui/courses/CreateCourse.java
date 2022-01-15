@@ -16,6 +16,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class CreateCourse {
@@ -23,14 +24,14 @@ public class CreateCourse {
     private final ModuleRepository moduleRepository;
 
     private Course addCourse;
-    private Stack<Module> selectedModules;
+    private ArrayList<Module> selectedModules;
 
     public CreateCourse() {
         courseRepository = new CourseRepository();
         moduleRepository = new ModuleRepository();
 
         addCourse = new Course();
-        selectedModules = new Stack<>();
+        selectedModules = new ArrayList<>();
     }
 
     public Scene getCreateCourseScene(Stage stage) {
@@ -45,7 +46,8 @@ public class CreateCourse {
         Label subjectLabel = new Label("Onderwerp:");
         Label introductionLabel = new Label("Introductie:");
         Label levelLabel = new Label("Niveau:");
-        Label moduleLabel = new Label("Kies modules:");
+        Label moduleLabel = new Label("Beschikbare modules:");
+        Label selectedModuleLabel = new Label("Modules in cursus");
 
         // Create input fields
         TextField name = new TextField();
@@ -56,27 +58,52 @@ public class CreateCourse {
 
         // Create module table
         TableView<Module> tableModules = new TableView<>();
+        TableView<Module> tableSelectedModules = new TableView<>();
         tableModules.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        tableSelectedModules.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         TableColumn<Module, String> colTitle = new TableColumn<>("Titel:");
         TableColumn<Module, String> colDesc = new TableColumn<>("Beschrijving:");
         TableColumn<Module, String> colVersion = new TableColumn<>("Versie:");
+        TableColumn<Module, String> colTitleSelected = new TableColumn<>("Titel:");
+        TableColumn<Module, String> colDescSelected = new TableColumn<>("Beschrijving:");
+        TableColumn<Module, String> colVersionSelected = new TableColumn<>("Versie:");
 
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
         colVersion.setCellValueFactory(new PropertyValueFactory<>("version"));
+        colTitleSelected.setCellValueFactory(new PropertyValueFactory<>("title"));
+        colDescSelected.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colVersionSelected.setCellValueFactory(new PropertyValueFactory<>("version"));
 
         tableModules.getColumns().addAll(colTitle, colDesc, colVersion);
+        tableSelectedModules.getColumns().addAll(colTitleSelected, colDescSelected, colVersionSelected);
 
+        // select modules for course
         tableModules.setRowFactory(data -> {
             TableRow<Module> row = new TableRow<>();
             row.setOnMouseClicked(e -> {
                 if(e.getClickCount() == 2 && (! row.isEmpty())) {
                     Module rowData = row.getItem();
                     rowData.setCourse(addCourse);
-                    selectedModules.push(rowData);
-                    System.out.println(selectedModules.size());
+                    selectedModules.add(rowData);
                     tableModules.getItems().remove(rowData);
+                    tableSelectedModules.getItems().add(rowData);
+                }
+            });
+            return row;
+        });
+
+        // deselect modules for course
+        tableSelectedModules.setRowFactory(data -> {
+            TableRow<Module> row = new TableRow<>();
+            row.setOnMouseClicked(e -> {
+                if(e.getClickCount() == 2 && (! row.isEmpty())) {
+                    Module rowData = row.getItem();
+                    rowData.setCourse(null);
+                    selectedModules.remove(rowData);
+                    tableModules.getItems().add(rowData);
+                    tableSelectedModules.getItems().remove(rowData);
                 }
             });
             return row;
@@ -94,9 +121,7 @@ public class CreateCourse {
             addCourse.setLevel(level.getValue());
 
             if (courseRepository.addCourse(addCourse)) {
-                while (!selectedModules.isEmpty()) {
-                    moduleRepository.updateModule(selectedModules.pop());
-                }
+                selectedModules.forEach(moduleRepository::updateModule);
                 stage.setScene(new GetCourse().getGetCoursesScene(stage));
             }
         });
@@ -120,8 +145,10 @@ public class CreateCourse {
         formBody.add(introduction, 1, 2);
         formBody.add(levelLabel, 0, 3);
         formBody.add(level, 1, 3);
-        formBody.add(moduleLabel, 2, 1);
-        formBody.add(tableModules, 2, 2);
+        formBody.add(selectedModuleLabel, 2, 1);
+        formBody.add(tableSelectedModules, 2, 2);
+        formBody.add(moduleLabel, 3, 1);
+        formBody.add(tableModules, 3, 2);
 
         body.getChildren().addAll(formBody, footer);
 

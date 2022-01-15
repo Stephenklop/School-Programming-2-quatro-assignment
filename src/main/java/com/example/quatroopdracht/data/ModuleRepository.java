@@ -145,14 +145,14 @@ public class ModuleRepository extends DatabaseConnection{
         }
 
         String sql = String.format(
-                "UPDATE Module SET CourseName = '%s' " +
+                "UPDATE Module SET CourseName = %s " +
                         "WHERE  Title = '%s' AND Version = '%s' AND ContentID = '%s'",
-                module.getCourse().getName(),
+                module.getCourse() != null ? String.format("'%s'", module.getCourse().getName()) : "NULL",
                 module.getTitle(),
                 module.getVersion(),
                 module.getContentItemId()
         );
-
+        System.out.println(sql);
         int updated = this.update(sql);
 
         switch (updated) {
@@ -163,7 +163,8 @@ public class ModuleRepository extends DatabaseConnection{
                 Util.displayError("An exception occurred!");
                 return false;
             default:
-                Util.displaySuccess("Successfully updated module!");
+                // Disabled to prevent alert spam
+                //Util.displaySuccess("Successfully updated module!");
                 return true;
         }
     }
