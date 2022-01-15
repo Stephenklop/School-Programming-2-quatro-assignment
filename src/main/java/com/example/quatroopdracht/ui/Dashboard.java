@@ -4,8 +4,12 @@ import com.example.quatroopdracht.data.StatisticsRepository;
 import com.example.quatroopdracht.domain.Webcast;
 import com.example.quatroopdracht.ui.courses.GetCourse;
 import com.example.quatroopdracht.ui.students.GetStudents;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -45,6 +49,15 @@ public class Dashboard {
             i++;
         }
 
+        // Create gender statistic
+        VBox percentageCertificateEarnedBody = new VBox();
+        Label percentageCertificateEarned = new Label("Slagingspercentage per geslacht:");
+        ObservableList<String> genderList = FXCollections.observableArrayList("Man", "Vrouw", "Anders");
+        ComboBox<String> gender = new ComboBox<>(genderList);
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(new PieChart.Data("Behaald", 15), new PieChart.Data("Niet behaald", 50));
+        PieChart chart = new PieChart(pieChartData);
+        percentageCertificateEarnedBody.getChildren().addAll(percentageCertificateEarned, gender, chart);
+
         // Create buttons
         Button coursesButton = new Button("Cursussen");
         Button studentsButton = new Button("Cursisten");
@@ -55,7 +68,7 @@ public class Dashboard {
         studentsButton.setOnAction(e -> stage.setScene(new GetStudents().getGetStudents(stage)));
 
         menubar.getChildren().addAll(coursesButton, studentsButton);
-        body.getChildren().addAll(menubar, mostWatchedWebcastsContainer);
+        body.getChildren().addAll(menubar, mostWatchedWebcastsContainer, percentageCertificateEarnedBody);
 
         return new Scene(body);
     }
