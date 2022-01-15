@@ -12,6 +12,7 @@ public class Student {
     private String address;
     private String residence;
     private String country;
+    private String zipcode;
     private Button updateButton;
     private Button deleteButton;
 
@@ -54,6 +55,14 @@ public class Student {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
     }
 
     public String getName() {
