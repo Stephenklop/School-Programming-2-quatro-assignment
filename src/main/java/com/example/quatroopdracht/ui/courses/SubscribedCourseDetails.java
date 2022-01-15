@@ -8,6 +8,7 @@ import com.example.quatroopdracht.domain.*;
 import com.example.quatroopdracht.domain.Module;
 import com.example.quatroopdracht.ui.certificates.AddCertificate;
 import com.example.quatroopdracht.ui.certificates.UpdateCertificate;
+import com.example.quatroopdracht.ui.content.UpdateModuleProgress;
 import com.example.quatroopdracht.ui.students.GetSpecificStudent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -116,6 +117,7 @@ public class SubscribedCourseDetails {
             row.setOnMouseClicked(e -> {
                 if(e.getClickCount() == 2 && (! row.isEmpty())) {
                     Module rowData = row.getItem();
+                    stage.setScene(new UpdateModuleProgress().getUpdateModuleProgress(stage, rowData, item, studentItem));
                 }
             });
             return row;
