@@ -29,6 +29,7 @@ public class GetCourse {
     }
 
     public Scene getGetCoursesScene(Stage stage) {
+        stage.centerOnScreen();
 
         // Create layout
         VBox body = new VBox();

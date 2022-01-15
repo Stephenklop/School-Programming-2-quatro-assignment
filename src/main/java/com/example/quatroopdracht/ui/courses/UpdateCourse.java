@@ -130,6 +130,8 @@ public class UpdateCourse {
         });
 
         footer.getChildren().addAll(cancelButton, submitButton);
+        footer.setSpacing(10);
+        footer.setPadding(new Insets(0, 10, 10, 10));
 
         // Set input field placeholders
         subject.setText(course.getSubject());
