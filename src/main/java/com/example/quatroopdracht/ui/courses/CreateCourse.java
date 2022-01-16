@@ -48,7 +48,7 @@ public class CreateCourse {
         Label introductionLabel = new Label("Introductie:");
         Label levelLabel = new Label("Niveau:");
         Label moduleLabel = new Label("Beschikbare modules:");
-        Label selectedModuleLabel = new Label("Modules in cursus");
+        Label selectedModuleLabel = new Label("Modules in cursus:");
 
         // Create input fields
         TextField name = new TextField();
@@ -133,6 +133,8 @@ public class CreateCourse {
         });
 
         footer.getChildren().addAll(cancelButton, submitButton);
+        footer.setSpacing(10);
+        footer.setPadding(new Insets(0, 10, 10, 10));
 
         // retrieve modules
         tableModules.getItems().addAll(moduleRepository.getAllAvailableModules());

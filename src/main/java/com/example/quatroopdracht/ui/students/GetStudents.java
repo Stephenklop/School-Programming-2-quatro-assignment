@@ -94,7 +94,7 @@ public class GetStudents {
                             dialog.initOwner(stage);
                             VBox dialogVbox = new VBox(20);
 
-                            javafx.scene.text.Text areYouSureText = new Text(String.format("Weet je het zeker dat je de cursusist '%s' wilt verwijderen?", data.getName()));
+                            Text areYouSureText = new Text(String.format("Weet je het zeker dat je de cursusist '%s' wilt verwijderen?", data.getName()));
                             HBox buttonBox = new HBox();
                             Button noBtn = new Button("Nee");
                             Button yesBtn = new Button("Ja");
@@ -110,8 +110,11 @@ public class GetStudents {
                                 dialog.close();
                             });
 
+                            buttonBox.setSpacing(20);
                             dialogVbox.getChildren().addAll(areYouSureText, buttonBox);
-                            Scene dialogScene = new Scene(dialogVbox, 300, 200);
+                            dialogVbox.setSpacing(20);
+                            dialogVbox.setPadding(new Insets(20, 20, 20, 20));
+                            Scene dialogScene = new Scene(dialogVbox);
                             dialog.setScene(dialogScene);
                             dialog.show();
                         });

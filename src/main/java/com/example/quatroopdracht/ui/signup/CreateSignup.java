@@ -66,6 +66,9 @@ public class CreateSignup {
         footer.getChildren().addAll(backButton, signUpButton);
 
         // Bootstrap body
+        body.setPadding(new Insets(10));
+        footer.setPadding(new Insets(10, 0, 0, 0));
+        footer.setSpacing(10);
         body.getChildren().addAll(studentLabel, studentText, courses, footer);
 
         return new Scene(body);

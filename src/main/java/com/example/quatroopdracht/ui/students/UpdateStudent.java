@@ -81,6 +81,8 @@ public class UpdateStudent {
         formBody.setPadding(new Insets(10));
         formBody.setHgap(4);
         formBody.setVgap(8);
+        footer.setSpacing(10);
+        footer.setPadding(new Insets(0, 10, 15, 10));
         VBox.setVgrow(formBody, Priority.ALWAYS);
 
         formBody.add(nameLabel, 0, 0);

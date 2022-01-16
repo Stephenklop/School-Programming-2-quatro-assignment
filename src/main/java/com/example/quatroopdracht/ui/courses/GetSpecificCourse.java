@@ -47,6 +47,7 @@ public class GetSpecificCourse {
         Text nameText = new Text(itemData.getName());
         Text subjectText = new Text(itemData.getSubject());
         Text introText = new Text(itemData.getIntroText());
+        introText.setWrappingWidth(300);
         Text levelText = new Text(itemData.getLevel());
         Text statisticText = new Text("Totaal cursisten die cursus hebben afgerond");
         Text emptyText = new Text("        ");
@@ -104,9 +105,10 @@ public class GetSpecificCourse {
         tableModules.getItems().addAll(modules);
 
         // Set styling
-        formBody.setPadding(new Insets(10));
+        body.setPadding(new Insets(10));
         formBody.setHgap(4);
         formBody.setVgap(8);
+        formBody.setPadding(new Insets(0, 0, 10, 0));
         VBox.setVgrow(formBody, Priority.ALWAYS);
         progress.setSpacing(20);
 

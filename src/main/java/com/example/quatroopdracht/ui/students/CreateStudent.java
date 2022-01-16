@@ -12,7 +12,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.w3c.dom.Text;
 
 public class CreateStudent {
     private final StudentRepository studentRepository;
@@ -78,6 +77,8 @@ public class CreateStudent {
         formBody.setPadding(new Insets(10));
         formBody.setHgap(4);
         formBody.setVgap(8);
+        footer.setSpacing(10);
+        footer.setPadding(new Insets(0, 10, 15, 10));
         VBox.setVgrow(formBody, Priority.ALWAYS);
 
         formBody.add(nameLabel, 0, 0);
