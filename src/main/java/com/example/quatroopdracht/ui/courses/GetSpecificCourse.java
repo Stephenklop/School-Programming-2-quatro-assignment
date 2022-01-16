@@ -29,6 +29,7 @@ public class GetSpecificCourse {
         recomendationsRepository = new RecommendationsRepository();
     }
 
+    // This method creates a returnable scene for the specifc course details page
     public Scene getGetSpecificCourseScene(Stage stage, Course itemData) {
 
         // Create layout

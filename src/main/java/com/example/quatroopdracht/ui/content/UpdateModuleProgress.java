@@ -24,6 +24,7 @@ public class UpdateModuleProgress {
         studentWatchesContentRepository = new StudentWatchesContentRepository();
     }
 
+    // This method creates a returnable scene for the update module progress page
     public Scene getUpdateModuleProgress(Stage stage, Module module, Course course, Student student) {
         progress = studentWatchesContentRepository.getProgressForContent(module, student);
 

@@ -33,6 +33,7 @@ public class CreateSignup {
         courseRepository = new CourseRepository();
     }
 
+    // This method creates a returnable scene for the create signup page
     public Scene getCreateSignUp(Stage stage, Student student) {
 
         // Create layout

@@ -38,6 +38,7 @@ public class UpdateCourse {
         allModules.addAll(availableModules);
         allModules.addAll(selectedModules);
     }
+    // This method creates a returnable scene for the update course page
     public Scene getUpdateCourseScene(Stage stage) {
 
         // Create layout

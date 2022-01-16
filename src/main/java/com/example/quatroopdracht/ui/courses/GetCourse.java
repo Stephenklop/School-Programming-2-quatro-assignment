@@ -28,6 +28,7 @@ public class GetCourse {
         statisticsRepository = new StatisticsRepository();
     }
 
+    // This method creates a returnable scene for the get course page
     public Scene getGetCoursesScene(Stage stage) {
         stage.centerOnScreen();
 

@@ -41,6 +41,7 @@ public class GetSpecificStudent {
         certificateRepository = new CertificateRepository();
     }
 
+    // This method creates a returnable scene for the specific student details page
     public Scene getGetSpecificStudentsScene(Stage stage, Student itemData) {
 
         // Create layout

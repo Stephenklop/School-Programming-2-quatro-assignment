@@ -36,6 +36,7 @@ public class SubscribedCourseDetails {
         statisticsRepository = new StatisticsRepository();
     }
 
+    // This method creates a returnable scene for the details of a course the student is subscribed to
     public Scene getSubscribedCourseDetailsPage(Stage stage, Course item, Student studentItem) {
         StudentEnrollment enrollment = registrationRepository.getStudentEnrollment(item.getName(), studentItem.getEmail());
 

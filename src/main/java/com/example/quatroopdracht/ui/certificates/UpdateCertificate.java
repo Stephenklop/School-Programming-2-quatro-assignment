@@ -20,6 +20,7 @@ public class UpdateCertificate {
         certificateRepository = new CertificateRepository();
     }
 
+    // This method creates a returnable scene for the update certificate page
     public Scene getUpdateCertificateScene(Stage stage, Course course, Student student, Certificate certificate) {
 
         // Create layout

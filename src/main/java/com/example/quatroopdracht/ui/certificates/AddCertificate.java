@@ -23,6 +23,7 @@ public class AddCertificate {
         registrationRepositor = new RegistrationRepository();
     }
 
+    // This method creates a returnable scene for the add certificate page
     public Scene getAddCertificateScene(Stage stage, Course course, Student student) {
 
         // Create layout

@@ -28,6 +28,7 @@ public class UpdateStudent {
         studentRepository = new StudentRepository();
     }
 
+    // This method creates a returnable scene for the update student page
     public Scene getUpdateStudentScene(Stage stage) {
         this.student = student;
         // Create layout

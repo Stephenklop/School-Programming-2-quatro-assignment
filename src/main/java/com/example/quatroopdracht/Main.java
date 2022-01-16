@@ -24,6 +24,7 @@ public class Main extends Application {
         launch();
     }
 
+    // This method starts the application
     @Override
     public void start(Stage stage) throws IOException {
         Dashboard dashboard = new Dashboard();

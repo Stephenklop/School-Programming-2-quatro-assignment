@@ -35,6 +35,7 @@ public class CreateCourse {
         selectedModules = new ArrayList<>();
     }
 
+    // This method creates a returnable scene for the create course page
     public Scene getCreateCourseScene(Stage stage) {
 
         // Create layout

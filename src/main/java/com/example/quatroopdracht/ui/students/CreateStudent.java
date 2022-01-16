@@ -20,6 +20,7 @@ public class CreateStudent {
         studentRepository = new StudentRepository();
     }
 
+    // This method creates a returnable scene for the create student page
     public Scene getCreateStudentScene(Stage stage) {
 
         // Create layout

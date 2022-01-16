@@ -32,6 +32,7 @@ public class Dashboard {
         statisticsRepository = new StatisticsRepository();
     }
 
+    // This method creates a returnable scene for the dasbhoard.
     public Scene getDashboardScene(Stage stage) {
         stage.setTitle("Codecademy statistics - Anika Wante: 2135022 - Frank Gabrsek: 2171626 - Wesley Snijdelaar: 2176710 - Stephen Klop: 2180344");
 
